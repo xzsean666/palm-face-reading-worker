@@ -1,0 +1,372 @@
+<!DOCTYPE html><html class="dark" lang="zh-CN"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_stack" name="shell-type"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#10131f;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#241a00", "on-secondary-container": "#b8aaff", "surface-container-highest": "#313442", "secondary-fixed": "#e6deff", "secondary-fixed-dim": "#cabeff", "tertiary-fixed": "#8ef2ff", "on-tertiary-container": "#004d54", "background": "#10131f", "primary-container": "#d4af37", "on-surface-variant": "#d0c5af", "secondary-container": "#4716cb", "tertiary-container": "#32c4d4", "outline-variant": "#4d4635", "surface-container": "#1c1f2c", "inverse-on-surface": "#2d303d", "surface-container-low": "#181b27", "surface": "#10131f", "surface-variant": "#313442", "primary-fixed": "#ffe088", "on-error": "#690005", "surface-bright": "#363946", "outline": "#99907c", "on-secondary": "#30009a", "tertiary-fixed-dim": "#4fd8e8", "error-container": "#93000a", "surface-dim": "#10131f", "error": "#ffb4ab", "on-background": "#e0e1f3", "on-error-container": "#ffdad6", "surface-container-lowest": "#0b0e1a", "surface-container-high": "#272936", "on-tertiary-fixed": "#001f23", "surface-tint": "#e9c349", "on-primary-container": "#554300", "on-tertiary": "#00363c", "inverse-primary": "#735c00", "primary": "#f2ca50", "tertiary": "#59e0f0", "on-primary-fixed-variant": "#574500", "on-secondary-fixed": "#1c0062", "on-primary": "#3c2f00", "on-tertiary-fixed-variant": "#004f56", "inverse-surface": "#e0e1f3", "on-secondary-fixed-variant": "#4716cb", "on-surface": "#e0e1f3", "secondary": "#cabeff", "primary-fixed-dim": "#e9c349" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "1rem", "space-lg": "1.25rem", "space-xs": "0.25rem", "margin": "1rem", "space-xl": "1.75rem", "space-sm": "0.5rem", "gutter": "0.75rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-lg": ["Space Grotesk"], "display-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-sm": ["Space Grotesk"], "label-md": ["Space Grotesk"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }], "label-lg": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "display-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "fontWeight": "500" }], "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }] } } } };</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"></head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)]"><div class="h-14 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><a class="flex items-center gap-space-xs" data-path="divination-dashboard" href="#"><img alt="天机AI预测大师 Logo徽章" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XSDyiDRz2fUkckep8ELUNUdiTk74wzR56IJUSv-ZF8Dh9Iltx1FaYcuHdS3kolY84UilJAQr51LLpu-TqsicPU-VpVdQaGTd2SehWHGAO115rv8dqf2cgzJHGMdxLzef3FwuytQ57fIzV5_ozbcYCd08J9OLWXt9QcC6JcYpTf4FvflFCw8ykY1eFO8eeAK2kY3HGSwCbmf5U_jqlrWh9-BYIP5xbZpYzjazCR0rh5b0leNKo9m7t-"><span class="font-headline-sm text-headline-sm text-primary tracking-wider">天机</span></a></div><div class="flex items-center gap-space-xs"><button aria-label="Notifications" class="w-11 h-11 relative flex items-center justify-center text-on-surface-variant active:scale-95 transition-transform"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><button aria-label="Quick Action" class="w-7 h-7 rounded-full bg-gradient-to-br from-primary-fixed to-primary flex items-center justify-center text-on-primary font-bold shadow-[0_0_12px_rgba(242,202,80,0.35)] active:scale-90 transition-transform"><span class="material-symbols-outlined text-[18px]">add</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-14 bg-surface min-h-screen"><div class="flex flex-col w-full pb-32">
+<!-- Hero Section with Celestial Gold Tower & Auspicious Dragon Banner -->
+<div class="relative w-full overflow-hidden bg-surface-container-lowest">
+<div class="relative w-full h-72">
+<img alt="Feng Shui Corporate Destiny AI Naming Hero" class="w-full h-full object-cover object-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXL2113d8-vNga2yicPgZqXGJ8LBObL2q-b22YVFhFKWiEeq5COy-FEHf9rB-vd86jhnF_ekC-VqNkcsmSptnk8p3uMV8xRJqTqwQajBoxI4MP3qsjkw8BzROvKxx9it6JNBgDTTYcwTV_UW3pp9MdwI1SAVwsJJCdrugYxGRD0VSCF3JtcJcgnmPXC474u6mJlK0Yzsws9W8VKmqEnFt9ptALU-hr6yYhbayvyw3nbWODZjruirk">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/60 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface-container-lowest/80 via-transparent to-surface-container-lowest/40"></div>
+<!-- Overlay Floating Badge -->
+<div class="absolute top-4 left-margin flex items-center gap-space-xs bg-surface-container-lowest/70 backdrop-blur-md px-space-sm py-1 rounded-full shadow-lg">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-primary-fixed tracking-wider">天运商道 · 易象通达</span>
+</div>
+<!-- Hero Typography and Prophecy Narrative -->
+<div class="absolute bottom-3 left-0 right-0 px-margin flex flex-col gap-1.5">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">Corporate Prophecy Engine</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight text-shadow-sm">
+          商业运势 · 企业吉名定乾坤
+        </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+          结合法人与创始团队生辰干支八字，贯通所属行业五行吉位，铸就声名远播、聚财纳福之百年商号。
+        </p>
+</div>
+</div>
+<!-- 3 Metaphysical Parameter Chips -->
+<div class="grid grid-cols-3 gap-2 px-margin pb-space-md pt-2 bg-surface">
+<div class="flex items-center justify-center gap-1.5 py-2 px-1 rounded-lg bg-surface-container-high/60 backdrop-blur-sm shadow-sm">
+<span class="material-symbols-outlined text-primary text-[16px]">balance</span>
+<span class="font-label-sm text-label-sm text-primary-fixed truncate">法人命理互旺</span>
+</div>
+<div class="flex items-center justify-center gap-1.5 py-2 px-1 rounded-lg bg-surface-container-high/60 backdrop-blur-sm shadow-sm">
+<span class="material-symbols-outlined text-tertiary text-[16px]">stream</span>
+<span class="font-label-sm text-label-sm text-tertiary truncate">行业五行纳音</span>
+</div>
+<div class="flex items-center justify-center gap-1.5 py-2 px-1 rounded-lg bg-surface-container-high/60 backdrop-blur-sm shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[16px]">verified</span>
+<span class="font-label-sm text-label-sm text-secondary-fixed truncate">易注率 98%</span>
+</div>
+</div>
+</div>
+<!-- Primary Divination Form Matrix -->
+<div class="px-margin flex flex-col gap-space-lg mt-space-sm">
+<!-- Chamber 1: Entity Structure Selection -->
+<div class="bg-surface-container rounded-xl p-space-md shadow-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-4 bg-primary rounded-full"></span>
+<label class="font-headline-sm text-headline-sm text-on-surface">主体组织类型</label>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">定气立格</span>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1" id="entity-selector">
+<button class="entity-opt active flex items-center justify-center py-2.5 px-3 rounded-full bg-primary text-on-primary font-label-md text-label-md font-semibold shadow-sm transition-all" type="button">
+          有限公司
+        </button>
+<button class="entity-opt flex items-center justify-center py-2.5 px-3 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md transition-all" type="button">
+          科技创新企业
+        </button>
+<button class="entity-opt flex items-center justify-center py-2.5 px-3 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md transition-all" type="button">
+          品牌工作室
+        </button>
+<button class="entity-opt flex items-center justify-center py-2.5 px-3 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md transition-all" type="button">
+          连锁商铺 / 门店
+        </button>
+</div>
+</div>
+<!-- Chamber 2: Industry Sector Selector -->
+<div class="bg-surface-container rounded-xl p-space-md shadow-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-4 bg-tertiary rounded-full"></span>
+<label class="font-headline-sm text-headline-sm text-on-surface">所属行业五行吉脉</label>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary">金水相生</span>
+</div>
+<div class="relative w-full">
+<select class="w-full h-12 bg-surface-container-high rounded-xl px-4 text-on-surface font-body-md text-body-md appearance-none focus:outline-none focus:ring-0">
+<option selected="">人工智能、Web3与前沿软件（五行属火木）</option>
+<option>金融投资、资产管理与量化基金（五行属金水）</option>
+<option>文化创意、影视传媒与IP孵化（五行属水火）</option>
+<option>实体连锁餐饮与新消费茶饮（五行属火土）</option>
+<option>生物医药、大健康与长寿科技（五行属木水）</option>
+<option>新能源、储能与智能硬件制造（五行属火金）</option>
+<option>跨境贸易、现代物流与国际供应链（五行属水土）</option>
+<option>高端建筑设计、不动产与空间美学（五行属土金）</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-3 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Chamber 3: Legal Person Bazi & True Solar Time -->
+<div class="bg-surface-container rounded-xl p-space-md shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-4 bg-primary-container rounded-full"></span>
+<label class="font-headline-sm text-headline-sm text-on-surface">法人 / 控股人原局八字</label>
+</div>
+<span class="font-label-sm text-label-sm text-primary-fixed">真太阳时精准推演</span>
+</div>
+<!-- Gender Radios -->
+<div class="flex items-center gap-space-lg">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="hidden peer" name="gender" type="radio" value="male">
+<div class="w-5 h-5 rounded-full bg-surface-container-high peer-checked:bg-primary flex items-center justify-center transition-colors">
+<div class="w-2 h-2 rounded-full bg-surface peer-checked:bg-on-primary"></div>
+</div>
+<span class="font-body-md text-body-md text-on-surface">乾造（男性法人）</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="hidden peer" name="gender" type="radio" value="female">
+<div class="w-5 h-5 rounded-full bg-surface-container-high peer-checked:bg-primary flex items-center justify-center transition-colors">
+<div class="w-2 h-2 rounded-full bg-surface peer-checked:bg-on-primary"></div>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant">坤造（女性法人）</span>
+</label>
+</div>
+<!-- Birth Date Input -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">公历生日</span>
+<div class="relative">
+<input class="w-full h-11 bg-surface-container-high rounded-xl px-3 font-body-sm text-body-sm text-on-surface focus:outline-none" type="date" value="1988-10-24">
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">出生时辰（真太阳时）</span>
+<select class="w-full h-11 bg-surface-container-high rounded-xl px-3 font-body-sm text-body-sm text-on-surface focus:outline-none appearance-none">
+<option>辰时 (07:00-08:59) 龙抬首</option>
+<option>巳时 (09:00-10:59) 阳气鼎</option>
+<option>午时 (11:00-12:59) 丽日中天</option>
+<option>申时 (15:00-16:59) 禄马交驰</option>
+<option>戌时 (19:00-20:59) 财库安和</option>
+<option selected="">子时 (23:00-00:59) 天元归一</option>
+</select>
+</div>
+</div>
+<!-- Calibration Micro-pill -->
+<div class="flex items-center gap-1.5 py-1.5 px-3 rounded-lg bg-surface-container-low text-tertiary-fixed font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px]">timer</span>
+<span>已自动开启出生地经度真太阳时误差校正算法 (+00:08)</span>
+</div>
+</div>
+<!-- Chamber 4: Commercial Tone & Naming Scope -->
+<div class="bg-surface-container rounded-xl p-space-md shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-4 bg-secondary rounded-full"></span>
+<label class="font-headline-sm text-headline-sm text-on-surface">品牌气度与商号偏好</label>
+</div>
+<span class="font-label-sm text-label-sm text-secondary-fixed">声韵格调</span>
+</div>
+<!-- Commercial Style Pills -->
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">气象格调</span>
+<div class="grid grid-cols-2 gap-2" id="style-selector">
+<button class="style-opt active py-2 px-3 rounded-xl bg-primary text-on-primary font-label-md text-label-md font-semibold text-center transition-all" type="button">
+            大气磅礴 · 吞吐万象
+          </button>
+<button class="style-opt py-2 px-3 rounded-xl bg-surface-container-high text-on-surface-variant font-label-md text-label-md text-center transition-all" type="button">
+            科技前沿 · 锐意未来
+          </button>
+<button class="style-opt py-2 px-3 rounded-xl bg-surface-container-high text-on-surface-variant font-label-md text-label-md text-center transition-all" type="button">
+            国际视野 · 简明传神
+          </button>
+<button class="style-opt py-2 px-3 rounded-xl bg-surface-container-high text-on-surface-variant font-label-md text-label-md text-center transition-all" type="button">
+            东方儒雅 · 润物厚德
+          </button>
+</div>
+</div>
+<!-- Character Count Preference -->
+<div class="flex flex-col gap-1.5 pt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">字号长度偏好</span>
+<div class="grid grid-cols-3 gap-2" id="length-selector">
+<button class="len-opt active flex flex-col items-center justify-center py-2 px-2 rounded-xl bg-surface-bright text-primary font-label-md text-label-md" type="button">
+<span class="font-bold">两字精炼</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">如：涵流 / 凌霄</span>
+</button>
+<button class="len-opt flex flex-col items-center justify-center py-2 px-2 rounded-xl bg-surface-container-high text-on-surface-variant font-label-md text-label-md" type="button">
+<span class="font-bold">三字沉稳</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">如：天策源 / 乾道元</span>
+</button>
+<button class="len-opt flex flex-col items-center justify-center py-2 px-2 rounded-xl bg-surface-container-high text-on-surface-variant font-label-md text-label-md" type="button">
+<span class="font-bold">四字吉祥</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">如：乾坤泰合</span>
+</button>
+</div>
+</div>
+<!-- Registration Location & Regional Aura -->
+<div class="flex flex-col gap-1.5 pt-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">拟注册省市（核名预审地）</span>
+<span class="font-label-sm text-label-sm text-tertiary">已联网浙江省市场监管库</span>
+</div>
+<div class="h-12 bg-surface-container-high rounded-xl px-4 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">浙江省 · 杭州市</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-lowest px-2 py-1 rounded">坤土生艮金</span>
+</div>
+</div>
+</div>
+<!-- Section Title: 4D Divination Framework -->
+<div class="flex flex-col gap-1 pt-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">verified_user</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">四维企业商道推演准则</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        融汇《易经》象数理占与国家工商总局商标排重逻辑
+      </p>
+</div>
+<!-- 2x2 Bento Matrix of Principles -->
+<div class="grid grid-cols-2 gap-3">
+<!-- Card 1 -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between h-36 shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-primary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[20px]">psychology</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-primary font-bold">法人命格相生</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-0.5">
+            音律纳音生旺法人八字事业用神，引动天乙贵人
+          </p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between h-36 shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-tertiary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-[20px]">waves</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-tertiary font-bold">行业五行契合</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-0.5">
+            契合主营行业属性，通达财源，聚风藏气助增长
+          </p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between h-36 shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary-container/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[20px]">tag</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-secondary font-bold">数理招财大吉</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-0.5">
+            严选81数理大吉祥数，避开衰败截路暗礁
+          </p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between h-36 shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-bright flex items-center justify-center">
+
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface font-bold">商标合规预检</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-0.5">
+            字音宏亮易读好记，预先规避45类核心群组驳回
+          </p>
+</div>
+</div>
+</div>
+<!-- Compute Settlement & Zero-Knowledge Privacy Card -->
+<div class="bg-gradient-to-br from-surface-container-high via-surface-container to-surface-container-low rounded-xl p-space-md shadow-lg flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">lock</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">算力结算与隐私屏障</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary-fixed bg-tertiary-container/30 px-2 py-0.5 rounded">ZK-Proof 零知识加密</span>
+</div>
+<div class="grid grid-cols-3 gap-2 py-1 text-center">
+<div class="bg-surface-container-lowest/80 rounded-lg p-2 flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">标准推演算力</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold mt-0.5">6.0 <span class="text-[12px] font-normal text-on-surface-variant">USDT</span></span>
+</div>
+<div class="bg-surface-container-lowest/80 rounded-lg p-2 flex flex-col">
+<span class="font-label-sm text-label-sm text-primary">VIP特权 8折</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold mt-0.5">4.8 <span class="text-[12px] font-normal text-primary/70">USDT</span></span>
+</div>
+<div class="bg-surface-container-lowest/80 rounded-lg p-2 flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">今日免费排盘</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold mt-0.5">2 <span class="text-[12px] font-normal text-secondary/70">次</span></span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/80 text-center">
+        商业方案由离线天机私有模型推演，八字与名称库绝不上传第三方数据库
+      </p>
+</div>
+</div>
+<!-- Sticky Bottom Fixed Execution Panel -->
+<div class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/90 backdrop-blur-xl px-margin py-3 shadow-[0_-8px_24px_rgba(0,0,0,0.6)]">
+<div class="max-w-[430px] mx-auto flex items-center justify-between gap-space-md">
+<!-- Left Deduct Summary -->
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-body-sm text-body-sm text-on-surface-variant">应扣除算力</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">0</span>
+<span class="font-label-sm text-label-sm text-primary/80">USDT</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-tertiary">confirmation_number</span>
+<span class="font-label-sm text-label-sm text-tertiary truncate">已勾选：企业命名专属抵扣券 x1</span>
+</div>
+</div>
+<!-- Right Golden Celestial Action Button -->
+<button class="h-12 px-6 rounded-full bg-gradient-to-r from-primary-fixed via-primary to-primary-container text-on-primary font-headline-sm text-headline-sm font-bold flex items-center justify-center gap-1.5 shadow-[0_4px_16px_rgba(242,202,80,0.35)] active:scale-95 transition-all" id="trigger-naming-btn">
+<span>开始企业取名推演</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Interactive Script for Micro-interactions -->
+<script>
+    // Tab switching for Entity Selector
+    document.querySelectorAll('#entity-selector .entity-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#entity-selector .entity-opt').forEach(b => {
+          b.className = 'entity-opt flex items-center justify-center py-2.5 px-3 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md transition-all';
+        });
+        btn.className = 'entity-opt active flex items-center justify-center py-2.5 px-3 rounded-full bg-primary text-on-primary font-label-md text-label-md font-semibold shadow-sm transition-all';
+      });
+    });
+
+    // Commercial Style Selector
+    document.querySelectorAll('#style-selector .style-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#style-selector .style-opt').forEach(b => {
+          b.className = 'style-opt py-2 px-3 rounded-xl bg-surface-container-high text-on-surface-variant font-label-md text-label-md text-center transition-all';
+        });
+        btn.className = 'style-opt active py-2 px-3 rounded-xl bg-primary text-on-primary font-label-md text-label-md font-semibold text-center transition-all';
+      });
+    });
+
+    // Character Length Selector
+    document.querySelectorAll('#length-selector .len-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#length-selector .len-opt').forEach(b => {
+          b.className = 'len-opt flex flex-col items-center justify-center py-2 px-2 rounded-xl bg-surface-container-high text-on-surface-variant font-label-md text-label-md';
+        });
+        btn.className = 'len-opt active flex flex-col items-center justify-center py-2 px-2 rounded-xl bg-surface-bright text-primary font-label-md text-label-md';
+      });
+    });
+
+    // Execution action animation feedback
+    const startBtn = document.getElementById('trigger-naming-btn');
+    if (startBtn) {
+      startBtn.addEventListener('click', function() {
+        const originalContent = this.innerHTML;
+        this.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">cyclone</span><span>正在开坛排盘推演...</span>';
+        this.classList.add('opacity-80', 'pointer-events-none');
+        setTimeout(() => {
+          this.innerHTML = '<span class="material-symbols-outlined text-[20px]">check_circle</span><span>吉名已生成</span>';
+          setTimeout(() => {
+            this.innerHTML = originalContent;
+            this.classList.remove('opacity-80', 'pointer-events-none');
+          }, 1500);
+        }, 1800);
+      });
+    }
+  </script>
+</div></main>
+
+
+</body></html>

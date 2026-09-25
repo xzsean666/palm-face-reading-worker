@@ -1,0 +1,16 @@
+# Node & build outputs
+node_modules/
+dist/
+dist-client/
+dist-worker/
+.wrangler/
+
+# Env & local configs
+.env
+.env.local
+*.log
+
+# Editor
+.vscode/
+.idea/
+*.DS_Store

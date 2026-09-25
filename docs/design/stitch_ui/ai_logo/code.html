@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5D97E"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#9A7B1E"/>
+    </linearGradient>
+    <radialGradient id="haloGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7B5CFF" stop-opacity="0.6"/>
+      <stop offset="60%" stop-color="#4FD8E8" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#0B0E1A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="50" cy="50" r="48" fill="#141828" stroke="url(#goldGrad)" stroke-width="2.5"/>
+  <circle cx="50" cy="50" r="42" fill="none" stroke="#7B5CFF" stroke-width="1" stroke-dasharray="3,3" opacity="0.7"/>
+  <!-- Bagua Trigram ticks outer ring -->
+  <g stroke="url(#goldGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.85">
+    <line x1="50" y1="12" x2="50" y2="16"/>
+    <line x1="50" y1="84" x2="50" y2="88"/>
+    <line x1="12" y1="50" x2="16" y2="50"/>
+    <line x1="84" y1="50" x2="88" y2="50"/>
+    <line x1="23" y1="23" x2="26" y2="26"/>
+    <line x1="74" y1="74" x2="77" y2="77"/>
+    <line x1="77" y1="23" x2="74" y2="26"/>
+    <line x1="23" y1="77" x2="26" y2="74"/>
+  </g>
+  <!-- Central Taiji Yin Yang / Eye of Wisdom -->
+  <g transform="translate(50,50) scale(0.65)">
+    <!-- Eye outline + Taiji shape -->
+    <path d="M-36 0 C-20 -24 20 -24 36 0 C20 24 -20 24 -36 0 Z" fill="none" stroke="url(#goldGrad)" stroke-width="2.5"/>
+    <circle cx="0" cy="0" r="16" fill="#0B0E1A" stroke="url(#goldGrad)" stroke-width="2"/>
+    <path d="M0 -16 A16 16 0 0 1 0 16 A8 8 0 0 1 0 0 A8 8 0 0 0 0 -16 Z" fill="url(#goldGrad)"/>
+    <circle cx="0" cy="-8" r="3.2" fill="#0B0E1A"/>
+    <circle cx="0" cy="8" r="3.2" fill="#F5D97E"/>
+    <!-- AI celestial node dot -->
+    <circle cx="0" cy="0" r="2" fill="#4FD8E8"/>
+  </g>
+</svg>

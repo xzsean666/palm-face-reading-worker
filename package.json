@@ -1,0 +1,41 @@
+{
+  "name": "palm-face-reading-worker",
+  "version": "1.0.0",
+  "description": "天机 AI预测大师 - 基于 Cloudflare Workers 与 AI-Session SDK 的全栈边缘 AI 预测应用",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:worker": "wrangler dev",
+    "build:client": "vite build",
+    "build:worker": "tsup",
+    "build:knowledge": "node --experimental-strip-types scripts/bundle-knowledge.ts",
+    "build": "pnpm run build:knowledge && pnpm run build:client && pnpm run build:worker",
+    "typecheck": "vue-tsc --noEmit && tsc -p tsconfig.worker.json --noEmit",
+    "test": "vitest run",
+    "verify": "node --experimental-strip-types scripts/verify-all.ts",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "ai-session": "file:/ssd0/git/AI-Session-NodeJS",
+    "hono": "^4.7.2",
+    "lucide-vue-next": "^0.475.0",
+    "pinia": "^3.0.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250214.0",
+    "@types/node": "^22.13.4",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3",
+    "vite": "^6.2.0",
+    "vitest": "^5.0.1",
+    "vue-tsc": "^2.2.8",
+    "wrangler": "^3.111.0"
+  }
+}

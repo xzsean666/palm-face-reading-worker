@@ -1,0 +1,334 @@
+<!DOCTYPE html><html class="dark" lang="zh-CN"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_stack" name="shell-type"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#10131f;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#241a00", "on-secondary-container": "#b8aaff", "surface-container-highest": "#313442", "secondary-fixed": "#e6deff", "secondary-fixed-dim": "#cabeff", "tertiary-fixed": "#8ef2ff", "on-tertiary-container": "#004d54", "background": "#10131f", "primary-container": "#d4af37", "on-surface-variant": "#d0c5af", "secondary-container": "#4716cb", "tertiary-container": "#32c4d4", "outline-variant": "#4d4635", "surface-container": "#1c1f2c", "inverse-on-surface": "#2d303d", "surface-container-low": "#181b27", "surface": "#10131f", "surface-variant": "#313442", "primary-fixed": "#ffe088", "on-error": "#690005", "surface-bright": "#363946", "outline": "#99907c", "on-secondary": "#30009a", "tertiary-fixed-dim": "#4fd8e8", "error-container": "#93000a", "surface-dim": "#10131f", "error": "#ffb4ab", "on-background": "#e0e1f3", "on-error-container": "#ffdad6", "surface-container-lowest": "#0b0e1a", "surface-container-high": "#272936", "on-tertiary-fixed": "#001f23", "surface-tint": "#e9c349", "on-primary-container": "#554300", "on-tertiary": "#00363c", "inverse-primary": "#735c00", "primary": "#f2ca50", "tertiary": "#59e0f0", "on-primary-fixed-variant": "#574500", "on-secondary-fixed": "#1c0062", "on-primary": "#3c2f00", "on-tertiary-fixed-variant": "#004f56", "inverse-surface": "#e0e1f3", "on-secondary-fixed-variant": "#4716cb", "on-surface": "#e0e1f3", "secondary": "#cabeff", "primary-fixed-dim": "#e9c349" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "1rem", "space-lg": "1.25rem", "space-xs": "0.25rem", "margin": "1rem", "space-xl": "1.75rem", "space-sm": "0.5rem", "gutter": "0.75rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-lg": ["Space Grotesk"], "display-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-sm": ["Space Grotesk"], "label-md": ["Space Grotesk"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }], "label-lg": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "display-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "fontWeight": "500" }], "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }] } } } };</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"></head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)]"><div class="h-14 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><a class="flex items-center gap-space-xs" data-path="divination-dashboard" href="#"><img alt="天机AI预测大师 Logo徽章" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XSDyiDRz2fUkckep8ELUNUdiTk74wzR56IJUSv-ZF8Dh9Iltx1FaYcuHdS3kolY84UilJAQr51LLpu-TqsicPU-VpVdQaGTd2SehWHGAO115rv8dqf2cgzJHGMdxLzef3FwuytQ57fIzV5_ozbcYCd08J9OLWXt9QcC6JcYpTf4FvflFCw8ykY1eFO8eeAK2kY3HGSwCbmf5U_jqlrWh9-BYIP5xbZpYzjazCR0rh5b0leNKo9m7t-"><span class="font-headline-sm text-headline-sm text-primary tracking-wider">天机</span></a></div><div class="flex items-center gap-space-xs"><button aria-label="Notifications" class="w-11 h-11 relative flex items-center justify-center text-on-surface-variant active:scale-95 transition-transform"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><button aria-label="Quick Action" class="w-7 h-7 rounded-full bg-gradient-to-br from-primary-fixed to-primary flex items-center justify-center text-on-primary font-bold shadow-[0_0_12px_rgba(242,202,80,0.35)] active:scale-90 transition-transform"><span class="material-symbols-outlined text-[18px]">add</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-14 bg-surface min-h-screen"><div class="flex flex-col w-full relative pb-28">
+<!-- Dynamic Nebula Atmosphere Accents -->
+<div class="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-80 rounded-full bg-secondary-container/10 blur-[100px]"></div>
+<div class="pointer-events-none absolute top-96 right-0 w-72 h-72 rounded-full bg-primary/5 blur-[90px]"></div>
+<div class="px-margin flex flex-col gap-space-lg w-full relative z-10">
+<!-- 1. Top Report Metadata Card -->
+<section class="mt-space-md bg-surface-container rounded-xl p-space-md shadow-xl relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 w-36 h-36 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Capsule Tags -->
+<div class="flex flex-wrap items-center gap-space-xs mb-space-sm">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-[13px]">auto_awesome</span>
+          奇门遁甲天机局 · 六壬神煞胜算推演
+        </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+          AI 决策沙盘已校验
+        </span>
+</div>
+<!-- Main Headline -->
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-wide mb-space-sm flex items-center gap-2">
+        大事问吉凶 · 胜算机运决断报告
+      </h1>
+<!-- Meta Grid Details -->
+<div class="grid grid-cols-2 gap-space-xs pt-space-xs text-on-surface-variant font-label-md text-label-md">
+<div class="flex flex-col">
+<span class="text-outline font-label-sm text-label-sm">测算编号</span>
+<span class="font-label-md text-label-md text-on-surface tracking-wider">TJ202609259920</span>
+</div>
+<div class="flex flex-col">
+<span class="text-outline font-label-sm text-label-sm">排盘局象</span>
+<span class="font-body-md text-body-md text-primary-fixed-dim">阳遁七局 · 甲子戊落震三宫</span>
+</div>
+<div class="col-span-2 flex flex-col mt-space-xs">
+<span class="text-outline font-label-sm text-label-sm">问事类目</span>
+<span class="font-body-md text-body-md text-on-surface flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            重大商业投资与合伙创业 · 战略胜率总览
+          </span>
+</div>
+</div>
+</section>
+<!-- 2. Immersive Visual Scene Area -->
+<section class="relative w-full rounded-xl overflow-hidden shadow-2xl group">
+<div class="relative w-full aspect-[16/9] overflow-hidden bg-surface-container-lowest">
+<img alt="奇门战旗与全息沙盘" class="w-full h-full object-cover transform transition-transform duration-700 ease-out group-hover:scale-105" src="https://lh3.googleusercontent.com/aida/AEtjO1VGcHPaS4_IB2E6cr40ZdoOfcrKrkKiojzX1TOWnS7r_qqKsaFzcXaqp5QZ1z3rSCjJynj7f8Uv0qw5DRbFkz-a-s4ucTeYfPyII9JQMfPFA4puPhYwbPW1Ss4nTVXPOJ102RcA-1v5DR1pJ552H9cv9Le5zpWizPtm7OrgSssK-h7VLCKM-juXWk3T5CK5J-2aX1EqpPRKJCa8i1V8iFXJR1d-7H3Y34Q0L67iDINYBuMyV1ZXnuuLTw">
+<!-- Ambient Vignette & Micro Gradients -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/30 to-transparent"></div>
+<div class="absolute inset-0 bg-radial from-transparent via-transparent to-surface-container-lowest/70"></div>
+<!-- Floating Label Pill -->
+<div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-lg shadow-black/60 whitespace-nowrap">
+<span class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_#59e0f0]"></span>
+<span class="font-label-sm text-label-sm text-on-surface tracking-wide">奇门战旗与玄武九星天局全息沙盘</span>
+</div>
+</div>
+</section>
+<!-- 3. Core Success Probability Radial Gauge / Bento Tile -->
+<section class="bg-surface-container rounded-xl p-space-md shadow-xl flex flex-col items-center relative overflow-hidden">
+<div class="w-full flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">explore</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">天机胜率总盘</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm">胜算大吉</span>
+</div>
+<!-- Inline SVG Radial Gauge Dial -->
+<div class="relative w-44 h-44 flex items-center justify-center my-1">
+<svg class="w-full h-full -rotate-90 transform" viewBox="0 0 120 120">
+<circle class="opacity-60" cx="60" cy="60" fill="none" r="50" stroke="#1c1f2c" stroke-width="8"></circle>
+<circle cx="60" cy="60" fill="none" r="50" stroke="#272936" stroke-width="8"></circle>
+<!-- Animated Progress Arc: 85% of 314.159 is approx 267 -->
+<circle class="transition-all duration-1000 ease-out" cx="60" cy="60" fill="none" id="probabilityRing" r="50" stroke="url(#celestialGoldGradient)" stroke-dasharray="314.16" stroke-dashoffset="314.16" stroke-linecap="round" stroke-width="9"></circle>
+<defs>
+<linearGradient id="celestialGoldGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#ffe088"></stop>
+<stop offset="50%" stop-color="#f2ca50"></stop>
+<stop offset="100%" stop-color="#d4af37"></stop>
+</linearGradient>
+</defs>
+</svg>
+<!-- Center Numerical HUD -->
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">综合胜算率</span>
+<div class="flex items-baseline">
+<span class="font-display-lg text-display-lg text-primary tracking-tight font-bold">85</span>
+<span class="font-headline-sm text-headline-sm text-primary ml-0.5">%</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary mt-0.5">立秋转乾坤</span>
+</div>
+</div>
+<!-- Verdict Banner -->
+<div class="w-full mt-space-sm p-space-sm rounded-lg bg-surface-container-high/80 flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">gavel</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary font-bold">核心裁定：吉占先机 · 乘势而动大可成</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 leading-relaxed">
+            开门临生门，贵人星隐显照临。前期虽有资金沉淀与暗阻博弈，但立秋节点之后天时相合，合伙共生之势顺昌，可果断定盘。
+          </p>
+</div>
+</div>
+</section>
+<!-- 4. Four Pillars Metaphysical Deep Analysis (Qimen Bento Grid) -->
+<section class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between px-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">filter_vintage</span>
+          奇门格局 · 深度四象破译
+        </h2>
+<span class="font-label-sm text-label-sm text-outline">全象推衍</span>
+</div>
+<div class="grid grid-cols-1 gap-space-sm">
+<!-- Tile 1: 九星象意 -->
+<div class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-1.5 shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-secondary-container/40 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">stars</span>
+</span>
+<span class="font-label-lg text-label-lg text-on-surface">九星象意 · 天辅星吉照</span>
+</div>
+<span class="px-2 py-0.5 rounded text-tertiary bg-tertiary-container/10 font-label-sm text-label-sm">文昌得地</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pl-9 leading-relaxed">
+            得人和与政策扶持，利于团队扩建、高端贤才延揽及品牌宣发。赛道聚焦文化、数字AI或高精科技可获倍增造化。
+          </p>
+</div>
+<!-- Tile 2: 八门态势 -->
+<div class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-1.5 shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-primary/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">door_open</span>
+</span>
+<span class="font-label-lg text-label-lg text-on-surface">八门态势 · 开门生门同宫</span>
+</div>
+<span class="px-2 py-0.5 rounded text-primary bg-primary/10 font-label-sm text-label-sm">源远流长</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pl-9 leading-relaxed">
+            开辟新域，财帛丰盈之象。初创期虽有资源耗散，但中后期回流迅猛，利润成倍递增，尤利轻资产杠杆运转。
+          </p>
+</div>
+<!-- Tile 3: 八神照拂 -->
+<div class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-1.5 shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-tertiary-container/30 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">shield</span>
+</span>
+<span class="font-label-lg text-label-lg text-on-surface">八神照拂 · 值符领军御阵</span>
+</div>
+<span class="px-2 py-0.5 rounded text-secondary-fixed text-secondary-fixed font-label-sm text-label-sm bg-secondary-container/20">百恶消散</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pl-9 leading-relaxed">
+            官贵庇佑，主导权牢固。惟需审慎核对股权构架与核心协议细节，提前筑牢法律风控防线，防止暗处无形竞争侵蚀。
+          </p>
+</div>
+<!-- Tile 4: 天地盘生克 -->
+<div class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-1.5 shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-surface-container-high text-primary-fixed-dim flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">all_inclusive</span>
+</span>
+<span class="font-label-lg text-label-lg text-on-surface">天地生克 · 青龙得位贵格</span>
+</div>
+<span class="px-2 py-0.5 rounded text-primary bg-primary/10 font-label-sm text-label-sm">祥瑞升腾</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pl-9 leading-relaxed">
+            如龙游沧海，得水而活。适宜主动出击抢占大客户与产业头部合作，顺水推舟，不宜画地为牢小富即安。
+          </p>
+</div>
+</div>
+</section>
+<!-- 5. Key Temporal Nodes & Fengshui Orientation Map -->
+<section class="bg-surface-container rounded-xl p-space-md shadow-xl flex flex-col gap-space-sm">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="material-symbols-outlined text-primary text-[20px]">schedule</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">决断时空枢轴与方位推演</h2>
+</div>
+<!-- Timeline Cards -->
+<div class="flex flex-col gap-space-xs relative pl-6 before:absolute before:left-2 before:top-3 before:bottom-3 before:w-0.5 before:bg-surface-container-highest">
+<!-- Node 1 -->
+<div class="relative flex flex-col bg-surface-container-high p-space-sm rounded-lg">
+<div class="absolute -left-[27px] top-3.5 w-3 h-3 rounded-full bg-primary ring-4 ring-surface-container"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-primary">关键契机：立秋后第 14 日</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">公历 8 月下旬</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">
+            天地气场交泰，金水相生。适宜正式举行签约仪式、公司主体设立或项目战略公开发布。
+          </p>
+</div>
+<!-- Node 2 -->
+<div class="relative flex flex-col bg-surface-container-high p-space-sm rounded-lg">
+<div class="absolute -left-[27px] top-3.5 w-3 h-3 rounded-full bg-tertiary ring-4 ring-surface-container"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-tertiary">大吉方位：震东 (East) 与 离南 (South)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">生门生旺</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">
+            商业谈判及核心工位宜面朝东侧采光之所；差旅签约首选所处城市东南方或正东轴线。
+          </p>
+</div>
+<!-- Node 3 -->
+<div class="relative flex flex-col bg-surface-container-high p-space-sm rounded-lg">
+<div class="absolute -left-[27px] top-3.5 w-3 h-3 rounded-full bg-error ring-4 ring-surface-container"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-error">防范盲区：农历五月前后</span>
+<span class="font-label-sm text-label-sm text-outline">朱雀投江</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">
+            慎防合伙人间口舌嫌隙及文书细则反复拉扯；此时宜静不宜躁，务必采取防御性战术。
+          </p>
+</div>
+</div>
+</section>
+<!-- 6. Strategic Tips & Mitigation Countermeasures -->
+<section class="bg-surface-container rounded-xl p-space-md shadow-xl flex flex-col gap-space-sm">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="material-symbols-outlined text-primary text-[20px]">wb_twilight</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">天机锦囊 · 破局化解三策</h2>
+</div>
+<div class="grid grid-cols-1 gap-space-sm">
+<div class="flex items-start gap-3 p-space-sm rounded-lg bg-surface-container-low">
+<div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+<span class="font-label-md text-label-md font-bold">壹</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">破局战法 · 先谋后动与差异化穿透</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 leading-relaxed">
+              避开存量红海肉搏，主打垂直切口。运用“奇门出奇”原则，先攻克行业细分关键痛点建立壁垒。
+            </span>
+</div>
+</div>
+<div class="flex items-start gap-3 p-space-sm rounded-lg bg-surface-container-low">
+<div class="w-8 h-8 rounded-full bg-tertiary/10 text-tertiary flex items-center justify-center shrink-0">
+<span class="font-label-md text-label-md font-bold">贰</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">人和贵助 · 寻找命带「丙火/戊土」贵友</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 leading-relaxed">
+              重要业务合伙人或外部财务顾问，若属相或八字喜用火土，能极大弥补行事急躁，稳固中盘地气。
+            </span>
+</div>
+</div>
+<div class="flex items-start gap-3 p-space-sm rounded-lg bg-surface-container-low">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed/20 text-secondary-fixed flex items-center justify-center shrink-0">
+<span class="font-label-md text-label-md font-bold">叁</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">能量调控 · 办公东面置青玉常青植物</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 leading-relaxed">
+              在办公空间震宫（正东方位）陈设阔叶绿植或玉石案台，借木生火，调顺场域风水与决策心境。
+            </span>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Web3 Hash Verification & Esoteric Disclaimer -->
+<section class="flex flex-col items-center gap-space-xs text-center py-space-sm px-space-xs">
+<div class="flex items-center gap-1 text-outline font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span>智能合约存证哈希 (Ethereum L2)</span>
+</div>
+<div class="w-full max-w-xs px-2.5 py-1 rounded bg-surface-container-high text-outline text-[10px] font-mono truncate select-all">
+        0x9f8c...48b3c10aef731d8e2098b64ce924
+      </div>
+<p class="font-body-sm text-body-sm text-outline max-w-xs leading-tight mt-1 text-[11px]">
+        本报告依托经典奇门遁甲古籍机要及大语言因果决策模型，结果供战略参谋与修身启智，决策在人，行善致远。
+      </p>
+</section>
+</div>
+<!-- Bottom Floating Action Bar -->
+<aside class="fixed bottom-0 left-0 right-0 h-[68px] z-40 bg-surface-container-lowest/90 backdrop-blur-xl border-t border-primary/20 px-margin flex items-center justify-between gap-space-sm shadow-[0_-8px_24px_rgba(0,0,0,0.6)]">
+<!-- Secondary Action Button -->
+<button class="flex-1 h-12 rounded-full bg-surface-container-high hover:bg-surface-bright active:scale-95 transition-all flex items-center justify-center gap-2 text-primary font-label-md text-label-md shadow-sm" id="shareReportBtn">
+<span class="material-symbols-outlined text-[18px]">share</span>
+<span>分享报告</span>
+</button>
+<!-- Primary Celestial Action Button -->
+<button class="flex-[1.5] h-12 rounded-full bg-gradient-to-r from-primary-fixed via-primary to-primary-container active:scale-95 transition-transform flex items-center justify-center gap-2 text-on-primary font-label-lg text-label-lg font-bold shadow-[0_4px_16px_rgba(212,175,55,0.35)]" id="downloadReportBtn">
+<span class="material-symbols-outlined text-[20px]">download</span>
+<span>下载决策报告</span>
+</button>
+</aside>
+</div>
+<script>
+  // Simple client-side micro-interactions
+  document.addEventListener('DOMContentLoaded', () => {
+    // Animate probability gauge smoothly
+    const ring = document.getElementById('probabilityRing');
+    if (ring) {
+      setTimeout(() => {
+        // Circumference is 2 * PI * 50 = 314.16
+        // 85% full means offset is 314.16 * (1 - 0.85) = 47.12
+        ring.style.strokeDashoffset = '47.12';
+      }, 250);
+    }
+
+    // Share Feedback
+    const shareBtn = document.getElementById('shareReportBtn');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', () => {
+        const originalText = shareBtn.innerHTML;
+        shareBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span><span>链接已生成</span>';
+        setTimeout(() => {
+          shareBtn.innerHTML = originalText;
+        }, 1600);
+      });
+    }
+
+    // Download Feedback
+    const downloadBtn = document.getElementById('downloadReportBtn');
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', () => {
+        const originalText = downloadBtn.innerHTML;
+        downloadBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">sync</span><span>加密打包中...</span>';
+        setTimeout(() => {
+          downloadBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">done_all</span><span>已存证下载</span>';
+          setTimeout(() => {
+            downloadBtn.innerHTML = originalText;
+          }, 1800);
+        }, 1200);
+      });
+    }
+  });
+</script></main>
+</body></html>

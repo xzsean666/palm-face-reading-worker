@@ -1,0 +1,355 @@
+<!DOCTYPE html><html class="dark" lang="zh-CN"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_stack" name="shell-type"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#10131f;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#241a00", "on-secondary-container": "#b8aaff", "surface-container-highest": "#313442", "secondary-fixed": "#e6deff", "secondary-fixed-dim": "#cabeff", "tertiary-fixed": "#8ef2ff", "on-tertiary-container": "#004d54", "background": "#10131f", "primary-container": "#d4af37", "on-surface-variant": "#d0c5af", "secondary-container": "#4716cb", "tertiary-container": "#32c4d4", "outline-variant": "#4d4635", "surface-container": "#1c1f2c", "inverse-on-surface": "#2d303d", "surface-container-low": "#181b27", "surface": "#10131f", "surface-variant": "#313442", "primary-fixed": "#ffe088", "on-error": "#690005", "surface-bright": "#363946", "outline": "#99907c", "on-secondary": "#30009a", "tertiary-fixed-dim": "#4fd8e8", "error-container": "#93000a", "surface-dim": "#10131f", "error": "#ffb4ab", "on-background": "#e0e1f3", "on-error-container": "#ffdad6", "surface-container-lowest": "#0b0e1a", "surface-container-high": "#272936", "on-tertiary-fixed": "#001f23", "surface-tint": "#e9c349", "on-primary-container": "#554300", "on-tertiary": "#00363c", "inverse-primary": "#735c00", "primary": "#f2ca50", "tertiary": "#59e0f0", "on-primary-fixed-variant": "#574500", "on-secondary-fixed": "#1c0062", "on-primary": "#3c2f00", "on-tertiary-fixed-variant": "#004f56", "inverse-surface": "#e0e1f3", "on-secondary-fixed-variant": "#4716cb", "on-surface": "#e0e1f3", "secondary": "#cabeff", "primary-fixed-dim": "#e9c349" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "1rem", "space-lg": "1.25rem", "space-xs": "0.25rem", "margin": "1rem", "space-xl": "1.75rem", "space-sm": "0.5rem", "gutter": "0.75rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-lg": ["Space Grotesk"], "display-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-sm": ["Space Grotesk"], "label-md": ["Space Grotesk"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }], "label-lg": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "display-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "fontWeight": "500" }], "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }] } } } };</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"></head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)]"><div class="h-14 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><a class="flex items-center gap-space-xs" data-path="divination-dashboard" href="#"><img alt="天机AI预测大师 Logo徽章" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XSDyiDRz2fUkckep8ELUNUdiTk74wzR56IJUSv-ZF8Dh9Iltx1FaYcuHdS3kolY84UilJAQr51LLpu-TqsicPU-VpVdQaGTd2SehWHGAO115rv8dqf2cgzJHGMdxLzef3FwuytQ57fIzV5_ozbcYCd08J9OLWXt9QcC6JcYpTf4FvflFCw8ykY1eFO8eeAK2kY3HGSwCbmf5U_jqlrWh9-BYIP5xbZpYzjazCR0rh5b0leNKo9m7t-"><span class="font-headline-sm text-headline-sm text-primary tracking-wider">天机</span></a></div><div class="flex items-center gap-space-xs"><button aria-label="Notifications" class="w-11 h-11 relative flex items-center justify-center text-on-surface-variant active:scale-95 transition-transform"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><button aria-label="Quick Action" class="w-7 h-7 rounded-full bg-gradient-to-br from-primary-fixed to-primary flex items-center justify-center text-on-primary font-bold shadow-[0_0_12px_rgba(242,202,80,0.35)] active:scale-90 transition-transform"><span class="material-symbols-outlined text-[18px]">add</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-14 bg-surface min-h-screen"><div class="flex flex-col w-full pb-32">
+<div class="fixed top-0 left-0 right-0 z-50 h-14 bg-surface-container-lowest/95 backdrop-blur-xl px-margin flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shadow-[0_0_10px_rgba(212,175,55,0.2)]">
+<svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24">
+<circle cx="12" cy="12" fill="none" opacity="0.6" r="10" stroke="currentColor" stroke-width="1.2"></circle>
+<path d="M12 2A10 10 0 0 0 12 22A5 5 0 0 1 12 12A5 5 0 0 0 12 2Z" fill="currentColor"></path>
+<circle class="fill-surface-container-lowest" cx="12" cy="7" r="1.8"></circle>
+<circle class="fill-primary" cx="12" cy="17" r="1.8"></circle>
+</svg>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary tracking-widest font-bold">天机</span>
+</div>
+<div class="flex-1"></div>
+<div class="flex items-center gap-space-sm">
+<button aria-label="通知中心" class="w-9 h-9 relative flex items-center justify-center text-on-surface-variant active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[21px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error"></span>
+</button>
+<button aria-label="新建推演" class="w-8 h-8 rounded-full bg-gradient-to-br from-primary-fixed to-primary flex items-center justify-center text-on-primary shadow-[0_0_12px_rgba(242,202,80,0.35)] active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px] font-bold">add</span>
+</button>
+<button aria-label="主事档案" class="w-8 h-8 rounded-full bg-gradient-to-br from-primary-fixed to-primary flex items-center justify-center text-on-primary shadow-[0_0_12px_rgba(242,202,80,0.35)] active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</button>
+</div>
+</div>
+<div class="px-margin pt-6 flex flex-col gap-space-lg">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="px-2.5 py-1 rounded bg-secondary-container/20 text-secondary text-label-sm font-label-sm">三才五格数理 · 姓名学典藏详批</span>
+<span class="px-2.5 py-1 rounded bg-tertiary-container/15 text-tertiary text-label-sm font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">verified_user</span>
+          ZK-SNARK 链上防伪存证
+        </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-wide">测名断吉凶 · 天格人格地格全息总评报告</h1>
+</div>
+<div class="rounded-xl bg-surface-container-low p-space-md shadow-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">tag</span>
+          测算编号
+        </span>
+<span class="font-label-sm text-label-sm text-primary tracking-wider">TJ202609259831</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-tertiary">badge</span>
+          测名主体
+        </span>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">林浩然</span>
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-label-sm font-label-sm">人名/店名双测</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">calendar_month</span>
+          主事人命柱
+        </span>
+<span class="font-label-md text-label-md text-on-surface">癸酉年 戊午月 丁亥日</span>
+</div>
+</div>
+<div class="relative w-full rounded-2xl overflow-hidden shadow-xl aspect-[16/9] bg-surface-container-lowest">
+<img alt="三才五行印信与声韵全息投影" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1XdOpfBD09t_Ocr7SHipv3B9tL8jiW4EgYocbhv5kEVT3vLKWBoprmoF-tYbaRzJKaX9myjlrJLXw34vh3Bvgz65CVT5a7gYCdVoZ3tADy5EMGwpdiu5a8g252qxjBOrLSzIwfWze1DfOk92HE35sB-UwUr1FkBJoctv84AU2CvEcdOHsYWKBgjsIzv4A6mknTZ9IlI2gHeKvci3DMwKQH1ZlKCrBur2xWgjX0WuVRZR4UGKcN4woAHfQ">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/30 to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest/80 backdrop-blur-md">
+<span class="material-symbols-outlined text-primary text-[15px]">auto_awesome</span>
+<span class="font-label-sm text-label-sm text-on-surface">三才五行印信与声韵全息投影</span>
+</div>
+<span class="text-tertiary-fixed-dim font-label-sm text-label-sm">能量矩阵 99.4%</span>
+</div>
+</div>
+<div class="rounded-2xl bg-surface-container p-space-lg shadow-lg relative overflow-hidden flex flex-col gap-space-md">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">综合姓名吉凶总评</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-lg text-display-lg text-primary font-bold">95</span>
+<span class="font-label-md text-label-md text-on-surface-variant">/ 100 天赐吉名格</span>
+</div>
+</div>
+<div class="px-3 py-1.5 rounded-full bg-gradient-to-r from-primary-fixed to-primary text-on-primary font-label-sm text-label-sm font-bold shadow-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">military_tech</span>
+          大吉极品
+        </div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-high/60">
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-primary text-[20px] flex-shrink-0 mt-0.5">format_quote</span>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+            天格地格水木相生，声韵清亮，八字喜用神高度吻合，中晚年气运昌隆，名主清贵自持，声震四方。
+          </p>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-space-sm pt-1">
+<div class="flex flex-col items-center p-2.5 rounded-lg bg-surface-container-low text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">纳音相契</span>
+<span class="font-label-lg text-label-lg text-tertiary mt-0.5">大溪水</span>
+</div>
+<div class="flex flex-col items-center p-2.5 rounded-lg bg-surface-container-low text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">气场格局</span>
+<span class="font-label-lg text-label-lg text-primary mt-0.5">青龙腾跃</span>
+</div>
+<div class="flex flex-col items-center p-2.5 rounded-lg bg-surface-container-low text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">商禄潜力</span>
+<span class="font-label-lg text-label-lg text-secondary mt-0.5">极鼎丰实</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">account_tree</span>
+          三才五格深度数理剖析
+        </h2>
+<span class="text-on-surface-variant font-label-sm text-label-sm">五行全流转</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="rounded-xl bg-surface-container p-space-md flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-tertiary-container/30 text-tertiary font-label-md text-label-md flex items-center justify-center font-bold">天</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">天格 9（水）</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant text-label-sm font-label-sm">凶中带吉</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            祖荫福泽深厚，早年虽见波折但暗藏天乙贵人相随，奠定家风根基。
+          </p>
+</div>
+<div class="rounded-xl bg-surface-container p-space-md flex flex-col gap-2 shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-primary/20 text-primary font-label-md text-label-md flex items-center justify-center font-bold">人</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">人格 19（木）</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-primary/15 text-primary text-label-sm font-label-sm font-bold">大吉之数</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            多智谋略，领袖风范，自主决断力极强，能纳百川聚英才，名利可期。
+          </p>
+</div>
+<div class="rounded-xl bg-surface-container p-space-md flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-error-container/30 text-error font-label-md text-label-md flex items-center justify-center font-bold">地</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">地格 23（火）</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-primary/15 text-primary text-label-sm font-label-sm font-bold">大吉之象</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            旭日东升，如日中天，中年稳健积累，下属得力，家庭基业坚如磐石。
+          </p>
+</div>
+<div class="rounded-xl bg-surface-container p-space-md flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-secondary-container/30 text-secondary font-label-md text-label-md flex items-center justify-center font-bold">外</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">外格 13（火）</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary text-label-sm font-label-sm">吉星照拂</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            异路功名，贵人扶助，对外公关人缘极佳，四海逢源无往不利。
+          </p>
+</div>
+<div class="rounded-xl bg-surface-container p-space-md flex flex-col gap-2 shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-gradient-to-br from-primary-fixed to-primary text-on-primary font-label-md text-label-md flex items-center justify-center font-bold">总</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">总格 32（木）</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-primary/20 text-primary text-label-sm font-label-sm font-bold">大吉极数</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            宝马金鞍，池中蛟龙终腾飞，晚景泰然自若，家道繁荣绵长。
+          </p>
+</div>
+</div>
+</div>
+<div class="rounded-2xl bg-surface-container p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[20px]">cyclone</span>
+          五行生克与喜忌契合
+        </h2>
+<span class="font-label-sm text-label-sm text-primary">转化率 96.8%</span>
+</div>
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-sm">
+<div class="flex justify-between items-center text-body-sm">
+<span class="text-on-surface-variant">原命局八字偏向</span>
+<span class="text-tertiary font-bold">缺木 · 喜火</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-tertiary via-primary to-secondary h-full rounded-full" style="width: 96.8%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+          名中「浩」字纳五行之水，「然」字火木兼备，形成标准「水生木、木生火」五行通关连环局，恰好弥补命造原局枯水焦土之弊。
+        </p>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="p-space-sm rounded-lg bg-surface-container-high flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">生肖喜用字根</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">氵（水）、大（酉鸡登大）</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-high flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">纳音藏格契合</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">剑锋金遇浩然水 · 锋芒毕现</span>
+</div>
+</div>
+</div>
+<div class="rounded-2xl bg-surface-container p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">graphic_eq</span>
+          音律声调与传播气场
+        </h2>
+<span class="font-label-sm text-label-sm text-secondary">抑扬顿挫</span>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">林</span>
+<span class="font-label-sm text-label-sm text-tertiary">lín (平)</span>
+</div>
+<span class="text-on-surface-variant font-label-sm text-label-sm">→</span>
+<div class="flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">浩</span>
+<span class="font-label-sm text-label-sm text-primary">hào (仄)</span>
+</div>
+<span class="text-on-surface-variant font-label-sm text-label-sm">→</span>
+<div class="flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">然</span>
+<span class="font-label-sm text-label-sm text-tertiary">rán (平)</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded bg-secondary-container/20 text-secondary text-label-sm font-label-sm">阳平-去声-阳平</span>
+</div>
+<div class="h-10 w-full flex items-center justify-between gap-1 px-2 pt-2">
+<div class="w-1.5 h-3 bg-tertiary/40 rounded-full"></div>
+<div class="w-1.5 h-6 bg-tertiary rounded-full"></div>
+<div class="w-1.5 h-4 bg-tertiary/60 rounded-full"></div>
+<div class="w-1.5 h-8 bg-primary rounded-full"></div>
+<div class="w-1.5 h-10 bg-primary shadow-[0_0_8px_rgba(242,202,80,0.5)] rounded-full"></div>
+<div class="w-1.5 h-7 bg-primary rounded-full"></div>
+<div class="w-1.5 h-4 bg-secondary/50 rounded-full"></div>
+<div class="w-1.5 h-8 bg-secondary rounded-full"></div>
+<div class="w-1.5 h-5 bg-secondary/80 rounded-full"></div>
+<div class="w-1.5 h-3 bg-tertiary/40 rounded-full"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          元音声波开口度大，末字余韵绵长，具有极高的公众识辨度与心理亲和力，尤其适用于商务交际与店招传播。
+        </p>
+</div>
+</div>
+<div class="rounded-2xl bg-surface-container p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">stars</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">开运建议与专属用印改运锦囊</h2>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-start gap-space-sm p-space-sm rounded-xl bg-surface-container-low">
+<div class="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">approval</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">签字用印指南</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              推荐使用红木或朱砂石印章，聚木火生发之气；规避冷硬金属与纯白玉印信，防制水冷克伐。
+            </span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm rounded-xl bg-surface-container-low">
+<div class="w-8 h-8 rounded-full bg-tertiary-container/30 text-tertiary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">explore</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">贵人开运方位</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              商务洽谈、签约与进修利于「正东」与「正南」，借青龙与朱雀之吉势，成事迅捷。
+            </span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm rounded-xl bg-surface-container-low">
+<div class="w-8 h-8 rounded-full bg-secondary-container/30 text-secondary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">palette</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">穿戴吉祥色</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              主色宜选青绿（木）、暖红（火），配饰宜选用天然红绳、南红玛瑙或沉香木珠。
+            </span>
+</div>
+</div>
+</div>
+</div>
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-tertiary">lock</span>
+          天机链数字版权存证
+        </span>
+<span class="font-label-sm text-label-sm text-tertiary">0x8a3f...91c4e72</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+        本报告已通过天机去中心化预言机与多维命理算法校验生成，结合三才五格法典与八字命盘，具有唯一数字指纹存证。
+      </p>
+</div>
+</div>
+<div class="fixed bottom-0 left-0 right-0 z-50 p-margin bg-surface-container-lowest/90 backdrop-blur-xl flex items-center gap-space-sm shadow-[0_-8px_30px_rgba(0,0,0,0.7)]">
+<button class="flex-1 h-12 rounded-full bg-surface-container-high/80 text-on-surface font-label-lg text-label-lg font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-transform" id="shareBtn">
+<span class="material-symbols-outlined text-[18px] text-primary">share</span>
+      分享吉名报告
+    </button>
+<button class="flex-1 h-12 rounded-full bg-gradient-to-r from-primary-fixed to-primary text-on-primary font-label-lg text-label-lg font-bold flex items-center justify-center gap-1.5 shadow-[0_4px_20px_rgba(212,175,55,0.35)] active:scale-95 transition-transform" id="downloadBtn">
+<span class="material-symbols-outlined text-[20px]">download</span>
+      下载完整报告
+    </button>
+</div>
+</div>
+<script>
+  document.getElementById('shareBtn')?.addEventListener('click', () => {
+    if (navigator.share) {
+      navigator.share({
+        title: '林浩然 · 天机姓名吉凶总评报告',
+        text: '综合姓名得分 95 分，天赐吉名格！',
+        url: window.location.href,
+      }).catch(() => {});
+    } else {
+      const el = document.createElement('div');
+      el.className = 'fixed top-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-surface-container-highest text-primary text-label-md font-label-md rounded-full shadow-xl transition-opacity';
+      el.innerText = '报告摘要链接已复制至剪贴板';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2200);
+    }
+  });
+
+  document.getElementById('downloadBtn')?.addEventListener('click', () => {
+    const el = document.createElement('div');
+    el.className = 'fixed top-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-surface-container-highest text-tertiary text-label-md font-label-md rounded-full shadow-xl transition-opacity';
+    el.innerText = '正在调取 ZK 签名生成高清吉名卷轴...';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 2400);
+  });
+</script></main>
+</body></html>

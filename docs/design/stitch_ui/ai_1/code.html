@@ -1,0 +1,327 @@
+<!DOCTYPE html><html class="dark" lang="zh-CN"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_stack" name="shell-type"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#10131f;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#241a00", "on-secondary-container": "#b8aaff", "surface-container-highest": "#313442", "secondary-fixed": "#e6deff", "secondary-fixed-dim": "#cabeff", "tertiary-fixed": "#8ef2ff", "on-tertiary-container": "#004d54", "background": "#10131f", "primary-container": "#d4af37", "on-surface-variant": "#d0c5af", "secondary-container": "#4716cb", "tertiary-container": "#32c4d4", "outline-variant": "#4d4635", "surface-container": "#1c1f2c", "inverse-on-surface": "#2d303d", "surface-container-low": "#181b27", "surface": "#10131f", "surface-variant": "#313442", "primary-fixed": "#ffe088", "on-error": "#690005", "surface-bright": "#363946", "outline": "#99907c", "on-secondary": "#30009a", "tertiary-fixed-dim": "#4fd8e8", "error-container": "#93000a", "surface-dim": "#10131f", "error": "#ffb4ab", "on-background": "#e0e1f3", "on-error-container": "#ffdad6", "surface-container-lowest": "#0b0e1a", "surface-container-high": "#272936", "on-tertiary-fixed": "#001f23", "surface-tint": "#e9c349", "on-primary-container": "#554300", "on-tertiary": "#00363c", "inverse-primary": "#735c00", "primary": "#f2ca50", "tertiary": "#59e0f0", "on-primary-fixed-variant": "#574500", "on-secondary-fixed": "#1c0062", "on-primary": "#3c2f00", "on-tertiary-fixed-variant": "#004f56", "inverse-surface": "#e0e1f3", "on-secondary-fixed-variant": "#4716cb", "on-surface": "#e0e1f3", "secondary": "#cabeff", "primary-fixed-dim": "#e9c349" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "1rem", "space-lg": "1.25rem", "space-xs": "0.25rem", "margin": "1rem", "space-xl": "1.75rem", "space-sm": "0.5rem", "gutter": "0.75rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-lg": ["Space Grotesk"], "display-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-sm": ["Space Grotesk"], "label-md": ["Space Grotesk"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }], "label-lg": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "display-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "fontWeight": "500" }], "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }] } } } };</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"></head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)]"><div class="h-14 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><a class="flex items-center gap-space-xs" data-path="divination-dashboard" href="#"><img alt="天机AI预测大师 Logo徽章" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XSDyiDRz2fUkckep8ELUNUdiTk74wzR56IJUSv-ZF8Dh9Iltx1FaYcuHdS3kolY84UilJAQr51LLpu-TqsicPU-VpVdQaGTd2SehWHGAO115rv8dqf2cgzJHGMdxLzef3FwuytQ57fIzV5_ozbcYCd08J9OLWXt9QcC6JcYpTf4FvflFCw8ykY1eFO8eeAK2kY3HGSwCbmf5U_jqlrWh9-BYIP5xbZpYzjazCR0rh5b0leNKo9m7t-"><span class="font-headline-sm text-headline-sm text-primary tracking-wider">天机</span></a></div><div class="flex items-center gap-space-xs"><button aria-label="Notifications" class="w-11 h-11 relative flex items-center justify-center text-on-surface-variant active:scale-95 transition-transform"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><button aria-label="Quick Action" class="w-7 h-7 rounded-full bg-gradient-to-br from-primary-fixed to-primary flex items-center justify-center text-on-primary font-bold shadow-[0_0_12px_rgba(242,202,80,0.35)] active:scale-90 transition-transform"><span class="material-symbols-outlined text-[18px]">add</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-14 bg-surface min-h-screen"><div class="flex flex-col w-full pb-32">
+<!-- 顶部长卷主视觉 Header Banner -->
+<div class="relative w-full h-72 overflow-hidden flex items-end justify-center px-margin pb-6">
+<img alt="四柱神殿五行八卦玄学图" class="absolute inset-0 w-full h-full object-cover object-center scale-105 filter brightness-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxV4dw5n_v7ZHdoKdSO65pLyPBhDLgHEQeesCzbbx0n4oUcbliDkrSW_Xv2XEVpfCiiucRdOfq0taxyJbSqe3t9iZW4pT9SXMWTis5dMaOwHnRf5psAy5yVMc7aod8sBuoNYXfpmlvhYcRHXZGR0_5Ogk0TyWkCdCOtZyg0qSydpa9zK5yA9f5RntWfnoT2XQBrzjtOLcFc96MA-00XVVX086go8K5lUrybCaiqzoljfFz-ys_O_o">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/60 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-surface/40 via-transparent to-surface"></div>
+<div class="relative z-10 flex flex-col items-center text-center space-y-1.5 max-w-sm">
+<div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-surface-container-high/80 backdrop-blur-md shadow-sm">
+<span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">渊海子平 · 滴天髓法脉</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-wide drop-shadow-md">
+        乾坤四柱 <span class="text-primary">·</span> 穷究五行
+      </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+        传承千年正宗子平命理，结合AI大模型精准推演旺衰喜用神与一生气运
+      </p>
+</div>
+</div>
+<div class="px-margin flex flex-col gap-space-lg -mt-2 relative z-20">
+<!-- 乾坤排盘录入主卡片 -->
+<div class="bg-surface-container rounded-2xl p-space-md shadow-xl flex flex-col gap-space-md">
+<!-- 乾造 / 坤造 性别切换 -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center justify-between">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">file_download</span>
+            乾坤命元（性别）
+          </span>
+<span class="font-body-sm text-body-sm text-outline">阳刚乾造 · 阴柔坤造</span>
+</label>
+<div class="grid grid-cols-2 gap-space-sm p-1 bg-surface-container-low rounded-xl">
+<button class="flex items-center justify-center gap-2 py-3 rounded-lg bg-surface-container-high text-primary shadow-md transition-all active:scale-95" id="btn-qian" onclick="selectGender('qian')" type="button">
+<span class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center font-label-sm text-primary">乾</span>
+<div class="flex flex-col text-left">
+<span class="font-label-md text-label-md text-on-surface font-semibold">乾造</span>
+<span class="font-body-sm text-[11px] leading-tight text-on-surface-variant">男命 · 阳进阴退</span>
+</div>
+<span class="material-symbols-outlined text-[16px] ml-auto mr-1 text-primary">check_circle</span>
+</button>
+<button class="flex items-center justify-center gap-2 py-3 rounded-lg text-on-surface-variant hover:text-on-surface transition-all active:scale-95" id="btn-kun" onclick="selectGender('kun')" type="button">
+<span class="w-6 h-6 rounded-full bg-surface-variant flex items-center justify-center font-label-sm text-secondary">坤</span>
+<div class="flex flex-col text-left">
+<span class="font-label-md text-label-md text-on-surface">坤造</span>
+<span class="font-body-sm text-[11px] leading-tight text-outline">女命 · 阴顺阳逆</span>
+</div>
+<span class="material-symbols-outlined text-[16px] ml-auto mr-1 opacity-0">check_circle</span>
+</button>
+</div>
+</div>
+<!-- 历法切换与出生年月日 -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">calendar_month</span>
+            出生年月日
+          </label>
+<!-- 历法切换 Tab -->
+<div class="flex items-center p-0.5 bg-surface-container-low rounded-lg">
+<button class="px-2.5 py-1 rounded-md text-[12px] font-label-sm bg-surface-container-highest text-primary font-medium shadow-sm transition-all" id="tab-solar" onclick="setCalendarType('solar')" type="button">公历</button>
+<button class="px-2.5 py-1 rounded-md text-[12px] font-label-sm text-on-surface-variant hover:text-on-surface transition-all" id="tab-lunar" onclick="setCalendarType('lunar')" type="button">农历 (干支)</button>
+</div>
+</div>
+<!-- 年月日三联选择器 -->
+<div class="grid grid-cols-3 gap-space-xs">
+<div class="relative flex items-center">
+<select class="w-full h-12 bg-surface-container-low text-on-surface rounded-xl px-3 pr-7 font-label-md text-label-md appearance-none focus:outline-none focus:bg-surface-container-high transition-colors">
+<option value="1990">1990 年</option>
+<option value="1995">1995 年</option>
+<option selected="" value="1998">1998 戊寅</option>
+<option value="2000">2000 庚辰</option>
+<option value="2005">2005 乙酉</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+<div class="relative flex items-center">
+<select class="w-full h-12 bg-surface-container-low text-on-surface rounded-xl px-3 pr-7 font-label-md text-label-md appearance-none focus:outline-none focus:bg-surface-container-high transition-colors">
+<option value="1">01 月</option>
+<option value="5">05 月</option>
+<option selected="" value="8">08 庚申</option>
+<option value="11">11 月</option>
+<option value="12">12 月</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+<div class="relative flex items-center">
+<select class="w-full h-12 bg-surface-container-low text-on-surface rounded-xl px-3 pr-7 font-label-md text-label-md appearance-none focus:outline-none focus:bg-surface-container-high transition-colors">
+<option value="8">08 日</option>
+<option selected="" value="15">15 壬子</option>
+<option value="22">22 日</option>
+<option value="30">30 日</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- 出生具体时辰选择 -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+            出生时柱（十二时辰）
+          </label>
+<button class="flex items-center gap-1 text-[12px] font-label-sm text-secondary hover:text-secondary-fixed transition-colors" id="btn-unknowntime" onclick="toggleUnknownTime()" type="button">
+<span class="material-symbols-outlined text-[14px]">tune</span>
+            不清楚时辰?
+          </button>
+</div>
+<div class="relative flex items-center">
+<select class="w-full h-12 bg-surface-container-low text-on-surface rounded-xl px-3 pr-8 font-label-md text-label-md appearance-none focus:outline-none focus:bg-surface-container-high transition-colors" id="time-select">
+<option value="zi">子时 (23:00 - 00:59) · 一阳初生</option>
+<option value="chou">丑时 (01:00 - 02:59) · 鸡鸣昧旦</option>
+<option value="yin">寅时 (03:00 - 04:59) · 平旦破晓</option>
+<option value="mao">卯时 (05:00 - 06:59) · 日出扶桑</option>
+<option selected="" value="chen">辰时 (07:00 - 08:59) · 食时日禺</option>
+<option value="si">巳时 (09:00 - 10:59) · 隅中向荣</option>
+<option value="wu">午时 (11:00 - 12:59) · 日正中天</option>
+<option value="wei">未时 (13:00 - 14:59) · 日昳火衰</option>
+<option value="shen">申时 (15:00 - 16:59) · 哺时暮色</option>
+<option value="you">酉时 (17:00 - 18:59) · 日入西山</option>
+<option value="xu">戌时 (19:00 - 20:59) · 黄昏定更</option>
+<option value="hai">亥时 (21:00 - 22:59) · 人定归寂</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 text-outline pointer-events-none text-[20px]">schedule</span>
+</div>
+</div>
+<!-- 出生地点（真太阳时校准） -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center justify-between">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-tertiary">location_on</span>
+            出生城市（真太阳时校正）
+          </span>
+<span class="font-label-sm text-[11px] text-tertiary bg-tertiary/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+            精准至经度秒差
+          </span>
+</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 bg-surface-container-low text-on-surface rounded-xl pl-3 pr-10 font-body-md text-body-md placeholder-outline focus:outline-none focus:bg-surface-container-high transition-colors" type="text" value="浙江省 · 杭州市 (东经 120.15°)">
+<button class="absolute right-2 p-1.5 text-primary hover:text-primary-fixed transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">my_location</span>
+</button>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-outline">info</span>
+          系统根据出生地经度与平太阳时进行均时差换算，防止跨时辰偏差。
+        </p>
+</div>
+</div>
+<!-- 命盘推演全景四个核心维度 -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between px-1">
+<span class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="w-1.5 h-4 bg-primary rounded-full"></span>
+          命局核心推演维度
+        </span>
+<span class="font-label-sm text-label-sm text-outline">全景四柱解析</span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- 维度 1: 十神旺衰 -->
+<div class="bg-surface-container-low p-space-md rounded-2xl flex flex-col gap-2 relative overflow-hidden">
+<div class="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">grain</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-[15px] text-on-surface font-semibold">十神星宿格局</h4>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">伤官食神 · 偏财正官</p>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-[11px] text-primary">
+<span>格局清浊定高低</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</div>
+</div>
+<!-- 维度 2: 五行生克 -->
+<div class="bg-surface-container-low p-space-md rounded-2xl flex flex-col gap-2 relative overflow-hidden">
+<div class="w-8 h-8 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[20px]">flare</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-[15px] text-on-surface font-semibold">五行本气衰旺</h4>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">金水相生 · 火土权衡</p>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-[11px] text-tertiary">
+<span>辨析五行燥湿平衡</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</div>
+</div>
+<!-- 维度 3: 喜用神测定 -->
+<div class="bg-surface-container-low p-space-md rounded-2xl flex flex-col gap-2 relative overflow-hidden">
+<div class="w-8 h-8 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">stars</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-[15px] text-on-surface font-semibold">扶抑通关用神</h4>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">调候病药 · 寻解厄钥</p>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-[11px] text-secondary">
+<span>锁定终生吉祥元素</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</div>
+</div>
+<!-- 维度 4: 十步大运走向 -->
+<div class="bg-surface-container-low p-space-md rounded-2xl flex flex-col gap-2 relative overflow-hidden">
+<div class="w-8 h-8 rounded-xl bg-primary-fixed-dim/20 flex items-center justify-center text-primary-fixed">
+<span class="material-symbols-outlined text-[20px]">timeline</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-[15px] text-on-surface font-semibold">十步大运流年</h4>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">十年一运 · 岁运吉凶</p>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-[11px] text-primary-fixed">
+<span>洞悉关键转折运口</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 资费抵扣与权益卡片 -->
+<div class="bg-surface-container rounded-2xl p-space-md shadow-lg flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">toll</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">推演算力结算</span>
+</div>
+<div class="px-2 py-0.5 rounded-full bg-surface-container-high text-[11px] font-label-sm text-secondary-fixed">
+          VIP尊享 8 折特权
+        </div>
+</div>
+<div class="flex items-baseline justify-between pt-1">
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-primary font-bold">4.8</span>
+<span class="font-label-md text-label-md text-on-surface-variant">USDT</span>
+<span class="line-through text-outline font-body-sm text-body-sm ml-1">6.0 USDT</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface font-body-sm text-[12px] bg-surface-container-low px-2.5 py-1 rounded-lg">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span>剩余免费排盘: <strong class="text-primary font-label-md">2</strong> 次</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-[12px] text-on-surface-variant pt-2 border-t border-surface-container-high/40">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_circle</span>
+<span>智能合约加密执行 · 生成永久链上命理档案</span>
+</div>
+</div>
+<!-- 数据隐私与安全承诺 -->
+<div class="flex items-center justify-center gap-2 py-2 px-3 text-center text-outline">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span class="font-body-sm text-[12px]">生辰干支经 ZK 零知识加密推演 · 绝不外泄隐私</span>
+</div>
+</div>
+<!-- 底部吸底主操作栏 (Fixed Bottom CTA) -->
+<div class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/90 backdrop-blur-xl px-margin py-3 pb-safe shadow-[0_-8px_24px_rgba(0,0,0,0.6)]">
+<div class="max-w-md mx-auto flex items-center gap-3">
+<div class="flex flex-col">
+<span class="font-label-sm text-[11px] text-outline">应扣除权益</span>
+<div class="flex items-baseline gap-1">
+<span class="font-label-lg text-label-lg text-primary font-bold">0</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">/ 抵扣券×1</span>
+</div>
+</div>
+<button class="flex-1 h-12 rounded-full bg-gradient-to-r from-primary-fixed-dim via-primary to-primary-container text-on-primary font-label-lg text-label-lg font-bold shadow-[0_4px_20px_rgba(242,202,80,0.3)] active:scale-95 transition-transform flex items-center justify-center gap-2" onclick="startDivination()" type="button">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">cyclone</span>
+<span>开始排盘推演</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  function selectGender(type) {
+    const qianBtn = document.getElementById('btn-qian');
+    const kunBtn = document.getElementById('btn-kun');
+    if (type === 'qian') {
+      qianBtn.className = "flex items-center justify-center gap-2 py-3 rounded-lg bg-surface-container-high text-primary shadow-md transition-all active:scale-95";
+      qianBtn.querySelector('.material-symbols-outlined').classList.remove('opacity-0');
+      kunBtn.className = "flex items-center justify-center gap-2 py-3 rounded-lg text-on-surface-variant hover:text-on-surface transition-all active:scale-95";
+      kunBtn.querySelector('.material-symbols-outlined').classList.add('opacity-0');
+    } else {
+      kunBtn.className = "flex items-center justify-center gap-2 py-3 rounded-lg bg-surface-container-high text-secondary shadow-md transition-all active:scale-95";
+      kunBtn.querySelector('.material-symbols-outlined').classList.remove('opacity-0');
+      qianBtn.className = "flex items-center justify-center gap-2 py-3 rounded-lg text-on-surface-variant hover:text-on-surface transition-all active:scale-95";
+      qianBtn.querySelector('.material-symbols-outlined').classList.add('opacity-0');
+    }
+  }
+
+  function setCalendarType(type) {
+    const sBtn = document.getElementById('tab-solar');
+    const lBtn = document.getElementById('tab-lunar');
+    if (type === 'solar') {
+      sBtn.className = "px-2.5 py-1 rounded-md text-[12px] font-label-sm bg-surface-container-highest text-primary font-medium shadow-sm transition-all";
+      lBtn.className = "px-2.5 py-1 rounded-md text-[12px] font-label-sm text-on-surface-variant hover:text-on-surface transition-all";
+    } else {
+      lBtn.className = "px-2.5 py-1 rounded-md text-[12px] font-label-sm bg-surface-container-highest text-primary font-medium shadow-sm transition-all";
+      sBtn.className = "px-2.5 py-1 rounded-md text-[12px] font-label-sm text-on-surface-variant hover:text-on-surface transition-all";
+    }
+  }
+
+  let unknownActive = false;
+  function toggleUnknownTime() {
+    unknownActive = !unknownActive;
+    const sel = document.getElementById('time-select');
+    const btn = document.getElementById('btn-unknowntime');
+    if (unknownActive) {
+      sel.disabled = true;
+      sel.classList.add('opacity-40');
+      btn.classList.add('text-primary');
+      btn.innerHTML = '<span class="material-symbols-outlined text-[14px]">check</span> 已启用AI时辰智能推测';
+    } else {
+      sel.disabled = false;
+      sel.classList.remove('opacity-40');
+      btn.classList.remove('text-primary');
+      btn.innerHTML = '<span class="material-symbols-outlined text-[14px]">tune</span> 不清楚时辰?';
+    }
+  }
+
+  function startDivination() {
+    const btn = event.currentTarget;
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">autorenew</span><span>乾坤流转，正在排盘...</span>';
+    setTimeout(() => {
+      btn.innerHTML = '<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: \'FILL\' 1;">done</span><span>命盘已成</span>';
+    }, 1400);
+  }
+</script></main>
+</body></html>

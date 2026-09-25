@@ -1,0 +1,286 @@
+<!DOCTYPE html><html class="dark" lang="zh-CN"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_stack" name="shell-type"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#10131f;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#241a00", "on-secondary-container": "#b8aaff", "surface-container-highest": "#313442", "secondary-fixed": "#e6deff", "secondary-fixed-dim": "#cabeff", "tertiary-fixed": "#8ef2ff", "on-tertiary-container": "#004d54", "background": "#10131f", "primary-container": "#d4af37", "on-surface-variant": "#d0c5af", "secondary-container": "#4716cb", "tertiary-container": "#32c4d4", "outline-variant": "#4d4635", "surface-container": "#1c1f2c", "inverse-on-surface": "#2d303d", "surface-container-low": "#181b27", "surface": "#10131f", "surface-variant": "#313442", "primary-fixed": "#ffe088", "on-error": "#690005", "surface-bright": "#363946", "outline": "#99907c", "on-secondary": "#30009a", "tertiary-fixed-dim": "#4fd8e8", "error-container": "#93000a", "surface-dim": "#10131f", "error": "#ffb4ab", "on-background": "#e0e1f3", "on-error-container": "#ffdad6", "surface-container-lowest": "#0b0e1a", "surface-container-high": "#272936", "on-tertiary-fixed": "#001f23", "surface-tint": "#e9c349", "on-primary-container": "#554300", "on-tertiary": "#00363c", "inverse-primary": "#735c00", "primary": "#f2ca50", "tertiary": "#59e0f0", "on-primary-fixed-variant": "#574500", "on-secondary-fixed": "#1c0062", "on-primary": "#3c2f00", "on-tertiary-fixed-variant": "#004f56", "inverse-surface": "#e0e1f3", "on-secondary-fixed-variant": "#4716cb", "on-surface": "#e0e1f3", "secondary": "#cabeff", "primary-fixed-dim": "#e9c349" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "1rem", "space-lg": "1.25rem", "space-xs": "0.25rem", "margin": "1rem", "space-xl": "1.75rem", "space-sm": "0.5rem", "gutter": "0.75rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-lg": ["Space Grotesk"], "display-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-sm": ["Space Grotesk"], "label-md": ["Space Grotesk"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }], "label-lg": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "display-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "fontWeight": "500" }], "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }] } } } };</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"></head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)]"><div class="h-14 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><a class="flex items-center gap-space-xs" data-path="divination-dashboard" href="#"><img alt="天机AI预测大师 Logo徽章" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XSDyiDRz2fUkckep8ELUNUdiTk74wzR56IJUSv-ZF8Dh9Iltx1FaYcuHdS3kolY84UilJAQr51LLpu-TqsicPU-VpVdQaGTd2SehWHGAO115rv8dqf2cgzJHGMdxLzef3FwuytQ57fIzV5_ozbcYCd08J9OLWXt9QcC6JcYpTf4FvflFCw8ykY1eFO8eeAK2kY3HGSwCbmf5U_jqlrWh9-BYIP5xbZpYzjazCR0rh5b0leNKo9m7t-"><span class="font-headline-sm text-headline-sm text-primary tracking-wider">天机</span></a></div><div class="flex items-center gap-space-xs"><button aria-label="Notifications" class="w-11 h-11 relative flex items-center justify-center text-on-surface-variant active:scale-95 transition-transform"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><button aria-label="Quick Action" class="w-7 h-7 rounded-full bg-gradient-to-br from-primary-fixed to-primary flex items-center justify-center text-on-primary font-bold shadow-[0_0_12px_rgba(242,202,80,0.35)] active:scale-90 transition-transform"><span class="material-symbols-outlined text-[18px]">add</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-14 bg-surface min-h-screen"><div class="flex flex-col w-full pb-24">
+<!-- Top Meta Strip & Protocol Chips -->
+<section class="px-margin pt-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container/40 text-secondary font-label-sm text-label-sm shadow-[0_0_10px_rgba(71,22,203,0.3)]">
+<span class="material-symbols-outlined text-[12px] text-tertiary">auto_awesome</span>
+          数字能量学 · 洛书八星九星详批
+        </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+          ZK-SNARK 验真
+        </span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium tracking-tight">TJ202609257701</span>
+</div>
+<!-- Title & Subject Resonance Spec -->
+<div class="flex flex-col gap-1.5 mt-space-xs">
+<h1 class="font-headline-md text-headline-md text-primary tracking-wide">
+        手机 / 车牌数理吉凶 · 能量契合度报告
+      </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        天机灵机引擎已完成八字命局五行同频共振解析
+      </p>
+</div>
+<!-- Resonance Subject Card (Obsidian & Gold Glass) -->
+<div class="mt-space-xs p-space-md rounded-xl bg-surface-container-low shadow-[inset_0_1px_1px_rgba(242,202,80,0.15)] flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">测算卦主乾造</span>
+<span class="font-label-md text-label-md text-primary font-semibold tracking-wider">壬申年 · 庚戌月 · 癸卯日</span>
+</div>
+<div class="h-[1px] w-full bg-surface-variant/60"></div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant/80">测算手机号码</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold tracking-wide">138 **** 8888</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant/80">绑定座驾车牌</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold tracking-wide">粤B · 888D8</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Immersive Celestial Projection Hero Graphic -->
+<section class="px-margin mt-space-md flex flex-col items-center">
+<div class="relative w-full rounded-2xl overflow-hidden shadow-[0_12px_36px_rgba(0,0,0,0.6)] bg-surface-container-lowest">
+<img alt="洛书九宫八卦与数字能量全息透影视像" class="w-full h-52 object-cover object-center" src="https://lh3.googleusercontent.com/aida/AEtjO1V3uxnlI9SVcSB8ks8MV9_vTGx15gJGkshl8jBhPb0SFlo_kNipKXP7FUsWqxVHnljMfgJIwWHvng5ZwwqOIr3EZXSfpbC_RH3t68LKvV64HPBJyVywAIUfhYVQG3HU_AvzCvR9dZyquwZP3bTSzuE2wpy0JLxhPijoCFWXdekg9fCzCMar02a7Ilhwz6Zm8VJy_40QKi8z2oKsdGw73BByq_Wu0HstDWSApfMoB7ki-9LIP8Q9lVBUCw">
+<!-- Soft Cosmic Vignette Overlays -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-90"></div>
+<div class="absolute bottom-2.5 left-1/2 -translate-x-1/2 w-max max-w-[90%]">
+<div class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md shadow-[0_0_16px_rgba(242,202,80,0.2)] flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[14px] animate-pulse">grain</span>
+<span class="font-label-sm text-label-sm text-primary tracking-wide">洛书九宫数理引力场全息投影</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Synthesis Destiny Rating Card -->
+<section class="px-margin mt-space-md">
+<div class="relative p-5 rounded-2xl bg-gradient-to-b from-surface-container to-surface-container-low shadow-[0_8px_30px_rgba(0,0,0,0.4)] overflow-hidden">
+<!-- Glow ambient orb -->
+<div class="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-primary/10 blur-2xl pointer-events-none"></div>
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">天命合契指数</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-display-lg text-display-lg text-primary font-bold tracking-tight">92</span>
+<span class="font-headline-sm text-headline-sm text-primary-fixed-dim">/ 100</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-3 py-1 rounded-full bg-primary/15 text-primary font-label-md text-label-md font-semibold tracking-wide shadow-[0_0_12px_rgba(242,202,80,0.25)]">
+            大吉 · 延年天医双星汇聚格
+          </span>
+<span class="font-body-sm text-body-sm text-tertiary-fixed-dim tracking-tight">气场顺遂 · 财库丰盈</span>
+</div>
+</div>
+<!-- Linear Micro Gauge Bar -->
+<div class="mt-4 flex flex-col gap-1.5">
+<div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-gradient-to-r from-secondary via-tertiary to-primary rounded-full" style="width: 92%;"></div>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>凶煞平抑 (8%)</span>
+<span class="text-primary font-semibold">天德吉气充沛 (92%)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Core Magnetic Field Breakdown (Four Cards) -->
+<section class="px-margin mt-space-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">cyclone</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">八星磁场深度透析</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4 组核心波频</span>
+</div>
+<!-- Grid of Four Deep Dives -->
+<div class="flex flex-col gap-space-sm">
+<!-- Card 1: 延年金星 -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-2 shadow-[0_4px_16px_rgba(0,0,0,0.25)]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(242,202,80,0.8)]"></span>
+<span class="font-headline-sm text-headline-sm text-primary">延年金星磁场 (78 / 87)</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-primary/10 text-primary font-label-sm text-label-sm font-semibold">主导掌控</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          象征领袖气质与坚定意志。号段中强延年金星赋予卓越决断力，利于守财聚财、稳固核心基业，呈现乾纲独断、掌控全局之吉象。
+        </p>
+</div>
+<!-- Card 2: 天医土星 -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-2 shadow-[0_4px_16px_rgba(0,0,0,0.25)]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(89,224,240,0.8)]"></span>
+<span class="font-headline-sm text-headline-sm text-tertiary">天医土星磁场 (13 / 31)</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary/10 text-tertiary font-label-sm text-label-sm font-semibold">正财旺相</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          极强财富能量源泉。主仁厚聪慧、贵人频现，正财亨通且现金流强劲，与用神相生，有力滋养个人事业主脉。
+        </p>
+</div>
+<!-- Card 3: 伏位生发 -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-2 shadow-[0_4px_16px_rgba(0,0,0,0.25)]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(202,190,255,0.8)]"></span>
+<span class="font-headline-sm text-headline-sm text-secondary">伏位生发磁场 (88 / 99)</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-secondary/15 text-secondary font-label-sm text-label-sm font-semibold">潜沉蓄能</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          重叠叠卦，蓄势待发。利于长期深耕与防御性资本运作，思维慎密周延，能平抑冒进风险，使财富如涓涓细流持续累积。
+        </p>
+</div>
+<!-- Card 4: 绝命/祸害弱化化解 -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-2 shadow-[0_4px_16px_rgba(0,0,0,0.25)]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-on-surface-variant"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">煞曜自然化解</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-tertiary font-label-sm text-label-sm">转换率 94.6%</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          后置八星排列将潜在凶煞能量完全压制。绝命刚暴之气被天医土星柔化，波形转换率达 94.6%，无破财或口舌滞碍。
+        </p>
+</div>
+</div>
+</section>
+<!-- Five Elements & Vehicle Plate Driving Harmony -->
+<section class="px-margin mt-space-lg flex flex-col gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">directions_car</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">五行干支生克与车牌平安</h2>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-3.5">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[20px]">call</span>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold">手机尾数【8888】数理生克</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            尾数对应乾卦八白金星，八字原局癸水日主得强金相生，契合金水润下格，思维清晰敏锐，利于商业磋商与关键谈判。
+          </p>
+</div>
+</div>
+<div class="h-[1px] w-full bg-surface-variant/40"></div>
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary text-[20px]">commute</span>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold">车牌【粤B·888D8】出行吉宿</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            字母与数字五行呈金土相生态势，辟易道路煞气与燥土冲克。驾车出入平稳无碍，行车逢凶化吉，有祥云庇护之象。
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Digital Modulation & Luck Enhancement Tips -->
+<section class="px-margin mt-space-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">wb_twilight</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">专属数字调频与开运锦囊</h2>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-medium">天机秘策</span>
+</div>
+<div class="grid grid-cols-1 gap-space-sm">
+<!-- Tip 1 -->
+<div class="p-3.5 rounded-xl bg-surface-container flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[20px]">wallpaper</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold">手机壁纸宜忌</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">推荐黑金太极、高山流水宏图，避用枯木猛兽</span>
+</div>
+</div>
+<!-- Tip 2 -->
+<div class="p-3.5 rounded-xl bg-surface-container flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0 text-tertiary">
+<span class="material-symbols-outlined text-[20px]">pin</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold">锁屏吉数搭配</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">推荐天医引动组合：1314、8868、7813</span>
+</div>
+</div>
+<!-- Tip 3 -->
+<div class="p-3.5 rounded-xl bg-surface-container flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0 text-secondary">
+<span class="material-symbols-outlined text-[20px]">token</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold">车内吉祥物件</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">车头右前乾位宜置黑曜石貔貅或铜质八卦葫芦</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Contract Ledger & Algorithmic Epilogue -->
+<section class="px-margin mt-space-lg mb-4 flex flex-col gap-2 items-center text-center">
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-primary">shield</span>
+<span>天机 AI 智能合约存证：0x7b5c...88d8f9</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/70 max-w-[320px] leading-relaxed">
+      报告基于洛书象数易理与非对称数理矩阵算法生成，推演结果仅供天机卦主行事决策参考。
+    </p>
+</section>
+<!-- Fixed Bottom Sticky Action Bar -->
+<div class="fixed bottom-0 left-0 right-0 h-[68px] z-40 bg-surface-container-lowest/90 backdrop-blur-xl flex items-center px-margin justify-between gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.6)]">
+<!-- Secondary Share Button -->
+<button class="flex-1 h-12 rounded-full bg-surface-container-high text-primary font-label-lg text-label-lg flex items-center justify-center gap-1.5 active:scale-95 transition-transform shadow-[0_2px_8px_rgba(0,0,0,0.3)]" id="btnShareReport">
+<span class="material-symbols-outlined text-[18px]">share</span>
+<span>分享报告</span>
+</button>
+<!-- Primary Celestial CTA -->
+<button class="flex-[1.4] h-12 rounded-full bg-gradient-to-r from-primary-fixed to-primary text-on-primary font-label-lg text-label-lg font-bold flex items-center justify-center gap-1.5 active:scale-95 transition-transform shadow-[0_4px_16px_rgba(242,202,80,0.3)]" id="btnDownloadReport">
+<span class="material-symbols-outlined text-[20px] text-on-primary">download</span>
+<span>下载完整报告</span>
+</button>
+</div>
+</div>
+<script>
+  // Simple micro-interactions for the action buttons
+  document.getElementById('btnShareReport')?.addEventListener('click', function() {
+    if (navigator.share) {
+      navigator.share({
+        title: '天机 · 手机车牌数理吉凶报告',
+        text: '测算手机号 138****8888 与车牌 粤B·888D8，天命合契指数 92 分大吉！',
+        url: window.location.href,
+      }).catch(() => {});
+    } else {
+      const btn = this;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span><span>链接已就绪</span>';
+      setTimeout(() => { btn.innerHTML = originalText; }, 1800);
+    }
+  });
+
+  document.getElementById('btnDownloadReport')?.addEventListener('click', function() {
+    const btn = this;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">sync</span><span>生成卷轴中...</span>';
+    setTimeout(() => {
+      btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check_circle</span><span>已存证下载</span>';
+      setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+    }, 1200);
+  });
+</script></main>
+</body></html>

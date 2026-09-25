@@ -1,0 +1,334 @@
+<!DOCTYPE html><html class="dark" lang="zh-CN"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_stack" name="shell-type"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#10131f;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#241a00", "on-secondary-container": "#b8aaff", "surface-container-highest": "#313442", "secondary-fixed": "#e6deff", "secondary-fixed-dim": "#cabeff", "tertiary-fixed": "#8ef2ff", "on-tertiary-container": "#004d54", "background": "#10131f", "primary-container": "#d4af37", "on-surface-variant": "#d0c5af", "secondary-container": "#4716cb", "tertiary-container": "#32c4d4", "outline-variant": "#4d4635", "surface-container": "#1c1f2c", "inverse-on-surface": "#2d303d", "surface-container-low": "#181b27", "surface": "#10131f", "surface-variant": "#313442", "primary-fixed": "#ffe088", "on-error": "#690005", "surface-bright": "#363946", "outline": "#99907c", "on-secondary": "#30009a", "tertiary-fixed-dim": "#4fd8e8", "error-container": "#93000a", "surface-dim": "#10131f", "error": "#ffb4ab", "on-background": "#e0e1f3", "on-error-container": "#ffdad6", "surface-container-lowest": "#0b0e1a", "surface-container-high": "#272936", "on-tertiary-fixed": "#001f23", "surface-tint": "#e9c349", "on-primary-container": "#554300", "on-tertiary": "#00363c", "inverse-primary": "#735c00", "primary": "#f2ca50", "tertiary": "#59e0f0", "on-primary-fixed-variant": "#574500", "on-secondary-fixed": "#1c0062", "on-primary": "#3c2f00", "on-tertiary-fixed-variant": "#004f56", "inverse-surface": "#e0e1f3", "on-secondary-fixed-variant": "#4716cb", "on-surface": "#e0e1f3", "secondary": "#cabeff", "primary-fixed-dim": "#e9c349" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "1rem", "space-lg": "1.25rem", "space-xs": "0.25rem", "margin": "1rem", "space-xl": "1.75rem", "space-sm": "0.5rem", "gutter": "0.75rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-lg": ["Space Grotesk"], "display-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-sm": ["Space Grotesk"], "label-md": ["Space Grotesk"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }], "label-lg": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "display-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "fontWeight": "500" }], "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }] } } } };</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"></head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)]"><div class="h-14 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><a class="flex items-center gap-space-xs" data-path="divination-dashboard" href="#"><img alt="天机AI预测大师 Logo徽章" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XSDyiDRz2fUkckep8ELUNUdiTk74wzR56IJUSv-ZF8Dh9Iltx1FaYcuHdS3kolY84UilJAQr51LLpu-TqsicPU-VpVdQaGTd2SehWHGAO115rv8dqf2cgzJHGMdxLzef3FwuytQ57fIzV5_ozbcYCd08J9OLWXt9QcC6JcYpTf4FvflFCw8ykY1eFO8eeAK2kY3HGSwCbmf5U_jqlrWh9-BYIP5xbZpYzjazCR0rh5b0leNKo9m7t-"><span class="font-headline-sm text-headline-sm text-primary tracking-wider">天机</span></a></div><div class="flex items-center gap-space-xs"><button aria-label="Notifications" class="w-11 h-11 relative flex items-center justify-center text-on-surface-variant active:scale-95 transition-transform"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><button aria-label="Quick Action" class="w-7 h-7 rounded-full bg-gradient-to-br from-primary-fixed to-primary flex items-center justify-center text-on-primary font-bold shadow-[0_0_12px_rgba(242,202,80,0.35)] active:scale-90 transition-transform"><span class="material-symbols-outlined text-[18px]">add</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-14 bg-surface min-h-screen"><div class="flex flex-col w-full pb-32">
+<!-- Hero Section: Astrological Resonance Cosmic Visual -->
+<div class="relative w-full overflow-hidden">
+<div class="relative w-full aspect-[16/10] max-h-[340px]">
+<img alt="双星映照与命运莫比乌斯环玄学星盘" class="w-full h-full object-cover object-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHPHkUexXM09xTFOhrXqoRKf_p5_vfo3GhG5cRpnlszAX2BCqiIcV5MKjtKZA6zRlTHGe3h1N79ZGpOvA8iQBAIBXZ_BPh4EQa7p7qKEmGMv288iOMzKq_DkKyzCYqDij3mmwfK6QvgMfLFxpm3lrAgXj7P-Hb-ez1xAl9sp4r6goRe6zj1wMIUL5RT1c6HYjWOCUbj8JNnYVosEFVDcO1ZTlzUF_-0_dWSi337QnEbX4PlwZKetw">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-surface-container-lowest/60 via-transparent to-transparent"></div>
+<!-- Ethereal Particle Orbs -->
+<div class="absolute top-8 left-1/4 w-32 h-32 rounded-full bg-primary/10 blur-2xl pointer-events-none"></div>
+<div class="absolute top-12 right-1/4 w-32 h-32 rounded-full bg-secondary/15 blur-2xl pointer-events-none"></div>
+</div>
+<!-- Hero Titles & Sacred Oracle Badges -->
+<div class="relative -mt-16 px-margin flex flex-col items-center text-center">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-high/90 shadow-md backdrop-blur-md mb-space-sm">
+<span class="material-symbols-outlined text-primary text-[14px]">auto_awesome</span>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">八字合婚 · 天机共振仪</span>
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-wide drop-shadow-[0_2px_12px_rgba(242,202,80,0.35)]">
+        双星映照 · 宿命共鸣
+      </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-[320px] mt-space-xs leading-relaxed">
+        双人八字命盘五行互融，深度解析灵魂契合度与前世今生命运羁绊
+      </p>
+</div>
+</div>
+<!-- Interactive Dual Horoscope Inputs -->
+<div class="px-margin mt-space-lg flex flex-col gap-space-md">
+<!-- Relationship Type Selector -->
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">favorite</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">选择所测关系结界</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">精准校准推演卦象</span>
+</div>
+<div class="grid grid-cols-4 gap-space-xs" id="relation-selector">
+<button class="relation-pill active flex flex-col items-center justify-center py-2.5 px-1 rounded-lg bg-surface-container-highest transition-all duration-200" data-relation="lover" type="button">
+<span class="material-symbols-outlined text-[20px] text-primary mb-0.5">favorite</span>
+<span class="font-label-sm text-label-sm text-on-surface font-medium">情侣恋人</span>
+</button>
+<button class="relation-pill flex flex-col items-center justify-center py-2.5 px-1 rounded-lg bg-surface-container transition-all duration-200" data-relation="spouse" type="button">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant mb-0.5">diversity_1</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">夫妻婚姻</span>
+</button>
+<button class="relation-pill flex flex-col items-center justify-center py-2.5 px-1 rounded-lg bg-surface-container transition-all duration-200" data-relation="business" type="button">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant mb-0.5">handshake</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">事业合伙</span>
+</button>
+<button class="relation-pill flex flex-col items-center justify-center py-2.5 px-1 rounded-lg bg-surface-container transition-all duration-200" data-relation="friend" type="button">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant mb-0.5">group</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">莫逆知己</span>
+</button>
+</div>
+</div>
+<!-- Dual Party Birth Data Entry -->
+<div class="relative flex flex-col gap-space-md">
+<!-- Central Cosmic Resonance Node Marker -->
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none flex items-center justify-center">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest flex items-center justify-center shadow-[0_0_16px_rgba(212,175,55,0.4)]">
+<span class="material-symbols-outlined text-primary text-[20px] animate-spin" style="animation-duration: 12s;">all_inclusive</span>
+</div>
+</div>
+<!-- User Party Card (阳仪 / 金阳) -->
+<div class="relative bg-surface-container rounded-xl p-space-md shadow-md overflow-hidden">
+<div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-primary/5 blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-headline-sm text-headline-sm text-primary">您的生辰信息</span>
+<span class="font-label-sm text-label-sm text-primary px-1.5 py-0.5 rounded bg-primary/10">主卦本命</span>
+</div>
+<!-- Gender Switcher -->
+<div class="flex bg-surface-container-low p-0.5 rounded-lg" id="gender-user">
+<button class="gender-btn active px-2.5 py-1 rounded font-label-sm text-label-sm text-on-primary bg-primary font-medium" data-val="M" type="button">乾造 (男)</button>
+<button class="gender-btn px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface" data-val="F" type="button">坤造 (女)</button>
+</div>
+</div>
+<div class="space-y-space-sm">
+<!-- Name Input -->
+<div class="flex items-center bg-surface-container-low rounded-lg px-space-sm h-12 shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] mr-space-xs">badge</span>
+<input class="bg-transparent text-on-surface font-body-md text-body-md placeholder-on-surface-variant/50 focus:outline-none w-full" placeholder="输入您的真实姓名或昵称" type="text" value="云程道人">
+</div>
+<!-- Date Time Picker Group -->
+<div class="grid grid-cols-5 gap-space-xs">
+<!-- Calendar Toggle -->
+<button class="col-span-2 flex items-center justify-center gap-1 bg-surface-container-low rounded-lg h-12 text-on-surface-variant active:scale-95 transition-transform" type="button">
+<span class="font-label-sm text-label-sm text-primary">公历 (阳历)</span>
+<span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
+</button>
+<!-- Birth Time -->
+<button class="col-span-3 flex items-center justify-between px-space-sm bg-surface-container-low rounded-lg h-12 text-left active:scale-95 transition-transform" type="button">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-medium">1996年08月18日</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">辰时 (07:00-08:59)</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">calendar_month</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Partner Party Card (阴仪 / 紫冥) -->
+<div class="relative bg-surface-container rounded-xl p-space-md shadow-md overflow-hidden">
+<div class="absolute -left-6 -top-6 w-28 h-28 rounded-full bg-secondary/10 blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-headline-sm text-headline-sm text-secondary">TA 的生辰信息</span>
+<span class="font-label-sm text-label-sm text-secondary px-1.5 py-0.5 rounded bg-secondary/10">对宫客体</span>
+</div>
+<!-- Gender Switcher -->
+<div class="flex bg-surface-container-low p-0.5 rounded-lg" id="gender-partner">
+<button class="gender-btn px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface" data-val="M" type="button">乾造 (男)</button>
+<button class="gender-btn active px-2.5 py-1 rounded font-label-sm text-label-sm text-on-secondary-container bg-secondary-container font-medium" data-val="F" type="button">坤造 (女)</button>
+</div>
+</div>
+<div class="space-y-space-sm">
+<!-- Name Input -->
+<div class="flex items-center bg-surface-container-low rounded-lg px-space-sm h-12 shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] mr-space-xs">badge</span>
+<input class="bg-transparent text-on-surface font-body-md text-body-md placeholder-on-surface-variant/50 focus:outline-none w-full" placeholder="输入 TA 的姓名或爱称" type="text" value="清漪仙客">
+</div>
+<!-- Date Time Picker Group -->
+<div class="grid grid-cols-5 gap-space-xs">
+<!-- Calendar Toggle -->
+<button class="col-span-2 flex items-center justify-center gap-1 bg-surface-container-low rounded-lg h-12 text-on-surface-variant active:scale-95 transition-transform" type="button">
+<span class="font-label-sm text-label-sm text-secondary">公历 (阳历)</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
+</button>
+<!-- Birth Time -->
+<button class="col-span-3 flex items-center justify-between px-space-sm bg-surface-container-low rounded-lg h-12 text-left active:scale-95 transition-transform" type="button">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-medium">1998年11月04日</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">酉时 (17:00-18:59)</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">calendar_month</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Five Dimension Synergy Preview Radar Card -->
+<div class="bg-surface-container rounded-xl p-space-md shadow-md">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[20px]">hub</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">五维玄数契合预览</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="font-label-sm text-label-sm text-tertiary font-bold">94.8% 预估极合</span>
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+</div>
+</div>
+<!-- Subtle Visual Radar Graph & Meter Grid -->
+<div class="flex items-center gap-space-md py-space-xs">
+<!-- Mini SVG Radar Display -->
+<div class="w-24 h-24 shrink-0 flex items-center justify-center relative">
+<svg class="w-full h-full text-surface-container-highest" viewBox="0 0 100 100">
+<!-- Polygon Background Rings -->
+<polygon class="opacity-30" fill="none" points="50,10 88,38 73,82 27,82 12,38" stroke="currentColor" stroke-width="1"></polygon>
+<polygon class="opacity-20" fill="none" points="50,25 74,42 64,72 36,72 26,42" stroke="currentColor" stroke-width="1"></polygon>
+<!-- Active Celestial Affinity Polygon -->
+<polygon fill="rgba(212, 175, 55, 0.2)" points="50,14 84,40 68,78 30,76 18,36" stroke="#f2ca50" stroke-width="1.8"></polygon>
+<!-- Central Node -->
+<circle cx="50" cy="50" fill="#59e0f0" r="3"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="font-label-sm text-[10px] text-primary/80 font-bold">天机网</span>
+</div>
+</div>
+<!-- Metrics Progress Strips -->
+<div class="flex-1 flex flex-col justify-center gap-2">
+<!-- 1. 情感共鸣度 -->
+<div>
+<div class="flex justify-between items-center text-[11px] mb-1">
+<span class="font-label-sm text-on-surface-variant flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>情感共鸣度</span>
+<span class="font-label-sm text-primary font-semibold">96% (三合局)</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-primary-container to-primary h-full rounded-full" style="width: 96%"></div>
+</div>
+</div>
+<!-- 2. 性格互补性 -->
+<div>
+<div class="flex justify-between items-center text-[11px] mb-1">
+<span class="font-label-sm text-on-surface-variant flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>性格互补性</span>
+<span class="font-label-sm text-secondary font-semibold">88% (阴阳和)</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-secondary-container to-secondary h-full rounded-full" style="width: 88%"></div>
+</div>
+</div>
+<!-- 3. 财运助力度 -->
+<div>
+<div class="flex justify-between items-center text-[11px] mb-1">
+<span class="font-label-sm text-on-surface-variant flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>财运助力度</span>
+<span class="font-label-sm text-tertiary font-semibold">92% (旺贵格)</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-tertiary-container to-tertiary h-full rounded-full" style="width: 92%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Additional Badges -->
+<div class="flex items-center justify-between pt-space-xs mt-space-xs border-t border-surface-container-highest/60">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-on-surface-variant">family_restroom</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">子女缘分：</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">福泽深厚 · 承祖荫</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-on-surface-variant">cyclone</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">流年磨合：</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">辰酉相合</span>
+</div>
+</div>
+</div>
+<!-- Pricing & Energy Token Balance Card -->
+<div class="bg-surface-container rounded-xl p-space-md shadow-md flex items-center justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs mb-0.5">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">测算筹码抵扣</span>
+<span class="font-label-sm text-label-sm bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">VIP 8折</span>
+</div>
+<div class="flex items-baseline gap-1.5">
+<span class="font-label-md text-[18px] text-primary font-bold">4.8</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">USDT</span>
+<span class="font-label-sm text-[12px] text-outline line-through ml-1">6.0 USDT</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="flex items-center gap-1 bg-surface-container-high px-space-sm py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-primary text-[18px]">toll</span>
+<span class="font-label-sm text-label-sm text-on-surface">免费推演余量:</span>
+<span class="font-label-md text-label-md text-primary font-bold">2 次</span>
+</div>
+<span class="font-label-sm text-[10px] text-on-surface-variant/80 mt-1">优先扣除免费神机券</span>
+</div>
+</div>
+<!-- Metaphysical Assurance Trust Signal -->
+<div class="flex items-center justify-center gap-space-md py-1">
+<div class="flex items-center gap-1 text-on-surface-variant/80">
+<span class="material-symbols-outlined text-[14px] text-primary">verified_user</span>
+<span class="font-label-sm text-[11px]">加密八字保密协议</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-surface-container-highest"></div>
+<div class="flex items-center gap-1 text-on-surface-variant/80">
+<span class="material-symbols-outlined text-[14px] text-tertiary">lock</span>
+<span class="font-label-sm text-[11px]">零知识证明存储</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-surface-container-highest"></div>
+<div class="flex items-center gap-1 text-on-surface-variant/80">
+<span class="material-symbols-outlined text-[14px] text-secondary">psychology</span>
+<span class="font-label-sm text-[11px]">天机AI双核大模型</span>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Divine Activation Button Module -->
+<div class="fixed bottom-0 left-0 right-0 z-40 p-margin bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/90 to-transparent backdrop-blur-md pb-safe">
+<div class="max-w-[430px] mx-auto flex flex-col gap-1.5">
+<button class="w-full h-12 rounded-full bg-gradient-to-r from-primary-fixed via-primary to-primary-container text-on-primary font-label-lg text-label-lg font-bold flex items-center justify-center gap-space-xs shadow-[0_4px_20px_rgba(242,202,80,0.35)] active:scale-[0.98] transition-transform" id="start-oracle-btn" type="button">
+<span class="material-symbols-outlined text-[22px]">cyclone</span>
+<span>开启双人宿命合盘推演</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<p class="text-center font-label-sm text-[11px] text-on-surface-variant">
+        点击即消耗 1 次免费推演券 · 即刻生成3000字深层命理解析
+      </p>
+</div>
+</div>
+</div>
+<script>
+  // Simple micro-interactions for relations and genders
+  (function initDualHoroscope() {
+    const relationButtons = document.querySelectorAll('#relation-selector .relation-pill');
+    relationButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        relationButtons.forEach(b => {
+          b.classList.remove('bg-surface-container-highest', 'text-on-surface', 'shadow-sm');
+          b.classList.add('bg-surface-container', 'text-on-surface-variant');
+          const icon = b.querySelector('.material-symbols-outlined');
+          if (icon) icon.classList.replace('text-primary', 'text-on-surface-variant');
+        });
+        btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
+        btn.classList.add('bg-surface-container-highest', 'text-on-surface', 'shadow-sm');
+        const activeIcon = btn.querySelector('.material-symbols-outlined');
+        if (activeIcon) activeIcon.classList.replace('text-on-surface-variant', 'text-primary');
+      });
+    });
+
+    // Gender Switchers logic
+    ['gender-user', 'gender-partner'].forEach(id => {
+      const container = document.getElementById(id);
+      if (!container) return;
+      const buttons = container.querySelectorAll('.gender-btn');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => {
+            b.classList.remove('bg-primary', 'bg-secondary-container', 'text-on-primary', 'text-on-secondary-container', 'font-medium');
+            b.classList.add('text-on-surface-variant');
+          });
+          const isUser = id === 'gender-user';
+          if (isUser) {
+            btn.classList.add('bg-primary', 'text-on-primary', 'font-medium');
+          } else {
+            btn.classList.add('bg-secondary-container', 'text-on-secondary-container', 'font-medium');
+          }
+          btn.classList.remove('text-on-surface-variant');
+        });
+      });
+    });
+
+    // Divine Launch Button Micro-Animation
+    const launchBtn = document.getElementById('start-oracle-btn');
+    if (launchBtn) {
+      launchBtn.addEventListener('click', () => {
+        const icon = launchBtn.querySelector('.material-symbols-outlined');
+        if (icon) icon.classList.add('animate-spin');
+        launchBtn.classList.add('opacity-90');
+        setTimeout(() => {
+          if (icon) icon.classList.remove('animate-spin');
+          launchBtn.classList.remove('opacity-90');
+        }, 1500);
+      });
+    }
+  })();
+</script></main>
+</body></html>
