@@ -36,15 +36,20 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+let timer: any = null;
 
 onMounted(() => {
-  setTimeout(() => {
+  timer = setTimeout(() => {
     router.replace("/home");
   }, 2000);
+});
+
+onUnmounted(() => {
+  if (timer) clearTimeout(timer);
 });
 </script>
 

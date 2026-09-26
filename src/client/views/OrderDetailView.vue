@@ -61,10 +61,10 @@
 
     <!-- 4. 操作区 -->
     <button
-      @click="viewReport"
+      @click="handleAction"
       class="w-full h-12 rounded-full font-bold text-sm bg-tj-grad-gold text-[#1A1405] shadow-gold-glow hover:brightness-110 active:scale-98 transition-all flex items-center justify-center"
     >
-      {{ isCompleted ? "查看完整报告" : "前往解锁报告" }}
+      {{ isCompleted ? "查看报告" : "继续支付" }}
     </button>
   </div>
 </template>
@@ -132,7 +132,7 @@ function copyHash() {
   }
 }
 
-function viewReport() {
+function handleAction() {
   if (isCompleted.value) {
     router.push({
       path: `/feature/${displayCategory.value}/report`,
@@ -140,7 +140,7 @@ function viewReport() {
     });
   } else {
     router.push({
-      path: `/feature/${displayCategory.value}/preview`,
+      path: "/pay",
       query: { orderId: displayOrderId.value },
     });
   }

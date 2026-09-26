@@ -128,12 +128,23 @@ const userStore = useUserStore();
 const activeTab = ref<"earnings" | "withdrawals">("earnings");
 const showWithdrawModal = ref(false);
 
-const earningsList = ref([
-  { id: "e1", type: "direct", source: "直推团队用户 解锁报告", amount: "0.90", time: "2026-09-25 14:32" },
-  { id: "e2", type: "indirect", source: "间推团队用户 订阅会员", amount: "1.45", time: "2026-09-25 11:20" },
-]);
-
+const earningsList = ref<any[]>([]);
 const withdrawalsList = ref<any[]>([]);
+
+async function loadEarnings() {
+  const userId = userStore.user?.id || userStore.user?.wallet_address;
+  if (!userId) return;
+
+  try {
+    const res = await fetch(`/api/promote/earnings?userId=${encodeURIComponent(userId)}`);
+    const json = await res.json();
+    if (json.success && Array.isArray(json.data)) {
+      earningsList.value = json.data;
+    }
+  } catch (err) {
+    console.warn("获取收益历史失败:", err);
+  }
+}
 
 async function loadWithdrawals() {
   const userId = userStore.user?.id || userStore.user?.wallet_address;
@@ -157,11 +168,13 @@ async function loadWithdrawals() {
 
 onMounted(async () => {
   await userStore.refreshOnChainBalance();
+  await loadEarnings();
   await loadWithdrawals();
 });
 
 async function onWithdrawSuccess() {
   await userStore.refreshProfile();
+  await loadEarnings();
   await loadWithdrawals();
 }
 </script>

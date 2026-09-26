@@ -217,7 +217,7 @@
         :disabled="downloading"
         class="flex-1 h-12 rounded-full font-bold text-sm transition-all flex items-center justify-center gap-2 bg-tj-grad-gold text-[#1A1405] shadow-gold-glow hover:brightness-110 active:scale-98"
       >
-        <span>📥</span> 下载高清报告
+        <span>📥</span> 下载报告
       </button>
 
       <!-- 次按钮：分享报告 (描边) -->
@@ -225,7 +225,7 @@
         @click="handleShare"
         class="flex-1 h-12 rounded-full font-bold text-sm transition-all flex items-center justify-center gap-2 bg-transparent border border-tj-primary text-tj-primary hover:bg-tj-primary/10 active:scale-98"
       >
-        <span>↗</span> 分享海报
+        <span>↗</span> 分享报告
       </button>
     </div>
 

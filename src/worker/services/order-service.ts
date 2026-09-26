@@ -86,10 +86,10 @@ export async function verifyPaymentReceipt(
   txHash: string,
   userWalletAddress?: string | null
 ): Promise<ReceiptVerificationResult> {
-  // 自动化测试环境下的 mock hash 放行
+  // 自动化测试环境下的放行（仅限自动化测试环境执行，生产环境坚决禁止放行）
   if (
     typeof process !== "undefined" &&
-    (process.env.NODE_ENV === "test" || process.env.VITEST || txHash.includes("mock"))
+    (process.env.NODE_ENV === "test" || process.env.VITEST)
   ) {
     return { valid: true };
   }
@@ -259,7 +259,7 @@ export async function getOrderDetails(env: Env, orderId: string, userId?: string
     return null;
   }
 
-  if (userId && order.user_id !== userId) {
+  if (!userId || order.user_id !== userId) {
     return null;
   }
 

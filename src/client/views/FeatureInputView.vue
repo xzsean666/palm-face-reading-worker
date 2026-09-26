@@ -540,19 +540,26 @@
       </template>
     </div>
 
+    <!-- 3. 隐私承诺行 (仅含照片的功能显示) -->
+    <div
+      v-if="categoryType === 'palm_reading' || categoryType === 'face_reading' || categoryType === 'palm_face'"
+      class="text-xs text-tj-text-faint text-center mb-3"
+    >
+      您上传的照片仅用于本次测算，测算完成后 7 天内自动删除
+    </div>
+
     <!-- 4. 价格区 (居中) -->
     <div class="text-center space-y-1 mb-4">
       <div class="flex items-baseline justify-center gap-2">
-        <span class="text-lg font-bold font-num text-tj-primary">
-          {{ userStore.isVip ? '0.00' : '2.99' }} <span class="text-xs font-sans">USDT</span>
+        <span class="text-[22px] font-bold font-num text-tj-primary">
+          本次测算 {{ userStore.isVip ? '4.8' : '6' }} USDT
         </span>
+        <span class="text-xs text-tj-cyan">会员 4.8 USDT</span>
         <span class="text-xs line-through text-tj-text-faint">9.9 USDT</span>
       </div>
-      <div class="text-[11px] text-tj-cyan font-medium">
-        {{ userStore.isVip ? '👑 VIP 会员尊享无限次免费测算' : '✨ 注册新用户享 2 次免费额度抵扣' }}
-      </div>
-      <div v-if="userStore.freeQuota > 0" class="text-[11px] text-tj-primary-light">
-        剩余免费额度：{{ userStore.freeQuota }} 次
+      <!-- 5. 剩余免费次数行 (仅当有剩余) -->
+      <div v-if="userStore.freeQuota > 0" class="text-xs text-tj-cyan">
+        剩余免费次数：{{ userStore.freeQuota }}
       </div>
     </div>
 

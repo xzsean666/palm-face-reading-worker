@@ -88,8 +88,8 @@ async function main() {
 
   // 2. TypeScript 双端静态类型自检
   await runStep(2, "TypeScript 双端类型检查 (vue-tsc + tsc worker)", () => {
-    log("Vue 前端", "执行 vue-tsc --noEmit...");
-    execSync("npx vue-tsc --noEmit", { stdio: "inherit" });
+    log("Vue 前端", "执行 vue-tsc --noEmit -p tsconfig.client.json...");
+    execSync("npx vue-tsc --noEmit -p tsconfig.client.json", { stdio: "inherit" });
     log("Worker 后端", "执行 tsc -p tsconfig.worker.json --noEmit...");
     execSync("npx tsc -p tsconfig.worker.json --noEmit", { stdio: "inherit" });
   });

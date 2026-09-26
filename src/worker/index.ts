@@ -38,10 +38,21 @@ app.route("/api/vip", vipRoutes);
 app.route("/api/promote", promoteRoutes);
 app.route("/api/stats", statsRoutes);
 
-// 前端静态资源回退
+// 前端静态资源回退 (支持 SPA HTML5 History 模式，返回 index.html 避免 307 重定向)
 app.notFound(async (c) => {
   if (c.env.ASSETS) {
-    return c.env.ASSETS.fetch(c.req.raw);
+    const res = await c.env.ASSETS.fetch(c.req.raw);
+    if (res.status === 404 && !c.req.path.startsWith("/api")) {
+      const rootUrl = new URL("/", c.req.url);
+      const rootRes = await c.env.ASSETS.fetch(new Request(rootUrl.toString(), c.req.raw));
+      return new Response(rootRes.body, {
+        status: 200,
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+        },
+      });
+    }
+    return res;
   }
   return c.text("Tianji AI Divination Worker Running", 404);
 });

@@ -4,6 +4,7 @@ import {
   getPromoteOverview,
   applyWithdrawal,
   listUserWithdrawals,
+  listUserEarnings,
 } from "../services/referral-service";
 
 export const promoteRoutes = new Hono<{ Bindings: Env }>();
@@ -21,6 +22,22 @@ promoteRoutes.get("/overview", async (c) => {
     return c.json({ success: true, data: overview });
   } catch (err: any) {
     return c.json({ success: false, error: err.message || "获取推广数据失败" }, 400);
+  }
+});
+
+/**
+ * 获取用户收益明细记录列表（直推与间推佣金明细）
+ */
+promoteRoutes.get("/earnings", async (c) => {
+  const userId = c.req.query("userId");
+  if (!userId) {
+    return c.json({ success: false, error: "缺少 userId" }, 400);
+  }
+  try {
+    const earnings = await listUserEarnings(c.env, userId);
+    return c.json({ success: true, data: earnings });
+  } catch (err: any) {
+    return c.json({ success: false, error: err.message || "获取收益明细失败" }, 400);
   }
 });
 

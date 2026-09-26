@@ -23,9 +23,9 @@ export async function getPromoteOverview(env: Env, userId: string) {
   // 2. 间推用户列表（直推人的下级）
   let indirectCount = 0;
   if (directCount > 0) {
-    const directIds = directList.map((u) => `'${u.id}'`).join(",");
     const { results: indirectUsers } = await env.DB
-      .prepare(`SELECT count(*) as count FROM users WHERE referrer_id IN (${directIds})`)
+      .prepare("SELECT count(*) as count FROM users WHERE referrer_id IN (SELECT id FROM users WHERE referrer_id = ?)")
+      .bind(userId)
       .all<{ count: number }>();
     indirectCount = indirectUsers?.[0]?.count || 0;
   }
@@ -135,3 +135,48 @@ export async function listUserWithdrawals(env: Env, userId: string, limit = 50) 
     .all<WithdrawalRow>();
   return results || [];
 }
+
+/**
+ * 查询用户推广收益记录（直推与间推佣金明细）
+ */
+export async function listUserEarnings(env: Env, userId: string, limit = 50) {
+  const { results } = await env.DB
+    .prepare(
+      `SELECT o.id, o.user_id, o.category, o.price_usdt, o.referrer_direct_id,
+              o.referrer_direct_cut, o.referrer_indirect_id, o.referrer_indirect_cut,
+              o.paid_at, o.created_at, u.nickname as buyer_nickname
+       FROM divination_orders o
+       LEFT JOIN users u ON o.user_id = u.id
+       WHERE (o.referrer_direct_id = ? OR o.referrer_indirect_id = ?)
+         AND o.status = 'COMPLETED'
+       ORDER BY o.paid_at DESC, o.created_at DESC
+       LIMIT ?`
+    )
+    .bind(userId, userId, limit)
+    .all<any>();
+
+  if (!results || results.length === 0) {
+    return [];
+  }
+
+  return results.map((row) => {
+    const isDirect = row.referrer_direct_id === userId;
+    const cutAmount = isDirect
+      ? Number(row.referrer_direct_cut || 0)
+      : Number(row.referrer_indirect_cut || 0);
+    const buyer = row.buyer_nickname || `缘主_${String(row.user_id).slice(-4)}`;
+    const categoryName = row.category || "测算";
+    const time = row.paid_at || row.created_at;
+
+    return {
+      id: `earn_${row.id}_${isDirect ? "dir" : "ind"}`,
+      orderId: row.id,
+      type: isDirect ? "direct" : "indirect",
+      rateText: isDirect ? "直推 15%" : "间推 5%",
+      source: `${buyer} 解锁了【${categoryName}】`,
+      amount: cutAmount.toFixed(2),
+      time: time ? new Date(time).toLocaleString("zh-CN") : "刚刚",
+    };
+  });
+}
+

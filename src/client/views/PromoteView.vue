@@ -167,7 +167,14 @@ const uiStore = useUIStore();
 const showPosterModal = ref(false);
 
 const myReferralCode = computed(() => userStore.user?.referral_code || "TJ8K2M9");
-const isPromoteActive = computed(() => Boolean(userStore.user?.id));
+const hasPaidOrder = ref(false);
+
+const isPromoteActive = computed(() => {
+  if (userStore.isVip) return true;
+  if ((userStore.user?.total_earned ?? 0) > 0) return true;
+  if ((userStore.user?.earnings_balance ?? 0) > 0) return true;
+  return hasPaidOrder.value;
+});
 
 const inviteUrl = computed(() => {
   return `${window.location.origin}/invite/${myReferralCode.value}`;
@@ -182,6 +189,14 @@ const teamData = ref({
 onMounted(async () => {
   await userStore.refreshOnChainBalance();
   if (userStore.user?.id) {
+    try {
+      const ordersRes = await fetch(`/api/orders?userId=${encodeURIComponent(userStore.user.id)}`);
+      const ordersJson = await ordersRes.json();
+      if (ordersJson.success && Array.isArray(ordersJson.data)) {
+        hasPaidOrder.value = ordersJson.data.some((o: any) => o.status === "COMPLETED");
+      }
+    } catch {}
+
     try {
       const res = await fetch(`/api/promote/overview?userId=${encodeURIComponent(userStore.user.id)}`);
       const data = await res.json();

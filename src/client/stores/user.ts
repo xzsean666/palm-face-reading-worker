@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
+import type { Address } from "viem";
+import { getServiceBalance, getUSDTBalance } from "../utils/web3";
 
 export interface UserState {
   id: string;

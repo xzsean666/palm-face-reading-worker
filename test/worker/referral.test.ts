@@ -33,6 +33,13 @@ function createMockD1Database(): D1Database {
             const results = Array.from(users.values()).filter((u) => u.referrer_id === params[0]);
             return { results } as any;
           }
+          if (query.includes("WHERE referrer_id IN (SELECT id FROM users WHERE referrer_id = ?)")) {
+            const directIds = Array.from(users.values())
+              .filter((u) => u.referrer_id === params[0])
+              .map((u) => u.id);
+            const count = Array.from(users.values()).filter((u) => directIds.includes(u.referrer_id)).length;
+            return { results: [{ count }] } as any;
+          }
           if (query.includes("SELECT count(*) as count FROM users WHERE referrer_id IN")) {
             // 解析 IN ( ... )
             const inMatch = query.match(/IN\s*\(([^)]+)\)/);

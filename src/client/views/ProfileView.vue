@@ -125,7 +125,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../stores/user";
 import { useUIStore } from "../stores/ui";
@@ -140,13 +140,28 @@ const displayAddress = computed(() => {
   return `${addr.slice(0, 6)}…${addr.slice(-4)}`;
 });
 
-const functionList = [
+const latestOrderId = ref("");
+
+onMounted(async () => {
+  const userId = userStore.user?.id || userStore.user?.wallet_address;
+  if (userId) {
+    try {
+      const res = await fetch(`/api/orders?userId=${encodeURIComponent(userId)}`);
+      const json = await res.json();
+      if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+        latestOrderId.value = json.data[0].id;
+      }
+    } catch {}
+  }
+});
+
+const functionList = computed(() => [
   { icon: "📜", label: "测算记录", path: "/me/records" },
-  { icon: "📦", label: "我的订单", path: "/me/orders/TJ202609250001" },
+  { icon: "📦", label: "我的订单", path: latestOrderId.value ? `/me/orders/${latestOrderId.value}` : "/me/records" },
   { icon: "👑", label: "会员中心", path: "/vip" },
   { icon: "🎁", label: "推广中心", path: "/promote" },
   { icon: "🔔", label: "消息通知", path: "/home", badge: uiStore.unreadCount > 0 },
-];
+]);
 
 function copyAddress() {
   if (userStore.user?.wallet_address) {

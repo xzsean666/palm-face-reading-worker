@@ -16,6 +16,7 @@ import { createAIClient } from "../ai/client";
 import { parseAIOutput, generateFallbackReport } from "../utils/report-parser";
 import { formatSSE } from "../utils/sse";
 import knowledgeBundle from "../ai/knowledge-bundle.json";
+import { verifyPaymentReceipt } from "./order-service";
 
 export interface SubmitDivinationParams {
   userId: string;
@@ -64,7 +65,11 @@ export async function submitDivinationOrder(
       throw new Error("免费测算额度已用尽，请使用 USDT 支付或开通会员");
     }
   } else if (params.txHash) {
-    // 若已附带交易哈希（模拟或链上已广播）
+    // 严格核验链上支付凭证
+    const check = await verifyPaymentReceipt(params.txHash, user.wallet_address);
+    if (!check.valid) {
+      throw new Error(check.error || "交易凭证核验未通过，无法完成测算订单");
+    }
     initialStatus = "COMPLETED";
   }
 
@@ -97,12 +102,14 @@ export async function submitDivinationOrder(
     referrer_indirect_cut: indirectCut > 0 ? indirectCut : null,
   });
 
+  const latestUser = await findUserById(env.DB, user.id);
+
   return {
     orderId: order.id,
     status: order.status,
     payType: order.pay_type,
     isCompleted: order.status === "COMPLETED",
-    userFreeQuota: user.free_quota,
+    userFreeQuota: latestUser ? latestUser.free_quota : user.free_quota,
   };
 }
 

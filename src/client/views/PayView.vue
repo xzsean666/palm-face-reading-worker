@@ -252,8 +252,8 @@ async function handlePay() {
     if (!userAddress && typeof (window as any).ethereum !== "undefined") {
       const accounts = await (window as any).ethereum.request({ method: "eth_requestAccounts" });
       if (accounts && accounts[0]) {
-        userAddress = accounts[0];
-        await userStore.loginWithWallet(userAddress);
+        userAddress = accounts[0] as string;
+        await userStore.loginWithWallet(accounts[0] as string);
       }
     }
 

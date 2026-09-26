@@ -196,7 +196,7 @@ export async function executePayAndConsume(params: {
 
   // 2. 检查合约内可用余额
   const currentCredit = await clientReadBalance(userAddress);
-  let depositTxHash: string | undefined = undefined;
+  let depositTxHash: `0x${string}` | undefined = undefined;
 
   // 如果可用点数不足，则需要 deposit
   if (currentCredit < amountUnits) {

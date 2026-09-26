@@ -4,6 +4,19 @@ import type { Env } from "../../src/worker/types/env";
 
 function createTestD1(): D1Database {
   const users = new Map<string, any>();
+  for (const uid of ["user_vision_live", "user_bazi_live", "user_session_live"]) {
+    users.set(uid, {
+      id: uid,
+      nickname: "测试道友",
+      free_quota: 10,
+      is_vip: 0,
+      referral_code: "TJTEST1",
+      referrer_id: null,
+      earnings_balance: 0,
+      total_earned: 0,
+      total_withdrawn: 0,
+    });
+  }
   const orders = new Map<string, any>();
   const reports = new Map<string, any>();
   const sessions = new Map<string, any>();

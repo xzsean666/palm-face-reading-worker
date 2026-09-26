@@ -124,6 +124,7 @@ const currentPoemIndex = ref(0);
 const hasError = ref(false);
 const liveStageMessage = ref("");
 const streamingSnippet = ref("");
+const isPushingToBackground = ref(false);
 
 const defaultStages = [
   "正在连接 AI 智库大数据…",
@@ -277,10 +278,13 @@ onMounted(async () => {
 onUnmounted(() => {
   if (stageTimer) clearInterval(stageTimer);
   if (poemTimer) clearInterval(poemTimer);
-  if (abortController) abortController.abort();
+  if (abortController && !isPushingToBackground.value) {
+    abortController.abort();
+  }
 });
 
 function pushToBackground() {
+  isPushingToBackground.value = true;
   uiStore.showToast("推演已转入后台，完成后将在测算记录中呈现");
   router.push("/me/records");
 }
