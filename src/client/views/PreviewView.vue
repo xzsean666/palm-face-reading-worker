@@ -26,21 +26,37 @@
           综合结论
         </h3>
         <span class="text-xs font-semibold text-tj-primary">
-          命格上吉 · 评分 {{ scores.total }}
+          {{ previewTitle }} · 评分 {{ scores.total }}
         </span>
       </div>
 
-      <!-- 摘要正文 3-4 段 (14px/400，行高 1.8) -->
+      <!-- 摘要正文 (14px/400，行高 1.8) -->
       <div class="text-sm font-normal text-tj-text-primary/90 leading-[1.8] space-y-2 text-justify">
-        <p>
-          先天命盘气象清华，乾坤相生，主聪敏灵慧，具宏阔抱负。五行中和，木火之气相涵，能得贵人提携，行事沉稳而决断果敢。
+        <p v-if="previewSummary">
+          {{ previewSummary }}
         </p>
-        <p>
-          中年前后必见气运蜕变，吉星入命宫与官禄宫，适合开拓创新赛道、聚合团队资材。
-        </p>
-        <p>
-          情感层面水润木荣，夫妻宫清和有度，善解人意，相处多有知己之契，凡事同舟共济自能家宅丰隆。
-        </p>
+        <template v-else>
+          <p>
+            先天命盘气象清华，乾坤相生，主聪敏灵慧，具宏阔抱负。五行中和，木火之气相涵，能得贵人提携，行事沉稳而决断果敢。
+          </p>
+          <p>
+            中年前后必见气运蜕变，吉星入命宫与官禄宫，适合开拓创新赛道、聚合团队资材。
+          </p>
+          <p>
+            情感层面水润木荣，夫妻宫清和有度，善解人意，相处多有知己之契，凡事同舟共济自能家宅丰隆。
+          </p>
+        </template>
+      </div>
+
+      <!-- 核心亮点词签 (AI 亮点提取) -->
+      <div v-if="previewHighlights.length > 0" class="flex flex-wrap gap-2 pt-1">
+        <span
+          v-for="(hl, hIdx) in previewHighlights"
+          :key="hIdx"
+          class="px-2.5 py-1 rounded-lg bg-tj-primary/10 border border-tj-primary/30 text-xs font-medium text-tj-primary-light"
+        >
+          ✦ {{ hl }}
+        </span>
       </div>
 
       <!-- 综合评分指数条 3 条 (财运 / 事业 / 姻缘) -->
@@ -172,11 +188,16 @@ const uiStore = useUIStore();
 const categoryType = computed(() => (route.params.type as string) || "bazi");
 const categoryName = computed(() => CATEGORIES_CONFIG[categoryType.value]?.name || "八字推测");
 
+const currentOrderId = ref((route.query.orderId as string) || "");
 const loading = ref(false);
 const isUnlocked = ref(false);
 
 const reportNo = ref("TJ" + new Date().toISOString().slice(0, 10).replace(/-/g, "") + "0001");
 const todayStr = ref(new Date().toISOString().slice(0, 10));
+
+const previewTitle = ref("乾元大吉局");
+const previewSummary = ref("");
+const previewHighlights = ref<string[]>([]);
 
 const scores = ref({
   total: 88,
@@ -193,27 +214,84 @@ const benefits = [
   "PDF 报告下载",
 ];
 
-onMounted(() => {
+onMounted(async () => {
   if (userStore.isVip) {
     isUnlocked.value = true;
   }
+
+  // 1. 获取 orderId
   const lastResult = sessionStorage.getItem("tj_last_result");
+  let lastData: any = null;
   if (lastResult) {
     try {
-      const parsed = JSON.parse(lastResult);
-      if (parsed.report?.score) {
-        scores.value.total = parsed.report.score;
-        scores.value.wealth = Math.min(100, Math.round(parsed.report.score * 0.95));
-        scores.value.career = Math.min(100, Math.round(parsed.report.score * 0.9));
-        scores.value.love = Math.min(100, Math.round(parsed.report.score * 0.85));
+      lastData = JSON.parse(lastResult);
+      if (lastData.orderId) {
+        currentOrderId.value = lastData.orderId;
+      }
+      if (lastData.isUnlocked) {
+        isUnlocked.value = true;
       }
     } catch {}
+  }
+
+  const queryOrderId = (route.query.orderId as string) || currentOrderId.value;
+  if (queryOrderId) {
+    currentOrderId.value = queryOrderId;
+    reportNo.value = queryOrderId;
+
+    // 2. 从后端加载真实推演预览数据
+    try {
+      const res = await fetch(`/api/divine/report/${encodeURIComponent(queryOrderId)}`);
+      const json = await res.json();
+      if (json.success && json.data) {
+        const d = json.data;
+        if (d.preview) {
+          previewTitle.value = d.preview.title || d.preview.rating || previewTitle.value;
+          previewSummary.value = d.preview.summary || "";
+          previewHighlights.value = Array.isArray(d.preview.highlights) ? d.preview.highlights : [];
+          if (typeof d.preview.score === "number") {
+            scores.value.total = d.preview.score;
+            scores.value.wealth = Math.min(100, Math.round(d.preview.score * 0.95));
+            scores.value.career = Math.min(100, Math.round(d.preview.score * 0.9));
+            scores.value.love = Math.min(100, Math.round(d.preview.score * 0.85));
+          }
+          if (Array.isArray(d.preview.radar)) {
+            for (const r of d.preview.radar) {
+              if (r.label?.includes("财")) scores.value.wealth = r.value;
+              if (r.label?.includes("前程") || r.label?.includes("事业")) scores.value.career = r.value;
+              if (r.label?.includes("情") || r.label?.includes("缘")) scores.value.love = r.value;
+            }
+          }
+        }
+        if (d.isUnlocked) {
+          isUnlocked.value = true;
+        }
+      }
+    } catch (err) {
+      console.warn("加载报告预览失败，使用本地缓存:", err);
+    }
+  }
+
+  // 3. 兼容检查本地缓存
+  if (lastData?.preview && !previewSummary.value) {
+    previewTitle.value = lastData.preview.title || previewTitle.value;
+    previewSummary.value = lastData.preview.summary || "";
+    previewHighlights.value = lastData.preview.highlights || [];
+    if (lastData.preview.score) {
+      scores.value.total = lastData.preview.score;
+      scores.value.wealth = Math.min(100, Math.round(lastData.preview.score * 0.95));
+      scores.value.career = Math.min(100, Math.round(lastData.preview.score * 0.9));
+      scores.value.love = Math.min(100, Math.round(lastData.preview.score * 0.85));
+    }
   }
 });
 
 async function handleUnlock() {
   if (isUnlocked.value) {
-    router.push(`/feature/${categoryType.value}/report`);
+    router.push({
+      path: `/feature/${categoryType.value}/report`,
+      query: currentOrderId.value ? { orderId: currentOrderId.value } : undefined,
+    });
     return;
   }
 
@@ -227,6 +305,7 @@ async function handleUnlock() {
         body: JSON.stringify({
           userId: userStore.user?.id || "guest",
           category: categoryType.value,
+          orderId: currentOrderId.value || undefined,
         }),
       });
       const data = await res.json();
@@ -234,7 +313,10 @@ async function handleUnlock() {
         isUnlocked.value = true;
         uiStore.showToast("已使用免费额度解锁报告！");
         await userStore.refreshProfile();
-        router.push(`/feature/${categoryType.value}/report`);
+        router.push({
+          path: `/feature/${categoryType.value}/report`,
+          query: currentOrderId.value ? { orderId: currentOrderId.value } : undefined,
+        });
       } else {
         uiStore.showToast(data.error || "核销失败");
       }
@@ -249,6 +331,7 @@ async function handleUnlock() {
       path: "/pay",
       query: {
         category: categoryType.value,
+        orderId: currentOrderId.value || undefined,
         type: "single",
         amount: "6",
       },

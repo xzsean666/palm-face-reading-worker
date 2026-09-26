@@ -9,10 +9,7 @@ import {
 
 export const orderRoutes = new Hono<{ Bindings: Env }>();
 
-/**
- * 创建测算订单
- */
-orderRoutes.post("/", async (c) => {
+const handleCreateOrder = async (c: any) => {
   try {
     const body = await c.req.json();
     if (!body.userId || !body.category) {
@@ -30,22 +27,59 @@ orderRoutes.post("/", async (c) => {
   } catch (err: any) {
     return c.json({ success: false, error: err.message || "创建订单失败" }, 400);
   }
-});
+};
+
+const handlePayOrder = async (c: any) => {
+  try {
+    const body = await c.req.json();
+    const orderId = c.req.param("id") || body.orderId;
+    if (!orderId) {
+      return c.json({ success: false, error: "缺少 orderId" }, 400);
+    }
+    const userId = body.userId || (await getOrderDetails(c.env, orderId))?.user_id;
+    if (!userId) {
+      return c.json({ success: false, error: "缺少 userId" }, 400);
+    }
+    const payType = body.payType || (body.txHash ? "USDT_TRC20" : "FREE_QUOTA");
+    const result = await payOrder(c.env, orderId, userId, payType, body.txHash);
+    return c.json({ success: true, data: result });
+  } catch (err: any) {
+    return c.json({ success: false, error: err.message || "支付处理失败" }, 400);
+  }
+};
+
+/**
+ * 创建测算订单
+ */
+orderRoutes.post("/", handleCreateOrder);
+orderRoutes.post("/create", handleCreateOrder);
 
 /**
  * 订单支付（支持免费额度或 USDT）
  */
-orderRoutes.post("/:id/pay", async (c) => {
+orderRoutes.post("/:id/pay", handlePayOrder);
+orderRoutes.post("/pay", handlePayOrder);
+
+/**
+ * 快速使用免费额度抵扣并解锁
+ */
+orderRoutes.post("/use-free-quota", async (c) => {
   try {
-    const orderId = c.req.param("id");
     const body = await c.req.json();
-    if (!body.userId || !body.payType) {
-      return c.json({ success: false, error: "缺少必要参数 (userId, payType)" }, 400);
+    if (!body.userId || !body.category) {
+      return c.json({ success: false, error: "缺少必要参数 (userId, category)" }, 400);
     }
-    const result = await payOrder(c.env, orderId, body.userId, body.payType, body.txHash);
+    const order = await createDivinationOrder(c.env, {
+      userId: body.userId,
+      category: body.category,
+      subcategory: body.subcategory,
+      inputData: body.inputData || {},
+      payType: "FREE_QUOTA",
+    });
+    const result = await payOrder(c.env, order.id, body.userId, "FREE_QUOTA");
     return c.json({ success: true, data: result });
   } catch (err: any) {
-    return c.json({ success: false, error: err.message || "支付处理失败" }, 400);
+    return c.json({ success: false, error: err.message || "核销免费额度失败" }, 400);
   }
 });
 

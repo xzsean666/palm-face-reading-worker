@@ -58,10 +58,10 @@
           </router-link>
         </div>
         <div class="text-[28px] font-bold font-num text-tj-primary mb-1">
-          {{ userStore.user?.earnings_balance?.toFixed(2) || "0.00" }} <span class="text-sm font-sans font-normal">USDT</span>
+          {{ (userStore.onChainBalance || userStore.user?.earnings_balance || 0).toFixed(2) }} <span class="text-sm font-sans font-normal">USDT</span>
         </div>
         <div class="text-[11px] text-tj-text-faint">
-          累计收益 {{ userStore.user?.total_earned?.toFixed(2) || "0.00" }} USDT
+          钱包 USDT 余额 {{ userStore.usdtBalance.toFixed(2) }} USDT
         </div>
       </div>
 
@@ -154,7 +154,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../stores/user";
 import { useUIStore } from "../stores/ui";
@@ -174,9 +174,26 @@ const inviteUrl = computed(() => {
 });
 
 const teamData = ref({
-  directCount: 18,
-  indirectCount: 64,
-  orderCount: 97,
+  directCount: 0,
+  indirectCount: 0,
+  orderCount: 0,
+});
+
+onMounted(async () => {
+  await userStore.refreshOnChainBalance();
+  if (userStore.user?.id) {
+    try {
+      const res = await fetch(`/api/promote/overview?userId=${encodeURIComponent(userStore.user.id)}`);
+      const data = await res.json();
+      if (data.success && data.data) {
+        teamData.value.directCount = data.data.directCount ?? 0;
+        teamData.value.indirectCount = data.data.indirectCount ?? 0;
+        teamData.value.orderCount = (data.data.directCount ?? 0) + (data.data.indirectCount ?? 0);
+      }
+    } catch {
+      // 容错
+    }
+  }
 });
 
 function copyCode(text: string) {

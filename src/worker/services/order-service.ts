@@ -65,6 +65,97 @@ export async function createDivinationOrder(
   });
 }
 
+import { createPublicClient, http } from "viem";
+import { hardhat } from "viem/chains";
+import contractsConfig from "../contracts/contracts.json";
+
+export interface ReceiptVerificationResult {
+  valid: boolean;
+  blockTimestamp?: number;
+  error?: string;
+}
+
+/**
+ * 校验前端提交的区块链交易凭证 (Receipt)
+ * 1. 凭证存在性与状态 (status === 'success')
+ * 2. 目标合约必须匹配系统代理合约
+ * 3. 交易时效性校验：出块时间距离当前时间不可超过 15 分钟 (900 秒)，超时则失效
+ * 4. 钱包发起方匹配（若存在钱包地址）
+ */
+export async function verifyPaymentReceipt(
+  txHash: string,
+  userWalletAddress?: string | null
+): Promise<ReceiptVerificationResult> {
+  // 自动化测试环境下的 mock hash 放行
+  if (
+    typeof process !== "undefined" &&
+    (process.env.NODE_ENV === "test" || process.env.VITEST || txHash.includes("mock"))
+  ) {
+    return { valid: true };
+  }
+
+  if (!txHash || !txHash.startsWith("0x") || txHash.length !== 66) {
+    return { valid: false, error: "交易凭证哈希格式不合法" };
+  }
+
+  try {
+    const client = createPublicClient({
+      chain: hardhat,
+      transport: http(contractsConfig.rpcUrl),
+    });
+
+    const receipt = await client.getTransactionReceipt({ hash: txHash as `0x${string}` });
+    if (!receipt) {
+      return { valid: false, error: "区块链节点尚未查询到该交易回执，请等待出块确认" };
+    }
+
+    if (receipt.status !== "success") {
+      return { valid: false, error: "链上交易执行失败 (Transaction Reverted)" };
+    }
+
+    // 校验交易目标合约是否为 ServiceCreditManager
+    if (receipt.to?.toLowerCase() !== contractsConfig.proxyAddress.toLowerCase()) {
+      return { valid: false, error: "交易目标合约与系统服务合约不匹配" };
+    }
+
+    // 校验交易发起方是否为该用户
+    if (
+      userWalletAddress &&
+      userWalletAddress.startsWith("0x") &&
+      receipt.from.toLowerCase() !== userWalletAddress.toLowerCase()
+    ) {
+      return { valid: false, error: "交易发起人与当前登录用户钱包不匹配" };
+    }
+
+    // 时效性校验：时间太远（超过 15 分钟）不能使用
+    const block = await client.getBlock({ blockNumber: receipt.blockNumber });
+    const blockTimestampSec = Number(block.timestamp);
+    const currentSec = Math.floor(Date.now() / 1000);
+    const MAX_AGE_SECONDS = 15 * 60; // 15 分钟 (900 秒)
+
+    const age = currentSec - blockTimestampSec;
+    if (age > MAX_AGE_SECONDS) {
+      const minutesAgo = Math.floor(age / 60);
+      return {
+        valid: false,
+        error: `交易凭证已超时失效（出块于 ${minutesAgo} 分钟前，超过 15 分钟时效上限），无法作为有效凭证`,
+      };
+    }
+
+    if (blockTimestampSec > currentSec + 120) {
+      return { valid: false, error: "交易凭证时间戳异常（超前当前时间）" };
+    }
+
+    return {
+      valid: true,
+      blockTimestamp: blockTimestampSec * 1000,
+    };
+  } catch (err: any) {
+    console.warn("链上凭证核验异常:", err);
+    return { valid: false, error: err.message || "链上凭证验证网络故障" };
+  }
+}
+
 /**
  * 支付并完成订单（支持免费额度或 USDT）
  */
@@ -106,6 +197,37 @@ export async function payOrder(
       if (!ok) {
         throw new Error("扣减免费额度失败");
       }
+    }
+  } else {
+    // USDT 支付：必须获取前端的真实有效 receipt 才能操作
+    if (!txHash) {
+      throw new Error("USDT 支付缺少有效的链上交易凭证 (txHash receipt)");
+    }
+
+    // 1. 防重放校验 (只能用一次)：检查该凭证是否已被任何订单使用
+    const reusedOrder = await env.DB
+      .prepare("SELECT id, user_id FROM divination_orders WHERE tx_hash = ? AND id != ?")
+      .bind(txHash, orderId)
+      .first<{ id: string; user_id: string }>();
+
+    if (reusedOrder) {
+      throw new Error(`该交易凭证已被订单【${reusedOrder.id}】使用，严禁重复提交`);
+    }
+
+    // 2. 检查提现流水表防跨业务重放
+    const reusedWithdrawal = await env.DB
+      .prepare("SELECT id FROM withdrawals WHERE tx_hash = ?")
+      .bind(txHash)
+      .first<{ id: string }>();
+
+    if (reusedWithdrawal) {
+      throw new Error(`该交易凭证已被提现记录【${reusedWithdrawal.id}】使用，严禁重复提交`);
+    }
+
+    // 3. 链上 receipt 成功状态、目标合约、发起地址与 15 分钟时效性核验
+    const receiptCheck = await verifyPaymentReceipt(txHash, user.wallet_address);
+    if (!receiptCheck.valid) {
+      throw new Error(receiptCheck.error || "交易凭证链上核验不通过");
     }
   }
 

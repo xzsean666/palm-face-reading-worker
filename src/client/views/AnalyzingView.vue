@@ -67,13 +67,17 @@
             </span>
           </div>
 
-          <!-- 阶段文案轮播 (2s 淡入淡出，14px --tj-text-primary) -->
-          <div class="h-6 mt-3 flex items-center justify-center">
+          <!-- 阶段文案轮播与实时推演提示 (14px --tj-text-primary) -->
+          <div class="h-6 mt-3 flex items-center justify-center text-center">
             <transition name="fade-step" mode="out-in">
-              <span :key="currentStageIndex" class="text-sm font-medium text-tj-text-primary tracking-wide">
-                {{ stages[currentStageIndex] }}
+              <span :key="currentStageText" class="text-sm font-medium text-tj-text-primary tracking-wide">
+                {{ currentStageText }}
               </span>
             </transition>
+          </div>
+
+          <div v-if="streamingSnippet" class="mt-2 px-3 py-0.5 rounded-full bg-tj-cyan/10 border border-tj-cyan/30 text-[10px] text-tj-cyan font-mono truncate max-w-[260px] animate-pulse">
+            ⚡ {{ streamingSnippet }}
           </div>
         </div>
       </div>
@@ -118,13 +122,19 @@ const progress = ref(10);
 const currentStageIndex = ref(0);
 const currentPoemIndex = ref(0);
 const hasError = ref(false);
+const liveStageMessage = ref("");
+const streamingSnippet = ref("");
 
-const stages = [
+const defaultStages = [
   "正在连接 AI 智库大数据…",
   "正在排布您的专属命盘…",
   "正在推演五行格局…",
   "正在生成您的专属报告…",
 ];
+
+const currentStageText = computed(() => {
+  return liveStageMessage.value || defaultStages[currentStageIndex.value];
+});
 
 const poems = [
   "天行健，君子以自强不息",
@@ -135,33 +145,25 @@ const poems = [
 
 let stageTimer: any = null;
 let poemTimer: any = null;
-let progressTimer: any = null;
+let abortController: AbortController | null = null;
 
 onMounted(async () => {
-  // 阶段文案 2s 轮播
+  // 阶段轮播计时器（作为无 liveStage 时的备用轮播）
   stageTimer = setInterval(() => {
-    currentStageIndex.value = (currentStageIndex.value + 1) % stages.length;
-  }, 2000);
+    currentStageIndex.value = (currentStageIndex.value + 1) % defaultStages.length;
+  }, 2500);
 
   // 诗句 3s 轮播
   poemTimer = setInterval(() => {
     currentPoemIndex.value = (currentPoemIndex.value + 1) % poems.length;
   }, 3000);
 
-  // 进度条平滑增长
-  progressTimer = setInterval(() => {
-    if (progress.value < 92) {
-      progress.value += Math.floor(Math.random() * 8) + 4;
-      if (progress.value > 92) progress.value = 92;
-    }
-  }, 300);
-
-  // 提交推演请求
   try {
     const rawForm = sessionStorage.getItem("tj_current_form");
     const formData = rawForm ? JSON.parse(rawForm) : {};
 
-    const res = await fetch("/api/divine/submit", {
+    // 1. 创建测算订单
+    const submitRes = await fetch("/api/divine/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -169,25 +171,102 @@ onMounted(async () => {
         category: categoryType.value,
         inputData: formData,
         imageBase64: formData.imageBase64,
+        payType: userStore.isVip || userStore.freeQuota > 0 ? "FREE_QUOTA" : "USDT_TRC20",
       }),
     });
 
-    const data = await res.json();
-    if (data.success && data.data) {
-      sessionStorage.setItem("tj_last_result", JSON.stringify(data.data));
-      progress.value = 100;
-      setTimeout(() => {
-        router.replace(`/feature/${categoryType.value}/preview`);
-      }, 500);
-    } else {
-      // 容错降级
-      progress.value = 100;
-      setTimeout(() => {
-        router.replace(`/feature/${categoryType.value}/preview`);
-      }, 500);
+    const submitJson = await submitRes.json();
+    if (!submitJson.success || !submitJson.data?.orderId) {
+      throw new Error(submitJson.error || "创建订单失败");
     }
-  } catch (err) {
-    // 降级使用本地预置优质数据顺利进入
+
+    const orderId = submitJson.data.orderId;
+    progress.value = 20;
+
+    // 2. 建立真实 SSE 流式推演连接
+    abortController = new AbortController();
+    const streamRes = await fetch(`/api/divine/stream?orderId=${encodeURIComponent(orderId)}`, {
+      signal: abortController.signal,
+    });
+
+    if (!streamRes.ok || !streamRes.body) {
+      throw new Error("SSE 推演流连接失败");
+    }
+
+    const reader = streamRes.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let reportData: any = null;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n\n");
+      buffer = lines.pop() || "";
+
+      for (const block of lines) {
+        if (!block.trim()) continue;
+        const eventMatch = block.match(/event:\s*([^\n]+)/);
+        const dataMatch = block.match(/data:\s*([\s\S]+)/);
+
+        if (eventMatch && dataMatch) {
+          const eventType = eventMatch[1].trim();
+          let payload: any = null;
+          try {
+            payload = JSON.parse(dataMatch[1].trim());
+          } catch {
+            payload = dataMatch[1].trim();
+          }
+
+          if (eventType === "stage") {
+            if (payload?.title) {
+              liveStageMessage.value = `${payload.title}…`;
+            }
+            if (payload?.step === 1) progress.value = Math.max(progress.value, 30);
+            if (payload?.step === 2) progress.value = Math.max(progress.value, 55);
+            if (payload?.step === 3) progress.value = Math.max(progress.value, 75);
+          } else if (eventType === "chunk") {
+            if (payload?.text) {
+              streamingSnippet.value = payload.text.trim().slice(-30);
+              if (progress.value < 94) {
+                progress.value = Math.min(94, progress.value + 1);
+              }
+            }
+          } else if (eventType === "complete") {
+            reportData = payload;
+            progress.value = 100;
+            liveStageMessage.value = "推演圆满完成，正在呈现报告…";
+          } else if (eventType === "error") {
+            console.warn("推演流收到异常通知:", payload);
+          }
+        }
+      }
+    }
+
+    // 3. 推演完成，存储结果并跳转
+    sessionStorage.setItem(
+      "tj_last_result",
+      JSON.stringify(
+        reportData || {
+          orderId,
+          category: categoryType.value,
+          isUnlocked: Boolean(submitJson.data.isCompleted),
+        }
+      )
+    );
+
+    setTimeout(() => {
+      if (reportData?.isUnlocked || submitJson.data.isCompleted) {
+        router.replace(`/feature/${categoryType.value}/report?orderId=${orderId}`);
+      } else {
+        router.replace(`/feature/${categoryType.value}/preview?orderId=${orderId}`);
+      }
+    }, 600);
+  } catch (err: any) {
+    console.error("推演过程异常:", err);
+    // 容错平滑降级：确保用户不卡死在加载态
     progress.value = 100;
     setTimeout(() => {
       router.replace(`/feature/${categoryType.value}/preview`);
@@ -198,12 +277,12 @@ onMounted(async () => {
 onUnmounted(() => {
   if (stageTimer) clearInterval(stageTimer);
   if (poemTimer) clearInterval(poemTimer);
-  if (progressTimer) clearInterval(progressTimer);
+  if (abortController) abortController.abort();
 });
 
 function pushToBackground() {
   uiStore.showToast("推演已转入后台，完成后将在测算记录中呈现");
-  router.push("/home");
+  router.push("/me/records");
 }
 </script>
 

@@ -3,12 +3,12 @@
     <!-- 1. 余额卡 -->
     <div class="bg-tj-bg-card border border-tj-primary/30 rounded-2xl p-4 mb-4 flex items-center justify-between shadow-sm">
       <div>
-        <div class="text-xs text-tj-text-secondary mb-0.5">可提现余额</div>
+        <div class="text-xs text-tj-text-secondary mb-0.5">合约可提现余额</div>
         <div class="text-xl font-bold font-num text-tj-primary mb-1">
-          {{ userStore.user?.earnings_balance?.toFixed(2) || "0.00" }} <span class="text-xs font-sans">USDT</span>
+          {{ (userStore.onChainBalance || userStore.user?.earnings_balance || 0).toFixed(2) }} <span class="text-xs font-sans">USDT</span>
         </div>
         <div class="text-[11px] text-tj-text-faint">
-          累计已提现 {{ userStore.user?.total_withdrawn?.toFixed(2) || "0.00" }} USDT
+          钱包 USDT 余额 {{ userStore.usdtBalance.toFixed(2) }} USDT
         </div>
       </div>
 
@@ -111,7 +111,7 @@
     <!-- 5. 提现弹窗组件 -->
     <WithdrawModal
       :visible="showWithdrawModal"
-      :availableBalance="userStore.user?.earnings_balance || 0"
+      :availableBalance="userStore.onChainBalance || userStore.user?.earnings_balance || 0"
       :defaultAddress="userStore.user?.wallet_address || ''"
       @close="showWithdrawModal = false"
       @success="onWithdrawSuccess"
@@ -120,7 +120,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useUserStore } from "../stores/user";
 import WithdrawModal from "../components/common/WithdrawModal.vue";
 
@@ -129,23 +129,39 @@ const activeTab = ref<"earnings" | "withdrawals">("earnings");
 const showWithdrawModal = ref(false);
 
 const earningsList = ref([
-  { id: "e1", type: "direct", source: "海*** 解锁了八字推测", amount: "0.90", time: "2026-09-25 14:32" },
-  { id: "e2", type: "indirect", source: "云*** 开通了月度会员", amount: "1.45", time: "2026-09-25 11:20" },
-  { id: "e3", type: "direct", source: "剑*** 解锁了手相解秘", amount: "0.90", time: "2026-09-24 19:40" },
+  { id: "e1", type: "direct", source: "直推团队用户 解锁报告", amount: "0.90", time: "2026-09-25 14:32" },
+  { id: "e2", type: "indirect", source: "间推团队用户 订阅会员", amount: "1.45", time: "2026-09-25 11:20" },
 ]);
 
-const withdrawalsList = ref([
-  { id: "w1", amount: "50.00", status: "completed", time: "2026-09-23 10:15" },
-  { id: "w2", amount: "30.00", status: "completed", time: "2026-09-20 16:50" },
-]);
+const withdrawalsList = ref<any[]>([]);
 
-function onWithdrawSuccess() {
-  userStore.refreshProfile();
-  withdrawalsList.value.unshift({
-    id: "w_" + Date.now(),
-    amount: "10.00",
-    status: "pending",
-    time: new Date().toLocaleString(),
-  });
+async function loadWithdrawals() {
+  const userId = userStore.user?.id || userStore.user?.wallet_address;
+  if (!userId) return;
+
+  try {
+    const res = await fetch(`/api/promote/withdrawals?userId=${encodeURIComponent(userId)}`);
+    const json = await res.json();
+    if (json.success && Array.isArray(json.data)) {
+      withdrawalsList.value = json.data.map((w: any) => ({
+        id: w.id,
+        amount: Number(w.amount).toFixed(2),
+        status: w.status || "completed",
+        time: w.created_at ? new Date(w.created_at).toLocaleString("zh-CN") : "刚刚",
+      }));
+    }
+  } catch (err) {
+    console.warn("获取提现历史失败:", err);
+  }
+}
+
+onMounted(async () => {
+  await userStore.refreshOnChainBalance();
+  await loadWithdrawals();
+});
+
+async function onWithdrawSuccess() {
+  await userStore.refreshProfile();
+  await loadWithdrawals();
 }
 </script>

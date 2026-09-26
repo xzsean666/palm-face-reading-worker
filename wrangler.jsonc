@@ -10,6 +10,10 @@
     "directory": "./dist-client",
     "binding": "ASSETS"
   },
+  "vars": {
+    "OPENAI_API_BASE": "https://integrate.api.nvidia.com/v1",
+    "DEFAULT_MODEL": "meta/llama-3.2-11b-vision-instruct"
+  },
   "d1_databases": [
     {
       "binding": "DB",

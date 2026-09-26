@@ -64,6 +64,32 @@
             ›
           </span>
         </div>
+
+        <!-- 选项卡 3：面手合参 (旗舰) -->
+        <div
+          @click="selectFeature('palm_face')"
+          class="h-[88px] bg-gradient-to-r from-tj-primary/10 via-tj-bg-card to-tj-purple/10 hover:border-tj-primary/60 border border-tj-primary/30 rounded-2xl p-4 flex items-center justify-between cursor-pointer transition-all active:scale-98 shadow-gold-glow group relative overflow-hidden"
+        >
+          <span class="absolute top-0 right-3 px-2 py-0.5 rounded-b-md bg-tj-grad-gold text-[#1A1405] text-[9px] font-bold">
+            旗舰合参
+          </span>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-tj-primary/15 flex items-center justify-center text-[36px] leading-none">
+              🔮
+            </div>
+            <div>
+              <h3 class="text-base font-semibold text-tj-primary flex items-center gap-1.5">
+                面手合参
+              </h3>
+              <p class="text-xs text-tj-text-secondary mt-0.5">
+                天圆地方全息共振，六大相局综合详批
+              </p>
+            </div>
+          </div>
+          <span class="text-sm text-tj-primary font-bold">
+            ›
+          </span>
+        </div>
       </div>
 
       <!-- 4. 拍摄要求区 -->
@@ -74,6 +100,7 @@
         <div class="space-y-1 pl-1 text-[11px] leading-relaxed">
           <div>• <strong>手相规范</strong>：手掌自然张开、正对镜头平放、确保光线充足纹路清晰。</div>
           <div>• <strong>面相规范</strong>：面部正对镜头、五官无遮挡、不戴帽子墨镜、避免美颜与强滤镜。</div>
+          <div>• <strong>面手合参</strong>：可同时上传手掌与面部高清照片，AI 自动进行跨维度命理校对。</div>
         </div>
       </div>
     </div>
@@ -85,7 +112,7 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-function selectFeature(type: "palm_reading" | "face_reading") {
+function selectFeature(type: "palm_reading" | "face_reading" | "palm_face") {
   router.push(`/feature/${type}/input`);
 }
 </script>

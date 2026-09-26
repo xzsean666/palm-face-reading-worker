@@ -82,6 +82,25 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  const onChainBalance = ref<number>(0);
+  const usdtBalance = ref<number>(0);
+
+  async function refreshOnChainBalance() {
+    const address = user.value?.wallet_address;
+    if (address && address.startsWith("0x")) {
+      try {
+        const [cb, ub] = await Promise.all([
+          getServiceBalance(address as Address),
+          getUSDTBalance(address as Address),
+        ]);
+        onChainBalance.value = cb;
+        usdtBalance.value = ub;
+      } catch (err) {
+        console.warn("获取链上余额失败:", err);
+      }
+    }
+  }
+
   async function refreshProfile() {
     if (!user.value?.id) return;
     try {
@@ -89,6 +108,7 @@ export const useUserStore = defineStore("user", () => {
       const data = await res.json();
       if (data.success && data.data) {
         user.value = data.data;
+        await refreshOnChainBalance();
       }
     } catch {
       // 容错
@@ -97,6 +117,8 @@ export const useUserStore = defineStore("user", () => {
 
   function logout() {
     user.value = null;
+    onChainBalance.value = 0;
+    usdtBalance.value = 0;
     localStorage.removeItem("tj_user_id");
   }
 
@@ -106,9 +128,13 @@ export const useUserStore = defineStore("user", () => {
     isLoggedIn,
     isVip,
     freeQuota,
+    onChainBalance,
+    usdtBalance,
     loginWithWallet,
     loginAsGuest,
     refreshProfile,
+    refreshOnChainBalance,
     logout,
   };
 });
+

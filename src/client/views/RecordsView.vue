@@ -58,46 +58,80 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "../stores/user";
+import { CATEGORIES_CONFIG } from "../stores/divination";
 
 const router = useRouter();
+const userStore = useUserStore();
 
-const records = ref([
-  {
-    id: "rec_1",
-    category: "bazi",
-    categoryName: "八字推测",
-    icon: "☯️",
-    time: "2026-09-25 14:30",
-    status: "completed",
-    statusText: "已完成",
-  },
-  {
-    id: "rec_2",
-    category: "palm_reading",
-    categoryName: "手相解秘",
-    icon: "🖐️",
-    time: "2026-09-24 10:18",
-    status: "completed",
-    statusText: "已完成",
-  },
-  {
-    id: "rec_3",
-    category: "love_match",
-    categoryName: "我们合不合",
-    icon: "💞",
-    time: "2026-09-23 18:05",
-    status: "analyzing",
-    statusText: "推演中",
-  },
-]);
+interface RecordItem {
+  id: string;
+  category: string;
+  categoryName: string;
+  icon: string;
+  time: string;
+  status: "completed" | "analyzing" | "pending";
+  statusText: string;
+}
 
-function handleItemClick(item: any) {
-  if (item.status === "analyzing") {
-    router.push(`/feature/${item.category}/analyzing`);
+const records = ref<RecordItem[]>([]);
+const loading = ref(true);
+
+onMounted(async () => {
+  loading.value = true;
+  try {
+    const userId = userStore.user?.id || userStore.user?.wallet_address || "guest";
+    const res = await fetch(`/api/orders?userId=${encodeURIComponent(userId)}`);
+    const json = await res.json();
+
+    if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+      records.value = json.data.map((o: any) => {
+        const catInfo = CATEGORIES_CONFIG[o.category] || {
+          name: o.category || "天机推演",
+          icon: "🔮",
+        };
+        const dateStr = o.created_at
+          ? new Date(o.created_at).toLocaleString("zh-CN", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })
+          : "刚刚";
+
+        const isCompleted = o.status === "COMPLETED";
+        return {
+          id: o.id,
+          category: o.category,
+          categoryName: catInfo.name,
+          icon: catInfo.icon,
+          time: dateStr,
+          status: isCompleted ? "completed" : "pending",
+          statusText: isCompleted ? "已完成" : "待解锁",
+        };
+      });
+    }
+  } catch (err) {
+    console.warn("加载历史测算记录失败:", err);
+  } finally {
+    loading.value = false;
+  }
+});
+
+function handleItemClick(item: RecordItem) {
+  if (item.status === "completed") {
+    router.push({
+      path: `/feature/${item.category}/report`,
+      query: { orderId: item.id },
+    });
   } else {
-    router.push(`/feature/${item.category}/report`);
+    router.push({
+      path: `/feature/${item.category}/preview`,
+      query: { orderId: item.id },
+    });
   }
 }
 </script>

@@ -33,6 +33,7 @@ app.get("/api/health", (c) => {
 app.route("/api/divine", divineRoutes);
 app.route("/api/user", userRoutes);
 app.route("/api/orders", orderRoutes);
+app.route("/api/order", orderRoutes);
 app.route("/api/vip", vipRoutes);
 app.route("/api/promote", promoteRoutes);
 app.route("/api/stats", statsRoutes);

@@ -37,6 +37,47 @@ userRoutes.get("/profile", async (c) => {
 });
 
 /**
+ * 获取推荐人链上钱包地址
+ */
+userRoutes.get("/referrer-info", async (c) => {
+  try {
+    const code = c.req.query("code");
+    const userId = c.req.query("userId");
+    const contracts = await import("../contracts/contracts.json");
+    const defaultTreasury = contracts.default.platformTreasury;
+
+    let targetWallet = defaultTreasury;
+
+    if (code) {
+      const { findUserByReferralCode } = await import("../db");
+      const ref = await findUserByReferralCode(c.env.DB, code.trim().toUpperCase());
+      if (ref?.wallet_address && ref.wallet_address.startsWith("0x")) {
+        targetWallet = ref.wallet_address;
+      }
+    } else if (userId) {
+      const user = await getUserProfile(c.env, userId);
+      if (user?.referrer_id) {
+        const { findUserById } = await import("../db");
+        const ref = await findUserById(c.env.DB, user.referrer_id);
+        if (ref?.wallet_address && ref.wallet_address.startsWith("0x")) {
+          targetWallet = ref.wallet_address;
+        }
+      }
+    }
+
+    return c.json({
+      success: true,
+      data: {
+        referrerWalletAddress: targetWallet,
+        isPlatformDefault: targetWallet.toLowerCase() === defaultTreasury.toLowerCase(),
+      },
+    });
+  } catch (err: any) {
+    return c.json({ success: false, error: err.message }, 400);
+  }
+});
+
+/**
  * 绑定邀请人推荐码
  */
 userRoutes.post("/bind-referrer", async (c) => {
@@ -51,3 +92,5 @@ userRoutes.post("/bind-referrer", async (c) => {
     return c.json({ success: false, error: err.message || "绑定失败" }, 400);
   }
 });
+
+

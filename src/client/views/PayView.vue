@@ -32,38 +32,20 @@
     <div class="space-y-2.5 mb-5">
       <div class="text-xs font-semibold text-tj-text-primary mb-1">选择支付与核销方式</div>
 
-      <!-- USDT-TRC20 -->
+      <!-- 智能合约 USDT 支付 -->
       <div
-        @click="selectedMethod = 'TRC20'"
+        @click="selectedMethod = 'contract'"
         class="relative p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between"
-        :class="selectedMethod === 'TRC20' ? 'bg-tj-primary/10 border-tj-primary shadow-gold-glow' : 'bg-tj-bg-card border-white/10 hover:border-white/20'"
+        :class="selectedMethod === 'contract' ? 'bg-tj-primary/10 border-tj-primary shadow-gold-glow' : 'bg-tj-bg-card border-white/10 hover:border-white/20'"
       >
-        <span v-if="selectedMethod === 'TRC20'" class="absolute top-2 right-2 text-xs text-tj-primary font-bold">✓</span>
+        <span v-if="selectedMethod === 'contract'" class="absolute top-2 right-2 text-xs text-tj-primary font-bold">✓</span>
         <div class="flex items-center gap-3">
           <div class="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-lg">
-            🟢
+            💎
           </div>
           <div>
-            <div class="text-sm font-semibold text-tj-text-primary">USDT-TRC20</div>
-            <div class="text-[11px] text-tj-primary-light">推荐 · 到账快 · 低 Gas 手续费</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- USDT-ERC20 -->
-      <div
-        @click="selectedMethod = 'ERC20'"
-        class="relative p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between"
-        :class="selectedMethod === 'ERC20' ? 'bg-tj-purple/15 border-tj-purple shadow-purple-glow' : 'bg-tj-bg-card border-white/10 hover:border-white/20'"
-      >
-        <span v-if="selectedMethod === 'ERC20'" class="absolute top-2 right-2 text-xs text-tj-purple font-bold">✓</span>
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-lg">
-            🟣
-          </div>
-          <div>
-            <div class="text-sm font-semibold text-tj-text-primary">USDT-ERC20</div>
-            <div class="text-[11px] text-tj-text-secondary">以太坊主网稳定币支付通道</div>
+            <div class="text-sm font-semibold text-tj-text-primary">USDT 智能合约支付</div>
+            <div class="text-[11px] text-tj-primary-light">推荐 · 链上智能合约结算 · 自动分润 (15%/5%)</div>
           </div>
         </div>
       </div>
@@ -97,7 +79,7 @@
 
     <!-- 5. 退款承诺行 -->
     <div class="text-xs text-tj-cyan text-center flex items-center justify-center gap-1.5 mb-2">
-      <span>🛡️</span> 推演未成功将自动退款
+      <span>🛡️</span> 链上智能合约资金托管 · 自动结算
     </div>
 
     <!-- 6. 协议行 -->
@@ -114,7 +96,7 @@
         class="w-full h-12 rounded-full font-bold text-base transition-all flex items-center justify-center gap-2 bg-tj-grad-gold text-[#1A1405] shadow-gold-glow hover:brightness-110 active:scale-98"
       >
         <span v-if="paying" class="w-5 h-5 rounded-full border-2 border-[#1A1405] border-t-transparent animate-spin"></span>
-        <span v-if="paying">等待钱包确认…</span>
+        <span v-if="paying">正在链上交互中…</span>
         <span v-else-if="selectedMethod === 'free'" class="flex items-center gap-2">
           <span>✨</span> 确认抵扣并查看完整报告
         </span>
@@ -127,9 +109,12 @@
     <!-- 链上确认中全屏遮罩 -->
     <div v-if="confirmingOnChain" class="fixed inset-0 z-50 bg-[#0B0E1A]/90 backdrop-blur-md flex flex-col items-center justify-center text-center p-6 select-none">
       <div class="w-20 h-20 rounded-full border-4 border-tj-primary border-t-transparent animate-spin mb-4 shadow-gold-glow"></div>
-      <h3 class="text-base font-bold text-tj-text-primary mb-1">链上确认中，约需 10~30 秒</h3>
-      <p class="text-xs text-tj-text-secondary max-w-xs">
-        已广播至智能合约节点，正在等待出块确认并解锁您的天机秘卷...
+      <h3 class="text-base font-bold text-tj-text-primary mb-2">智能合约交互中</h3>
+      <p class="text-xs text-tj-primary-light font-mono max-w-xs mb-2 bg-white/5 py-1.5 px-3 rounded-xl border border-tj-primary/30">
+        {{ chainProgressText || '正在广播交易至区块链节点...' }}
+      </p>
+      <p class="text-[11px] text-tj-text-secondary max-w-xs">
+        智能合约正在执行充值、点数核销及推荐人多级分润分发...
       </p>
     </div>
 
@@ -181,47 +166,71 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import type { Address } from "viem";
 import { useUserStore } from "../stores/user";
 import { useUIStore } from "../stores/ui";
 import { CATEGORIES_CONFIG } from "../stores/divination";
+import { executePayAndConsume } from "../utils/web3";
 
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 const uiStore = useUIStore();
 
+const payType = computed(() => (route.query.type as string) || "single");
 const category = computed(() => (route.query.category as string) || "bazi");
-const featureName = computed(() => CATEGORIES_CONFIG[category.value]?.name || "八字推测");
-const amount = computed(() => (route.query.amount as string) || "6");
+const planKey = computed(() => (route.query.plan as string) || "quarterly");
+const existingOrderId = computed(() => (route.query.orderId as string) || "");
 
-const selectedMethod = ref<"TRC20" | "ERC20" | "free">("TRC20");
-const hasFreeQuota = computed(() => userStore.freeQuota > 0);
+const featureName = computed(() => {
+  if (payType.value === "vip") {
+    const planNames: Record<string, string> = {
+      monthly: "月度 VIP 会员",
+      quarterly: "季度 VIP 会员",
+      yearly: "年度 VIP 会员",
+    };
+    return planNames[planKey.value] || "VIP 会员服务";
+  }
+  return CATEGORIES_CONFIG[category.value]?.name || "八字推测";
+});
 
-const orderNo = ref("TJ" + new Date().toISOString().slice(0, 10).replace(/-/g, "") + "0001");
+const amount = computed(() => (route.query.amount as string) || (payType.value === "vip" ? "69" : "6"));
+
+const selectedMethod = ref<"contract" | "free">("contract");
+const hasFreeQuota = computed(() => payType.value !== "vip" && userStore.freeQuota > 0);
+
+const orderNo = ref(existingOrderId.value || ("TJ" + new Date().toISOString().slice(0, 10).replace(/-/g, "") + "0001"));
 const orderTime = ref(new Date().toLocaleString());
 
 const paying = ref(false);
 const confirmingOnChain = ref(false);
+const chainProgressText = ref("");
 const showSuccessCelebration = ref(false);
+const confirmedOrderId = ref("");
 
 async function handlePay() {
-  if (selectedMethod.value === "free") {
+  if (selectedMethod.value === "free" && payType.value !== "vip") {
     // 免费抵扣
     paying.value = true;
     try {
-      const res = await fetch("/api/order/use-free-quota", {
+      const res = await fetch("/api/orders/use-free-quota", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: userStore.user?.id || "guest",
           category: category.value,
+          orderId: existingOrderId.value || undefined,
         }),
       });
       const data = await res.json();
       if (data.success) {
         uiStore.showToast("已成功抵扣免费额度！");
         await userStore.refreshProfile();
-        router.push(`/feature/${category.value}/report`);
+        const targetOrderId = data.data?.order?.id || existingOrderId.value;
+        router.push({
+          path: `/feature/${category.value}/report`,
+          query: targetOrderId ? { orderId: targetOrderId } : undefined,
+        });
       } else {
         uiStore.showToast(data.error || "核销失败");
       }
@@ -233,46 +242,109 @@ async function handlePay() {
     return;
   }
 
-  // 钱包 USDT 支付模拟
+  // USDT 智能合约支付
   paying.value = true;
-  setTimeout(() => {
-    paying.value = false;
-    confirmingOnChain.value = true;
+  confirmingOnChain.value = true;
+  chainProgressText.value = "准备与智能合约交互...";
 
-    setTimeout(async () => {
-      confirmingOnChain.value = false;
-      const mockTxHash = "0x" + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
-
-      try {
-        // 创建订单并结算
-        const orderRes = await fetch("/api/order/create", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: userStore.user?.id || "guest",
-            category: category.value,
-            amount: parseFloat(amount.value),
-          }),
-        });
-        const orderData = await orderRes.json();
-        const oId = orderData.data?.orderId || "order_" + Date.now();
-
-        await fetch("/api/order/pay", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            orderId: oId,
-            txHash: mockTxHash,
-          }),
-        });
-
-        await userStore.refreshProfile();
-        showSuccessCelebration.value = true;
-      } catch {
-        showSuccessCelebration.value = true;
+  try {
+    let userAddress = userStore.user?.wallet_address;
+    if (!userAddress && typeof (window as any).ethereum !== "undefined") {
+      const accounts = await (window as any).ethereum.request({ method: "eth_requestAccounts" });
+      if (accounts && accounts[0]) {
+        userAddress = accounts[0];
+        await userStore.loginWithWallet(userAddress);
       }
-    }, 1200);
-  }, 800);
+    }
+
+    if (!userAddress || !userAddress.startsWith("0x")) {
+      throw new Error("请先连接 Web3 钱包（MetaMask / Rabby 等）");
+    }
+
+    // 1. 获取推荐人链上地址
+    chainProgressText.value = "查询推荐人信息...";
+    const refRes = await fetch(`/api/user/referrer-info?userId=${encodeURIComponent(userStore.user?.id || userAddress)}`);
+    const refJson = await refRes.json();
+    const referrerWalletAddress = refJson.data?.referrerWalletAddress;
+
+    let targetOrderId = existingOrderId.value;
+
+    // 2. 若是测算订单且尚无 orderId，创建后端测算订单
+    if (payType.value !== "vip" && !targetOrderId) {
+      chainProgressText.value = "创建测算订单...";
+      const orderRes = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: userStore.user?.id || userAddress,
+          category: category.value,
+          subcategory: (route.query.sub as string) || undefined,
+          payType: "USDT_ERC20",
+          inputData: {},
+        }),
+      });
+      const orderData = await orderRes.json();
+      if (!orderData.success || !orderData.data?.id) {
+        throw new Error(orderData.error || "创建订单失败");
+      }
+      targetOrderId = orderData.data.id;
+    }
+
+    confirmedOrderId.value = targetOrderId;
+
+    // 3. 执行链上交互 (Approve -> Deposit -> Consume)
+    const payResult = await executePayAndConsume({
+      userAddress: userAddress as Address,
+      amountUsdt: parseFloat(amount.value),
+      referrerAddress: referrerWalletAddress as Address,
+      onProgress: (stepMsg) => {
+        chainProgressText.value = stepMsg;
+      },
+    });
+
+    // 4. 同步后端状态
+    if (payType.value === "vip") {
+      chainProgressText.value = "正在开通 VIP 会员权益...";
+      const vipRes = await fetch("/api/vip/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: userStore.user?.id || userAddress,
+          planKey: planKey.value,
+          txHash: payResult.consumeTxHash,
+        }),
+      });
+      const vipJson = await vipRes.json();
+      if (!vipJson.success) {
+        throw new Error(vipJson.error || "VIP 开通同步失败");
+      }
+    } else {
+      chainProgressText.value = "正在同步后端订单并解锁完整报告...";
+      const payApiRes = await fetch(`/api/orders/${targetOrderId}/pay`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: userStore.user?.id || userAddress,
+          payType: "USDT_ERC20",
+          txHash: payResult.consumeTxHash,
+        }),
+      });
+      const payApiJson = await payApiRes.json();
+
+      if (!payApiJson.success) {
+        throw new Error(payApiJson.error || "订单结算同步失败");
+      }
+    }
+
+    await userStore.refreshProfile();
+    showSuccessCelebration.value = true;
+  } catch (err: any) {
+    console.error("支付异常:", err);
+    uiStore.showToast(err.message || "支付失败，请检查钱包余额或重试");
+  } finally {
+    paying.value = false;
+    confirmingOnChain.value = false;
+  }
 }
 
 function copyCode() {
@@ -283,6 +355,13 @@ function copyCode() {
 
 function proceedToReport() {
   showSuccessCelebration.value = false;
-  router.push(`/feature/${category.value}/report`);
+  if (payType.value === "vip") {
+    router.push("/vip");
+  } else {
+    router.push({
+      path: `/feature/${category.value}/report`,
+      query: confirmedOrderId.value ? { orderId: confirmedOrderId.value } : undefined,
+    });
+  }
 }
 </script>

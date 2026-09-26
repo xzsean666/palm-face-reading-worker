@@ -34,7 +34,11 @@ export const CATEGORY_SYSTEM_PROMPTS: Record<DivinationCategory, string> = {
  */
 export function getSystemPrompt(category: DivinationCategory): string {
   const base = CATEGORY_SYSTEM_PROMPTS[category] || "你是一位专业精诚的东方传统数理与现代认知心理学推演大师。";
-  return `${base}
+  const visionGuidance = category === "palm_face"
+    ? `\n【视觉微观辨析法则】\n若用户附带手相或面相照片，必须依托图像真实物理特征进行专业剖析（如面相三停比例、五官清奇、印堂与十二宫气色；手相生命线/智慧线/感情线/事业线走势、掌丘丰满度与特殊符记），深度结合典籍知识库作针对性论断，切忌泛泛套话。\n`
+    : "";
+
+  return `${base}${visionGuidance}
 
 【推演输出规范】
 你必须返回合法的严格 JSON 数据，不得包含任何 Markdown 代码块外的杂音。输出 JSON 结构必须包含两个顶级字段：
@@ -52,6 +56,14 @@ export function getSystemPrompt(category: DivinationCategory): string {
 `;
 }
 
+const SUBCATEGORY_HINTS: Record<string, string> = {
+  palm: "手相掌纹精析（生命线、智慧线、感情线、事业线、掌丘吉凶符记）",
+  palm_reading: "手相掌纹精析（生命线、智慧线、感情线、事业线、掌丘吉凶符记）",
+  face: "面相精批（三停五岳、十二宫位、眼眉鼻耳五官相理、气色神韵）",
+  face_reading: "面相精批（三停五岳、十二宫位、眼眉鼻耳五官相理、气色神韵）",
+  palm_face: "面手合参全息相法（天圆地方、六大相局、气色与纹理合参）",
+};
+
 /**
  * 根据门类和用户输入组装 User Prompt
  */
@@ -60,16 +72,22 @@ export function buildUserDivinationPrompt(
   inputData: Record<string, any>
 ): string {
   const categoryName = CATEGORY_NAMES[category] || category;
+  const subcat = inputData.subcategory || inputData.category;
+  const subcatHint = (subcat && SUBCATEGORY_HINTS[subcat]) || (category === "palm_face" ? SUBCATEGORY_HINTS.palm_face : "");
+
   const inputEntries = Object.entries(inputData)
-    .filter(([k, v]) => v !== undefined && v !== null && k !== "image" && k !== "hand_image" && k !== "face_image")
+    .filter(([k, v]) => v !== undefined && v !== null && k !== "image" && k !== "hand_image" && k !== "face_image" && k !== "imageBase64" && k !== "faceImage" && k !== "palmImage")
     .map(([k, v]) => `- ${k}: ${typeof v === "object" ? JSON.stringify(v) : v}`)
     .join("\n");
 
+  const focusSection = subcatHint ? `\n【本次推演核心重点】：${subcatHint}\n` : "";
+
   return `
-缘主诚心祈请【${categoryName}】推演。
+缘主诚心祈请【${categoryName}】推演。${focusSection}
 缘主提供的测算信息要素如下：
 ${inputEntries || "- 默认个人因缘信息"}
 
 请大宗师调取典籍知识库，为缘主做最严谨深刻的全息推演，并严格按照 JSON Schema 格式输出 preview 与 full_report。
 `;
 }
+

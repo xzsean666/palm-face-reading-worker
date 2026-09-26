@@ -36,6 +36,16 @@ export async function submitDivinationOrder(
 ) {
   const user = await getOrCreateUser(env.DB, params.userId, undefined, params.referrerCode);
 
+  let category = params.category;
+  let subcategory = params.subcategory || null;
+  if ((category as string) === "palm_reading") {
+    category = "palm_face";
+    subcategory = subcategory || "palm";
+  } else if ((category as string) === "face_reading") {
+    category = "palm_face";
+    subcategory = subcategory || "face";
+  }
+
   let initialStatus: "PENDING" | "COMPLETED" = "PENDING";
   let paidPrice = 6.0;
 
@@ -74,8 +84,8 @@ export async function submitDivinationOrder(
   const order: DivinationOrderRow = await createOrder(env.DB, {
     id: orderId,
     user_id: user.id,
-    category: params.category,
-    subcategory: params.subcategory || null,
+    category,
+    subcategory,
     input_data: JSON.stringify(params.inputData),
     price_usdt: paidPrice,
     pay_type: params.payType,
@@ -115,7 +125,10 @@ export function streamDivination(env: Env, order: DivinationOrderRow): ReadableS
   return new ReadableStream({
     async start(controller) {
       try {
-        const category = order.category;
+        let category = order.category;
+        if ((category as string) === "palm_reading" || (category as string) === "face_reading") {
+          category = "palm_face";
+        }
         const inputData = JSON.parse(order.input_data);
 
         // 阶段 1：连接知识库
@@ -170,7 +183,46 @@ export function streamDivination(env: Env, order: DivinationOrderRow): ReadableS
           );
 
           const userPrompt = buildUserDivinationPrompt(category, inputData);
-          const stream = await session.chatStream(userPrompt);
+          const rawImage =
+            inputData.imageBase64 ||
+            inputData.image ||
+            inputData.face_image ||
+            inputData.faceImage ||
+            inputData.hand_image;
+
+          const secondaryImage =
+            inputData.palmImage ||
+            inputData.handImage ||
+            inputData.partnerImageBase64 ||
+            inputData.secondImageBase64;
+
+          const isValidImg = (img: any) =>
+            typeof img === "string" &&
+            (img.startsWith("data:image/") ||
+              img.startsWith("http://") ||
+              img.startsWith("https://"));
+
+          let chatInput: any = userPrompt;
+          if (isValidImg(rawImage) && isValidImg(secondaryImage)) {
+            chatInput = {
+              role: "user",
+              content: [
+                { type: "text", text: userPrompt },
+                { type: "image_url", image_url: { url: rawImage } },
+                { type: "image_url", image_url: { url: secondaryImage } },
+              ],
+            };
+          } else if (isValidImg(rawImage)) {
+            chatInput = {
+              role: "user",
+              content: [
+                { type: "text", text: userPrompt },
+                { type: "image_url", image_url: { url: rawImage } },
+              ],
+            };
+          }
+
+          const stream = await session.chatStream(chatInput);
 
           for await (const chunk of stream) {
             if (chunk.delta) {
@@ -258,6 +310,45 @@ export async function getReportDetails(env: Env, reportId: string) {
     .first<any>();
 
   if (!report) {
+    // 降级检查是否存在订单，若已下单但报告生成因网络延时未落库，返回保底预览
+    const order = await env.DB
+      .prepare("SELECT * FROM divination_orders WHERE id = ?")
+      .bind(reportId)
+      .first<DivinationOrderRow>();
+
+    if (order) {
+      let cat = order.category;
+      if ((cat as string) === "palm_reading" || (cat as string) === "face_reading") {
+        cat = "palm_face";
+      }
+      const fallback = generateFallbackReport(cat);
+      const isUnlocked = order.status === "COMPLETED";
+      const fullReport = isUnlocked
+        ? fallback.full_report
+        : {
+            overview: fallback.full_report.overview,
+            chapters: (fallback.full_report.chapters || []).map((c: any) => ({
+              id: c.id,
+              title: c.title,
+              tag: c.tag,
+              content: "🔒 此章节包含深度命盘批断与天机拐点建议，请解锁完整报告查看。",
+              isMasked: true,
+            })),
+            blessingAdvice: ["🔒 解锁完整报告查看宗师专属开运锦囊与修德指南"],
+          };
+
+      return {
+        id: `REP_${order.id}`,
+        orderId: order.id,
+        userId: order.user_id,
+        category: cat,
+        preview: fallback.preview,
+        fullReport,
+        full_report: fullReport,
+        isUnlocked,
+        createdAt: order.created_at,
+      };
+    }
     return null;
   }
 
@@ -293,6 +384,7 @@ export async function getReportDetails(env: Env, reportId: string) {
     category: report.category,
     preview,
     fullReport,
+    full_report: fullReport,
     isUnlocked: report.is_unlocked === 1,
     createdAt: report.created_at,
   };

@@ -24,21 +24,34 @@ export function parseAIOutput(rawText: string, category: DivinationCategory): Ge
   try {
     const parsed = JSON.parse(cleaned);
     if (parsed.preview && parsed.full_report) {
-      return {
-        preview: {
-          score: typeof parsed.preview.score === "number" ? parsed.preview.score : 88,
-          rating: parsed.preview.rating || "天运吉相",
-          title: parsed.preview.title || `${CATEGORY_NAMES[category]}·大吉乾元局`,
-          summary: parsed.preview.summary || "推演显示气运流通顺遂，吉星高照。",
-          highlights: Array.isArray(parsed.preview.highlights) ? parsed.preview.highlights : ["五行生化有情", "大运顺行逢贵", "福泽深远"],
-          radar: Array.isArray(parsed.preview.radar) ? parsed.preview.radar : [
+          const rawRadar = Array.isArray(parsed.preview.radar) ? parsed.preview.radar : [];
+          const defaultRadar = [
             { label: "先天势能", value: 88 },
             { label: "事业前程", value: 85 },
             { label: "财帛聚散", value: 92 },
             { label: "情缘和顺", value: 82 },
             { label: "福寿安康", value: 90 },
-          ],
-        },
+          ];
+          let radar = rawRadar.length >= 4 ? rawRadar : [...rawRadar];
+          if (radar.length < 5) {
+            const existingLabels = new Set(radar.map((r: any) => r.label));
+            for (const item of defaultRadar) {
+              if (radar.length >= 5) break;
+              if (!existingLabels.has(item.label)) {
+                radar.push(item);
+              }
+            }
+          }
+
+          return {
+            preview: {
+              score: typeof parsed.preview.score === "number" ? parsed.preview.score : 88,
+              rating: parsed.preview.rating || "天运吉相",
+              title: parsed.preview.title || `${CATEGORY_NAMES[category]}·大吉乾元局`,
+              summary: parsed.preview.summary || "推演显示气运流通顺遂，吉星高照。",
+              highlights: Array.isArray(parsed.preview.highlights) ? parsed.preview.highlights : ["五行生化有情", "大运顺行逢贵", "福泽深远"],
+              radar,
+            },
         full_report: {
           overview: parsed.full_report.overview || "此局天人合发，机运天成，深得古法易理与时空相生之妙。",
           chapters: Array.isArray(parsed.full_report.chapters) ? parsed.full_report.chapters : createDefaultChapters(category),

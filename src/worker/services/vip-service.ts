@@ -1,5 +1,6 @@
 import type { Env } from "../types/env";
 import { findUserById } from "../db";
+import { verifyPaymentReceipt } from "./order-service";
 
 export interface VipPlan {
   key: "monthly" | "quarterly" | "yearly";
@@ -72,6 +73,31 @@ export async function subscribeVip(
   const user = await findUserById(env.DB, userId);
   if (!user) {
     throw new Error("用户不存在");
+  }
+
+  if (txHash) {
+    // 1. 防重放校验
+    const reusedOrder = await env.DB
+      .prepare("SELECT id FROM divination_orders WHERE tx_hash = ?")
+      .bind(txHash)
+      .first<{ id: string }>();
+    if (reusedOrder) {
+      throw new Error(`交易凭证已在订单【${reusedOrder.id}】中使用，严禁重复提交`);
+    }
+
+    const reusedWithdrawal = await env.DB
+      .prepare("SELECT id FROM withdrawals WHERE tx_hash = ?")
+      .bind(txHash)
+      .first<{ id: string }>();
+    if (reusedWithdrawal) {
+      throw new Error(`交易凭证已在提现记录【${reusedWithdrawal.id}】中使用，严禁重复提交`);
+    }
+
+    // 2. 校验链上回执、目标合约与 15 分钟时效性
+    const receiptCheck = await verifyPaymentReceipt(txHash, user.wallet_address);
+    if (!receiptCheck.valid) {
+      throw new Error(receiptCheck.error || "VIP 订阅交易凭证核验不通过");
+    }
   }
 
   const now = Date.now();

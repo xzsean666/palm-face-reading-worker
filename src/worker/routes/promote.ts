@@ -56,3 +56,43 @@ promoteRoutes.get("/withdrawals", async (c) => {
   const list = await listUserWithdrawals(c.env, userId);
   return c.json({ success: true, data: list });
 });
+
+/**
+ * 记录链上智能合约直接提现成功
+ */
+promoteRoutes.post("/sync-withdrawal", async (c) => {
+  try {
+    const body = await c.req.json();
+    const { userId, amount, txHash, payoutAddress } = body;
+    if (!userId || !amount || !txHash) {
+      return c.json({ success: false, error: "缺少必要参数" }, 400);
+    }
+    const now = Date.now();
+    const withdrawalId = `WD${now}${Math.floor(100 + Math.random() * 900)}`;
+
+    await c.env.DB
+      .prepare(
+        `INSERT INTO withdrawals (
+          id, user_id, amount, fee, actual_amount, payout_address, status, tx_hash, created_at, reviewed_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      )
+      .bind(
+        withdrawalId,
+        userId,
+        Number(amount),
+        0.0,
+        Number(amount),
+        payoutAddress || userId,
+        "completed",
+        txHash,
+        now,
+        now
+      )
+      .run();
+
+    return c.json({ success: true, data: { id: withdrawalId, status: "completed", txHash } });
+  } catch (err: any) {
+    return c.json({ success: false, error: err.message }, 400);
+  }
+});
+

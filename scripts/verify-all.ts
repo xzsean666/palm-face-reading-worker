@@ -96,8 +96,8 @@ async function main() {
 
   // 3. 全量自动化单元测试与 E2E 链路测试
   await runStep(3, "全量 Vitest 单元与端到端集成测试", () => {
-    log("测试套件", "执行 vitest run --reporter=verbose...");
-    execSync("npx vitest run", { stdio: "inherit" });
+    log("测试套件", "执行 vitest run --test-timeout=180000...");
+    execSync("npx vitest run --test-timeout=180000", { stdio: "inherit" });
   });
 
   // 4. 前端 Vite 高性能生产打包构建

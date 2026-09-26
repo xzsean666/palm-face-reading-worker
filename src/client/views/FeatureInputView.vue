@@ -35,14 +35,30 @@
 
     <!-- 2. 表单区 (卡片容器) -->
     <div class="bg-tj-bg-card border border-white/10 rounded-2xl p-4 space-y-4 mb-6">
-      <!-- 门类 1 & 2: 手相 / 面相 -->
-      <template v-if="categoryType === 'palm_reading' || categoryType === 'face_reading'">
-        <ImageUpload
-          v-model="formData.imageBase64"
-          :label="categoryType === 'palm_reading' ? '手掌照片' : '面部照片'"
-          :hint="categoryType === 'palm_reading' ? '手掌自然伸直，掌心向上正对镜头' : '正面平视，五官清晰无刘海遮挡'"
-          required
-        />
+      <!-- 门类 1 & 2: 手相 / 面相 / 面手合参 -->
+      <template v-if="categoryType === 'palm_reading' || categoryType === 'face_reading' || categoryType === 'palm_face'">
+        <template v-if="categoryType === 'palm_face'">
+          <ImageUpload
+            v-model="formData.faceImage"
+            label="面部照片 (正脸平视)"
+            hint="正面平视五官，避免美颜与强滤镜"
+            required
+          />
+          <ImageUpload
+            v-model="formData.palmImage"
+            label="手掌照片 (掌心朝上)"
+            hint="手掌自然伸直，光线充足掌纹清晰"
+            required
+          />
+        </template>
+        <template v-else>
+          <ImageUpload
+            v-model="formData.imageBase64"
+            :label="categoryType === 'palm_reading' ? '手掌照片' : '面部照片'"
+            :hint="categoryType === 'palm_reading' ? '手掌自然伸直，掌心向上正对镜头' : '正面平视，五官清晰无刘海遮挡'"
+            required
+          />
+        </template>
         <GenderRadio v-model="formData.gender" label="缘主性别" required />
         <DateTimePicker
           v-model:dateValue="formData.birthDate"
@@ -593,6 +609,8 @@ const submitting = ref(false);
 const formData = reactive({
   // 看相类
   imageBase64: "",
+  faceImage: "",
+  palmImage: "",
   gender: "male",
   birthDate: "1995-08-08",
   birthTime: "午时 (11:00 - 13:00)",
@@ -660,6 +678,10 @@ const missingField = computed(() => {
   if (t === "palm_reading" || t === "face_reading") {
     if (!formData.imageBase64) return t === "palm_reading" ? "手掌照片" : "面部照片";
     if (!formData.gender) return "缘主性别";
+  } else if (t === "palm_face") {
+    if (!formData.faceImage && !formData.imageBase64) return "面部照片";
+    if (!formData.palmImage && !formData.imageBase64) return "手掌照片";
+    if (!formData.gender) return "缘主性别";
   } else if (t === "love_match") {
     if (!formData.myName?.trim()) return "您的姓名";
     if (!formData.partnerName?.trim()) return "对方姓名";
@@ -692,11 +714,13 @@ async function handleFormSubmit() {
 
   submitting.value = true;
   try {
+    const payloadImage = formData.imageBase64 || formData.faceImage || formData.palmImage;
     sessionStorage.setItem(
       "tj_current_form",
       JSON.stringify({
         category: categoryType.value,
         ...formData,
+        imageBase64: payloadImage,
       })
     );
     router.push(`/feature/${categoryType.value}/analyzing`);

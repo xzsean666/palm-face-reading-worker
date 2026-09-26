@@ -11,6 +11,14 @@ export interface CategoryInfo {
 }
 
 export const CATEGORIES_CONFIG: Record<string, CategoryInfo> = {
+  palm_face: {
+    id: "palm_face",
+    name: "面手合参",
+    classic: "许负麻衣",
+    desc: "天圆地方面手全息合参，六大相局跨维详批",
+    icon: "🔮",
+    route: "/feature/palm_face/input",
+  },
   palm_reading: {
     id: "palm_reading",
     name: "掌纹手相",

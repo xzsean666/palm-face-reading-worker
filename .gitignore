@@ -8,6 +8,8 @@ dist-worker/
 # Env & local configs
 .env
 .env.local
+.dev.vars
+data/
 *.log
 
 # Editor
