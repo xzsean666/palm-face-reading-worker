@@ -35,7 +35,7 @@
       <!-- 智能合约 USDT 支付 -->
       <div
         @click="selectedMethod = 'contract'"
-        class="relative p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between"
+        class="relative p-3.5 rounded-2xl border transition-all cursor-pointer space-y-2.5"
         :class="selectedMethod === 'contract' ? 'bg-tj-primary/10 border-tj-primary shadow-gold-glow' : 'bg-tj-bg-card border-white/10 hover:border-white/20'"
       >
         <span v-if="selectedMethod === 'contract'" class="absolute top-2 right-2 text-xs text-tj-primary font-bold">✓</span>
@@ -44,9 +44,82 @@
             💎
           </div>
           <div>
-            <div class="text-sm font-semibold text-tj-text-primary">USDT 智能合约支付</div>
-            <div class="text-[11px] text-tj-primary-light">推荐 · 链上智能合约结算 · 自动分润 (15%/5%)</div>
+            <div class="text-sm font-semibold text-tj-text-primary">服务点数核销支付 (USDT)</div>
+            <div class="text-[11px] text-tj-primary-light">链上智能合约结算 · 消费实际扣减触发 15%/5% 推荐分润</div>
           </div>
+        </div>
+
+        <!-- 点数余额与状态栏 -->
+        <div class="pt-2 border-t border-white/5 flex items-center justify-between text-xs">
+          <div class="flex items-center gap-1.5">
+            <span class="text-tj-text-secondary text-[11px]">当前可用点数:</span>
+            <span class="font-bold font-mono text-tj-primary">
+              {{ creditBalance !== null ? creditBalance.toFixed(2) + ' 点 (USDT)' : '查询中...' }}
+            </span>
+          </div>
+
+          <!-- 充值入口链接 -->
+          <button
+            @click.stop="goToRecharge"
+            class="text-[11px] text-tj-primary hover:underline font-semibold flex items-center gap-0.5"
+          >
+            <span>充值点数</span>
+            <span>›</span>
+          </button>
+        </div>
+
+        <!-- 点数不足预警条 -->
+        <div
+          v-if="creditBalance !== null && !hasEnoughCredit"
+          class="bg-tj-danger/10 border border-tj-danger/30 rounded-xl p-2.5 flex items-center justify-between text-xs animate-fade-in"
+        >
+          <div class="flex items-center gap-1.5 text-tj-danger text-[11px]">
+            <span>⚠️</span>
+            <span>点数不足，尚缺 <strong class="font-mono">{{ neededShortfall }}</strong> USDT</span>
+          </div>
+          <button
+            @click.stop="goToRecharge"
+            class="px-2.5 py-0.5 rounded-full bg-tj-primary text-[#1A1405] text-[10px] font-bold shadow-sm hover:brightness-110 active:scale-95"
+          >
+            立即充值
+          </button>
+        </div>
+      </div>
+
+      <!-- 测试网快捷领水卡片（仅测试网环境 & 选中合约支付时展示） -->
+      <div
+        v-if="selectedMethod === 'contract' && isTestnet()"
+        class="bg-white/5 border border-tj-cyan/30 rounded-2xl p-3 text-xs space-y-2 animate-fade-in"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5 text-tj-cyan font-semibold">
+            <span>🧪</span> 测试网环境 ({{ activeChain.name }})
+          </div>
+          <button
+            @click.stop="uiStore.openFaucetModal"
+            class="text-[11px] text-tj-primary hover:underline font-medium"
+          >
+            水龙头详情 ›
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between text-tj-text-secondary text-[11px]">
+          <span>当前钱包 USDT 余额:</span>
+          <span class="font-bold text-tj-primary font-mono">
+            {{ walletUsdtBalance !== null ? walletUsdtBalance.toFixed(2) + ' USDT' : '未连接/查询中' }}
+          </span>
+        </div>
+
+        <div class="flex items-center justify-between pt-0.5">
+          <span class="text-[11px] text-tj-text-faint">测试币不足？点击直接领取：</span>
+          <button
+            @click.stop="handleQuickMint"
+            :disabled="quickMinting"
+            class="px-3 py-1 rounded-full bg-tj-cyan/20 border border-tj-cyan/40 text-tj-cyan hover:bg-tj-cyan/30 active:scale-95 text-xs font-semibold flex items-center gap-1 transition-all disabled:opacity-50"
+          >
+            <span v-if="quickMinting" class="w-3 h-3 rounded-full border border-tj-cyan border-t-transparent animate-spin"></span>
+            <span>{{ quickMinting ? '领水中...' : '一键领 1,000 U' }}</span>
+          </button>
         </div>
       </div>
 
@@ -79,7 +152,7 @@
 
     <!-- 5. 退款承诺行 -->
     <div class="text-xs text-tj-cyan text-center flex items-center justify-center gap-1.5 mb-2">
-      <span>🛡️</span> 链上智能合约资金托管 · 自动结算
+      <span>🛡️</span> 链上智能合约资金托管 · 消费实际扣减结算
     </div>
 
     <!-- 6. 协议行 -->
@@ -100,8 +173,11 @@
         <span v-else-if="selectedMethod === 'free'" class="flex items-center gap-2">
           <span>✨</span> 确认抵扣并查看完整报告
         </span>
+        <span v-else-if="selectedMethod === 'contract' && !hasEnoughCredit" class="flex items-center gap-2">
+          <span>💳</span> 点数不足，前往充值 (缺 {{ neededShortfall }} USDT)
+        </span>
         <span v-else class="flex items-center gap-2">
-          <span>👛</span> 立即支付 {{ amount }} USDT
+          <span>👛</span> 立即扣减点数支付 {{ amount }} USDT
         </span>
       </button>
     </div>
@@ -114,7 +190,7 @@
         {{ chainProgressText || '正在广播交易至区块链节点...' }}
       </p>
       <p class="text-[11px] text-tj-text-secondary max-w-xs">
-        智能合约正在执行充值、点数核销及推荐人多级分润分发...
+        智能合约正在执行点数核销消费，并向推荐人发放分佣奖励...
       </p>
     </div>
 
@@ -164,13 +240,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import type { Address } from "viem";
 import { useUserStore } from "../stores/user";
 import { useUIStore } from "../stores/ui";
 import { CATEGORIES_CONFIG } from "../stores/divination";
-import { executePayAndConsume } from "../utils/web3";
+import {
+  executeConsume,
+  isTestnet,
+  getUSDTBalance,
+  getNativeBalance,
+  getServiceBalance,
+  mintTestTokens,
+  activeChain,
+} from "../utils/web3";
 
 const route = useRoute();
 const router = useRouter();
@@ -202,11 +286,97 @@ const hasFreeQuota = computed(() => payType.value !== "vip" && userStore.freeQuo
 const orderNo = ref(existingOrderId.value || ("TJ" + new Date().toISOString().slice(0, 10).replace(/-/g, "") + "0001"));
 const orderTime = ref(new Date().toLocaleString());
 
+const walletUsdtBalance = ref<number | null>(null);
+const walletGasBalance = ref<number | null>(null);
+const creditBalance = ref<number | null>(null);
+const quickMinting = ref(false);
+
+const neededShortfall = computed(() => {
+  const req = parseFloat(amount.value);
+  const cur = creditBalance.value ?? 0;
+  return Math.max(0, req - cur).toFixed(2);
+});
+
+const hasEnoughCredit = computed(() => {
+  if (creditBalance.value === null) return false;
+  return creditBalance.value >= parseFloat(amount.value);
+});
+
+function goToRecharge() {
+  router.push({
+    path: "/recharge",
+    query: {
+      redirect: route.fullPath,
+      needed: neededShortfall.value,
+      amount: amount.value,
+      category: category.value,
+      orderId: existingOrderId.value || undefined,
+      type: payType.value,
+      plan: planKey.value,
+    },
+  });
+}
+
 const paying = ref(false);
 const confirmingOnChain = ref(false);
 const chainProgressText = ref("");
 const showSuccessCelebration = ref(false);
 const confirmedOrderId = ref("");
+
+async function refreshWalletBalances() {
+  let addr = userStore.user?.wallet_address;
+  if (!addr && typeof window !== "undefined" && (window as any).ethereum?.selectedAddress) {
+    addr = (window as any).ethereum.selectedAddress;
+  }
+  if (addr && addr.startsWith("0x")) {
+    try {
+      const [u, g, c] = await Promise.all([
+        getUSDTBalance(addr as Address),
+        getNativeBalance(addr as Address),
+        getServiceBalance(addr as Address),
+      ]);
+      walletUsdtBalance.value = u;
+      walletGasBalance.value = g;
+      creditBalance.value = c;
+      userStore.onChainBalance = c;
+      userStore.usdtBalance = u;
+    } catch (e) {
+      console.error("查询钱包/点数余额失败:", e);
+    }
+  }
+}
+
+async function handleQuickMint() {
+  let addr = userStore.user?.wallet_address;
+  if (!addr && typeof (window as any).ethereum !== "undefined") {
+    const accs = await (window as any).ethereum.request({ method: "eth_requestAccounts" });
+    if (accs && accs[0]) {
+      addr = accs[0];
+      await userStore.loginWithWallet(accs[0]);
+    }
+  }
+  if (!addr || !addr.startsWith("0x")) {
+    uiStore.showToast("请先连接钱包");
+    return;
+  }
+
+  quickMinting.value = true;
+  try {
+    uiStore.showToast("正在向测试合约铸造 1,000 USDT...");
+    await mintTestTokens(addr as Address, 1000);
+    uiStore.showToast("✓ 成功领取 1,000 USDT 测试币！");
+    await refreshWalletBalances();
+  } catch (err: any) {
+    console.error("快捷领水失败:", err);
+    uiStore.showToast(err.message || "领取失败，请检查钱包 Gas 余额或重试");
+  } finally {
+    quickMinting.value = false;
+  }
+}
+
+onMounted(async () => {
+  await refreshWalletBalances();
+});
 
 async function handlePay() {
   if (selectedMethod.value === "free" && payType.value !== "vip") {
@@ -242,7 +412,13 @@ async function handlePay() {
     return;
   }
 
-  // USDT 智能合约支付
+  // USDT 智能合约点数支付
+  if (!hasEnoughCredit.value) {
+    uiStore.showToast("可用服务点数不足，正在跳转至充值页面...");
+    goToRecharge();
+    return;
+  }
+
   paying.value = true;
   confirmingOnChain.value = true;
   chainProgressText.value = "准备与智能合约交互...";
@@ -292,8 +468,8 @@ async function handlePay() {
 
     confirmedOrderId.value = targetOrderId;
 
-    // 3. 执行链上交互 (Approve -> Deposit -> Consume)
-    const payResult = await executePayAndConsume({
+    // 3. 执行链上点数消费核销 (Consume)
+    const consumeTxHash = await executeConsume({
       userAddress: userAddress as Address,
       amountUsdt: parseFloat(amount.value),
       referrerAddress: referrerWalletAddress as Address,
@@ -311,7 +487,7 @@ async function handlePay() {
         body: JSON.stringify({
           userId: userStore.user?.id || userAddress,
           planKey: planKey.value,
-          txHash: payResult.consumeTxHash,
+          txHash: consumeTxHash,
         }),
       });
       const vipJson = await vipRes.json();
@@ -326,7 +502,7 @@ async function handlePay() {
         body: JSON.stringify({
           userId: userStore.user?.id || userAddress,
           payType: "USDT_ERC20",
-          txHash: payResult.consumeTxHash,
+          txHash: consumeTxHash,
         }),
       });
       const payApiJson = await payApiRes.json();

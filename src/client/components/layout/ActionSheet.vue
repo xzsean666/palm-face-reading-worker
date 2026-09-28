@@ -107,6 +107,19 @@
         <div class="mt-4 pb-2">
           <div class="text-xs text-tj-text-faint tracking-wider uppercase mb-1">其他</div>
           <div class="divide-y divide-white/5">
+            <!-- 测试币水龙头 (测试网专属) -->
+            <button
+              v-if="isTestnet()"
+              @click="openFaucet"
+              class="w-full h-[52px] flex items-center justify-between text-left text-sm text-tj-cyan hover:text-white"
+            >
+              <span class="flex items-center gap-2.5">
+                <span class="text-xl">🧪</span> 测试网水龙头
+              </span>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-tj-cyan/20 border border-tj-cyan/40 text-tj-cyan">
+                免费领 USDT ›
+              </span>
+            </button>
             <!-- 已绑定上级时隐藏 -->
             <button
               v-if="!userStore.user?.referrer_id"
@@ -182,6 +195,7 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useUIStore } from "../../stores/ui";
 import { useUserStore } from "../../stores/user";
+import { isTestnet } from "../../utils/web3";
 
 const router = useRouter();
 const uiStore = useUIStore();
@@ -190,6 +204,11 @@ const userStore = useUserStore();
 const bindModalOpen = ref(false);
 const referralInput = ref("");
 const binding = ref(false);
+
+function openFaucet() {
+  uiStore.closeActionSheet();
+  uiStore.openFaucetModal();
+}
 
 const isPromoteActive = computed(() => {
   return (

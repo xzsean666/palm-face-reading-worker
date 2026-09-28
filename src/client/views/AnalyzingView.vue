@@ -164,21 +164,40 @@ onMounted(async () => {
     const formData = rawForm ? JSON.parse(rawForm) : {};
 
     // 1. 创建测算订单
+    let currentUserId = userStore.user?.id;
+    if (!currentUserId || currentUserId === "guest") {
+      let localGuestId = typeof window !== "undefined" ? localStorage.getItem("tj_user_id") : null;
+      if (!localGuestId || localGuestId === "guest") {
+        localGuestId = `guest_${Math.random().toString(36).slice(2, 10)}`;
+        if (typeof window !== "undefined") {
+          localStorage.setItem("tj_user_id", localGuestId);
+        }
+      }
+      currentUserId = localGuestId;
+    }
+
+    const payType = userStore.isVip || userStore.freeQuota > 0 ? "FREE_QUOTA" : "USDT_TRC20";
+
     const submitRes = await fetch("/api/divine/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        userId: userStore.user?.id || "guest",
+        userId: currentUserId,
         category: categoryType.value,
         inputData: formData,
         imageBase64: formData.imageBase64,
-        payType: userStore.isVip || userStore.freeQuota > 0 ? "FREE_QUOTA" : "USDT_TRC20",
+        payType,
       }),
     });
 
     const submitJson = await submitRes.json();
     if (!submitJson.success || !submitJson.data?.orderId) {
       throw new Error(submitJson.error || "创建订单失败");
+    }
+
+    // 立即同步后端最新剩余免费额度，避免前端滞后
+    if (typeof submitJson.data?.userFreeQuota === "number") {
+      userStore.updateFreeQuota(submitJson.data.userFreeQuota);
     }
 
     const orderId = submitJson.data.orderId;

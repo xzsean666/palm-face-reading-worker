@@ -59,12 +59,12 @@
         </span>
       </div>
 
-      <!-- 综合评分指数条 3 条 (财运 / 事业 / 姻缘) -->
+      <!-- 综合评分指数条 3 条 (动态自适应门类) -->
       <div class="space-y-2.5 pt-2 border-t border-white/5">
-        <!-- 财运指数 -->
+        <!-- 第 1 指数 -->
         <div>
           <div class="flex justify-between text-xs mb-1">
-            <span class="text-tj-text-secondary">财运指数</span>
+            <span class="text-tj-text-secondary">{{ scoreLabels.first }}</span>
             <span class="text-tj-primary font-bold font-num">{{ scores.wealth }} 分</span>
           </div>
           <div class="w-full h-2 rounded-full bg-white/5 overflow-hidden">
@@ -75,10 +75,10 @@
           </div>
         </div>
 
-        <!-- 事业指数 -->
+        <!-- 第 2 指数 -->
         <div>
           <div class="flex justify-between text-xs mb-1">
-            <span class="text-tj-text-secondary">事业指数</span>
+            <span class="text-tj-text-secondary">{{ scoreLabels.second }}</span>
             <span class="text-tj-cyan font-bold font-num">{{ scores.career }} 分</span>
           </div>
           <div class="w-full h-2 rounded-full bg-white/5 overflow-hidden">
@@ -89,10 +89,10 @@
           </div>
         </div>
 
-        <!-- 姻缘指数 -->
+        <!-- 第 3 指数 -->
         <div>
           <div class="flex justify-between text-xs mb-1">
-            <span class="text-tj-text-secondary">姻缘指数</span>
+            <span class="text-tj-text-secondary">{{ scoreLabels.third }}</span>
             <span class="text-tj-purple font-bold font-num">{{ scores.love }} 分</span>
           </div>
           <div class="w-full h-2 rounded-full bg-white/5 overflow-hidden">
@@ -206,13 +206,102 @@ const scores = ref({
   love: 68,
 });
 
-const benefits = [
-  "完整命盘解析",
-  "流年运势详解",
-  "吉凶方位指南",
-  "专属开运建议",
-  "PDF 报告下载",
-];
+const scoreLabels = computed(() => {
+  const t = categoryType.value;
+  if (t === "auspicious_date") {
+    return { first: "天时吉星指数", second: "地利生旺指数", third: "主命契合指数" };
+  }
+  if (t === "phone_plate") {
+    return { first: "天医财星指数", second: "延年贵人指数", third: "出入平安指数" };
+  }
+  if (t === "personal_naming" || t === "company_naming" || t === "name_test") {
+    return { first: "三才数理指数", second: "五音音律指数", third: "喜用互补指数" };
+  }
+  if (t === "qimen_decision") {
+    return { first: "天时机遇指数", second: "地利人和指数", third: "避险破局指数" };
+  }
+  if (t === "love_match") {
+    return { first: "天合地合指数", second: "纳音五行指数", third: "白头偕老指数" };
+  }
+  return { first: "财运指数", second: "事业指数", third: "姻缘指数" };
+});
+
+const categoryBenefits: Record<string, string[]> = {
+  auspicious_date: [
+    "全周期良辰吉日精选清单 (公历/农历/干支)",
+    "各吉日黄金仪式启动时辰 (具体至分钟与吉神)",
+    "主事人八字生克与随行亲友避煞化解方案",
+    "专事实操正统科仪与迎祥纳福指南",
+    "专属吉日高清排盘海报与离线导出",
+  ],
+  personal_naming: [
+    "5-6 套天赐高分吉名方案详解",
+    "《诗经》《楚辞》古籍原典出处考究",
+    "三才五格数理与五音声韵相生格局",
+    "八字喜用神精准扶抑与命局调和",
+    "专属起名祝祷书高清海报与导出",
+  ],
+  company_naming: [
+    "5-6 套大吉企业商号精选方案库",
+    "行业赛道五行相生与八十一数理吉数",
+    "品牌心智穿透力与商业 Slogan 推荐",
+    "商标注册可行性分析与合规建议",
+    "开业风水纳财时机与品牌运势全指南",
+  ],
+  phone_plate: [
+    "号码八星数字能量磁场深度拆解",
+    "天医延年与凶星制化全息阵列",
+    "机主八字喜用神生克与财运调和",
+    "吉祥尾号、手机壁纸与车内车饰化解锦囊",
+    "数字能量全息报告高清导出",
+  ],
+  love_match: [
+    "双方八字日柱干支天合地合深度排盘",
+    "六十甲子纳音五行与双方生肖气运契合",
+    "十神心智互补与情感核心摩擦点深剖",
+    "感情考验流年拐点与和合破局秘方",
+    "双人八字合婚庚帖高清导出",
+  ],
+  qimen_decision: [
+    "时空奇门排盘九星八门八神时局全览",
+    "所问事项天时地利人和综合胜算概率",
+    "暗藏凶险阻碍与关键时间节点瓶颈",
+    "决胜军师谋略、大吉方位与破局行动方案",
+    "奇门时空大盘决疑报告导出",
+  ],
+  future_fortune: [
+    "未来周期分年逐年运程深度详批",
+    "大运交接与岁运喜用神调候引动",
+    "四季月令吉凶拐点与重大突破契机",
+    "趋吉避凶风水与贵人引动实操指引",
+    "专属流年运势推演报告导出",
+  ],
+  name_test: [
+    "康熙字典正统繁体笔画深度考据",
+    "天格人格地格总额外格三才五格吉凶详析",
+    "五音音律声韵与八字喜用神调和度",
+    "姓名吉凶定论与能量提升优化建议",
+    "姓名测算典藏报告高清导出",
+  ],
+  bazi: [
+    "四柱八字乾坤排盘与十神旺衰全息图",
+    "五行喜用神、忌神与命局调候真机",
+    "事业官禄、正偏财运与人生富贵层级",
+    "婚姻家庭、健康寿元与调候改运锦囊",
+    "正统子平八字命盘详批报告导出",
+  ],
+  palm_face: [
+    "面相三停五岳与十二宫位气色微观解构",
+    "手相三大主线、事业线与掌丘全息印证",
+    "面手合参：心智性格、行商天赋与聚财格局",
+    "面相流年关口、气色调养与转运锦囊",
+    "面相手相合参全息报告高清导出",
+  ],
+};
+
+const benefits = computed(() => {
+  return categoryBenefits[categoryType.value] || categoryBenefits.bazi;
+});
 
 onMounted(async () => {
   if (userStore.isVip) {

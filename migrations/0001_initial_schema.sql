@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS divination_orders (
 );
 CREATE INDEX IF NOT EXISTS idx_orders_user ON divination_orders(user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_orders_status ON divination_orders(status);
+CREATE INDEX IF NOT EXISTS idx_orders_tx_hash ON divination_orders(tx_hash);
 
 -- 4. 测算报告表 (支持免费预览与解锁完整版)
 CREATE TABLE IF NOT EXISTS divination_reports (
@@ -78,3 +79,4 @@ CREATE TABLE IF NOT EXISTS withdrawals (
   reviewed_at INTEGER
 );
 CREATE INDEX IF NOT EXISTS idx_withdrawals_user ON withdrawals(user_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_withdrawals_tx_hash ON withdrawals(tx_hash);

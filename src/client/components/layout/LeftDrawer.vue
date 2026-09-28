@@ -84,31 +84,46 @@ import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUIStore } from "../../stores/ui";
 import { useUserStore } from "../../stores/user";
+import { isTestnet } from "../../utils/web3";
 
 const route = useRoute();
 const router = useRouter();
 const uiStore = useUIStore();
 const userStore = useUserStore();
 
-const menuItems = computed(() => [
-  { name: "测算首页", path: "/home", icon: "🔮" },
-  {
-    name: "会员中心",
-    path: "/vip",
-    icon: "👑",
-    badge: userStore.isVip ? "已激活" : "省",
-    badgeClass: userStore.isVip ? "bg-tj-purple/20 text-tj-purple border border-tj-purple/40" : "bg-tj-primary text-[#1A1405] font-bold",
-  },
-  {
-    name: "推广中心",
-    path: "/promote",
-    icon: "🎁",
-    badge: userStore.user?.earnings_balance ? `${userStore.user.earnings_balance.toFixed(1)} U` : "15%返佣",
-    badgeClass: "bg-tj-cyan/15 text-tj-cyan border border-tj-cyan/30",
-  },
-  { name: "大盘统计", path: "/stats", icon: "📊" },
-  { name: "个人中心", path: "/me", icon: "👤" },
-]);
+const menuItems = computed(() => {
+  const items = [
+    { name: "测算首页", path: "/home", icon: "🔮" },
+    {
+      name: "会员中心",
+      path: "/vip",
+      icon: "👑",
+      badge: userStore.isVip ? "已激活" : "省",
+      badgeClass: userStore.isVip ? "bg-tj-purple/20 text-tj-purple border border-tj-purple/40" : "bg-tj-primary text-[#1A1405] font-bold",
+    },
+    {
+      name: "推广中心",
+      path: "/promote",
+      icon: "🎁",
+      badge: userStore.user?.earnings_balance ? `${userStore.user.earnings_balance.toFixed(1)} U` : "15%返佣",
+      badgeClass: "bg-tj-cyan/15 text-tj-cyan border border-tj-cyan/30",
+    },
+    { name: "大盘统计", path: "/stats", icon: "📊" },
+    { name: "个人中心", path: "/me", icon: "👤" },
+  ];
+
+  if (isTestnet()) {
+    items.push({
+      name: "USDT 水龙头",
+      path: "#faucet",
+      icon: "🧪",
+      badge: "领测试币",
+      badgeClass: "bg-tj-cyan/20 text-tj-cyan border border-tj-cyan/40",
+    });
+  }
+
+  return items;
+});
 
 function isActive(path: string) {
   return route.path === path;
@@ -116,6 +131,10 @@ function isActive(path: string) {
 
 function navigate(path: string) {
   uiStore.closeDrawer();
+  if (path === "#faucet") {
+    uiStore.openFaucetModal();
+    return;
+  }
   router.push(path);
 }
 

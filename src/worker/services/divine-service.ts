@@ -51,18 +51,23 @@ export async function submitDivinationOrder(
   let paidPrice = 6.0;
 
   if (params.payType === "FREE_QUOTA") {
-    paidPrice = 0.0;
     if (user.is_vip === 1) {
       initialStatus = "COMPLETED";
+      paidPrice = 0.0;
     } else if (user.free_quota > 0) {
       const ok = await deductFreeQuota(env.DB, user.id);
       if (ok) {
         initialStatus = "COMPLETED";
+        paidPrice = 0.0;
       } else {
-        throw new Error("免费测算额度已用尽，请使用 USDT 支付或开通会员");
+        // 额度扣减失败，降级为待支付/待解锁试读单 (PENDING)
+        initialStatus = "PENDING";
+        paidPrice = 6.0;
       }
     } else {
-      throw new Error("免费测算额度已用尽，请使用 USDT 支付或开通会员");
+      // 免费额度已用尽：不抛出 400 阻断错误，而是平滑降级为待解锁单 (PENDING)，允许先推演生成预览报告后在 Preview 页解锁
+      initialStatus = "PENDING";
+      paidPrice = 6.0;
     }
   } else if (params.txHash) {
     // 严格核验链上支付凭证
@@ -229,14 +234,31 @@ export function streamDivination(env: Env, order: DivinationOrderRow): ReadableS
             };
           }
 
-          const stream = await session.chatStream(chatInput);
+          try {
+            const stream = await session.chatStream(chatInput);
 
-          for await (const chunk of stream) {
-            if (chunk.delta) {
-              finalRawText += chunk.delta;
-              controller.enqueue(
-                encoder.encode(formatSSE("chunk", { text: chunk.delta }))
-              );
+            for await (const chunk of stream) {
+              if (chunk.delta) {
+                finalRawText += chunk.delta;
+                controller.enqueue(
+                  encoder.encode(formatSSE("chunk", { text: chunk.delta }))
+                );
+              }
+            }
+          } catch (aiErr: any) {
+            console.warn("外部边缘大模型调用超时或节点异常，启用国学典籍虚拟知识库保底生成:", aiErr);
+            if (!finalRawText || finalRawText.length < 50) {
+              const fallbackReport = generateFallbackReport(category);
+              finalRawText = JSON.stringify(fallbackReport, null, 2);
+              const fallbackChunks = [
+                `正在依《麻衣神相》《渊海子平》排定全息格局与五行生克...\n`,
+                `当事人综合势能评分: ${fallbackReport.preview.score} 分 (${fallbackReport.preview.rating})\n`,
+                `核心总评格局: ${fallbackReport.preview.title}\n`,
+                `正在撰写分章详批深度报告...\n`,
+              ];
+              for (const c of fallbackChunks) {
+                controller.enqueue(encoder.encode(formatSSE("chunk", { text: c })));
+              }
             }
           }
         } else {

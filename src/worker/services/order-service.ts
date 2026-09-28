@@ -65,9 +65,29 @@ export async function createDivinationOrder(
   });
 }
 
-import { createPublicClient, http } from "viem";
-import { hardhat } from "viem/chains";
+import { createPublicClient, http, fallback, defineChain } from "viem";
 import contractsConfig from "../contracts/contracts.json";
+
+const bscTestnetWorkerRpcs = [
+  contractsConfig.rpcUrl || "https://bsc-testnet-rpc.publicnode.com",
+  "https://data-seed-prebsc-1-s1.binance.org:8545",
+  "https://data-seed-prebsc-2-s1.binance.org:8545",
+  "https://bsc-testnet.public.blastapi.io",
+];
+
+const workerChain = defineChain({
+  id: contractsConfig.chainId || 31337,
+  name: contractsConfig.network || "EVM Network",
+  nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
+  rpcUrls: {
+    default: { http: [contractsConfig.rpcUrl] },
+  },
+});
+
+const workerTransport =
+  contractsConfig.network === "bscTestnet" || contractsConfig.chainId === 97
+    ? fallback(bscTestnetWorkerRpcs.map((url) => http(url, { timeout: 15_000, retryCount: 3 })))
+    : http(contractsConfig.rpcUrl);
 
 export interface ReceiptVerificationResult {
   valid: boolean;
@@ -100,8 +120,8 @@ export async function verifyPaymentReceipt(
 
   try {
     const client = createPublicClient({
-      chain: hardhat,
-      transport: http(contractsConfig.rpcUrl),
+      chain: workerChain,
+      transport: workerTransport,
     });
 
     const receipt = await client.getTransactionReceipt({ hash: txHash as `0x${string}` });
@@ -125,6 +145,34 @@ export async function verifyPaymentReceipt(
       receipt.from.toLowerCase() !== userWalletAddress.toLowerCase()
     ) {
       return { valid: false, error: "交易发起人与当前登录用户钱包不匹配" };
+    }
+
+    // 校验交易事件类型：必须为消费核销事件 (Consumed)，坚决拒绝充值凭证 (Deposited)
+    // 规则：推荐人奖励仅在消费核销时产生，充值不产生订单完成及推荐分润
+    const CONSUMED_TOPIC = "0xe5963094c1a4d5d0a22ad8153df7a56b471ffeb5ed366d3399fbc6751bef1e9d";
+    const DEPOSITED_TOPIC = "0x2da466a7b24304f47e87fa2e1e5a81b9831ce54fec19055ce277ca2f39ba42c4";
+
+    const proxyLower = contractsConfig.proxyAddress.toLowerCase();
+    const hasConsumedEvent = receipt.logs?.some(
+      (log) => log.address.toLowerCase() === proxyLower && log.topics[0] === CONSUMED_TOPIC
+    );
+    const hasDepositedEvent = receipt.logs?.some(
+      (log) => log.address.toLowerCase() === proxyLower && log.topics[0] === DEPOSITED_TOPIC
+    );
+
+    if (hasDepositedEvent && !hasConsumedEvent) {
+      return {
+        valid: false,
+        error:
+          "检测到该交易为充值凭证 (deposit) 而非服务消费核销凭证 (consume)。根据平台规则，充值不产生订单完成及推荐奖励，推荐人奖励仅在实际消费核销时按比例发放！",
+      };
+    }
+
+    if (!hasConsumedEvent) {
+      return {
+        valid: false,
+        error: "交易凭证未包含服务点数消费核销 (consume) 事件，无法作为订单结算凭证",
+      };
     }
 
     // 时效性校验：时间太远（超过 15 分钟）不能使用

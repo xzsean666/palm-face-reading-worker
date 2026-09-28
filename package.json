@@ -9,13 +9,16 @@
     "dev:worker": "wrangler dev",
     "build:client": "vite build",
     "build:worker": "tsup",
+    "build:pages-worker": "tsup src/worker/index.ts --format esm --target es2022 --no-splitting --out-dir dist-client/tmp && cp dist-client/tmp/index.js dist-client/_worker.js && rm -rf dist-client/tmp",
     "build:knowledge": "node --experimental-strip-types scripts/bundle-knowledge.ts",
-    "build": "pnpm run build:knowledge && pnpm run build:client && pnpm run build:worker",
+    "build": "pnpm run build:knowledge && pnpm run build:client && pnpm run build:pages-worker && pnpm run build:worker",
     "typecheck": "vue-tsc --noEmit -p tsconfig.client.json && tsc -p tsconfig.worker.json --noEmit",
     "test": "vitest run",
     "test:integration": "node --experimental-strip-types scripts/test-joint-integration.ts",
     "test:visual": "node --experimental-strip-types scripts/visual-test-runner.ts",
     "verify": "node --experimental-strip-types scripts/verify-all.ts",
+    "deploy:pages": "bash scripts/deploy-page.sh",
+    "deploy:worker": "wrangler deploy",
     "preview": "vite preview"
   },
   "dependencies": {

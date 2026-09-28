@@ -63,6 +63,11 @@ userRoutes.get("/referrer-info", async (c) => {
           targetWallet = ref.wallet_address;
         }
       }
+      // 防御：若当前用户钱包就是目标推荐人（如平台金库/管理员账号自己测试），避免返回自身导致合约抛出 InvalidReferrer()
+      const callerWallet = user?.wallet_address || (userId.startsWith("0x") ? userId : null);
+      if (callerWallet && targetWallet.toLowerCase() === callerWallet.toLowerCase()) {
+        targetWallet = "0x000000000000000000000000000000000000dEaD";
+      }
     }
 
     return c.json({

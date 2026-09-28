@@ -50,7 +50,83 @@
         </div>
       </template>
 
-      <!-- B. 手机车牌类：八星磁场分布 -->
+      <!-- B. 择日吉日类：首选上上吉日全息卡 -->
+      <template v-else-if="categoryType === 'auspicious_date'">
+        <div class="space-y-2 my-auto py-1">
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-tj-primary/10 border border-tj-primary/40 shadow-gold-glow">
+            <div>
+              <div class="text-[10px] text-tj-primary-light">首选良辰吉日</div>
+              <div class="text-xs font-bold text-tj-primary font-display mt-0.5">2026年10月18日 · 丙午年 乙未日</div>
+            </div>
+            <div class="px-2 py-0.5 rounded-md bg-tj-primary text-[#1A1405] text-[10px] font-bold">
+              上上元吉
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="p-2 rounded-xl bg-white/5 border border-white/5">
+              <div class="text-[10px] text-tj-text-faint">建除十二神</div>
+              <div class="text-xs font-bold text-tj-text-primary mt-1">成日 (万事大吉)</div>
+            </div>
+            <div class="p-2 rounded-xl bg-white/5 border border-white/5">
+              <div class="text-[10px] text-tj-text-faint">当值黄道神</div>
+              <div class="text-xs font-bold text-tj-cyan mt-1">青龙 (天乙贵人)</div>
+            </div>
+            <div class="p-2 rounded-xl bg-white/5 border border-white/5">
+              <div class="text-[10px] text-tj-text-faint">黄金启动时辰</div>
+              <div class="text-xs font-bold text-tj-purple-light mt-1">巳时 09:18-10:58</div>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- C. 奇门决疑类：时空奇门胜算盘 -->
+      <template v-else-if="categoryType === 'qimen_decision'">
+        <div class="grid grid-cols-4 gap-2 my-auto text-center py-2">
+          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
+            <div class="text-[10px] text-tj-text-faint mb-1">值符九星</div>
+            <div class="text-xs font-bold text-tj-text-primary">天心吉星</div>
+            <div class="text-[9px] text-tj-text-secondary mt-1">乾六宫生助</div>
+          </div>
+          <div class="p-2 rounded-xl bg-tj-primary/10 border border-tj-primary/40 shadow-gold-glow">
+            <div class="text-[10px] text-tj-primary-light mb-1">值使八门</div>
+            <div class="text-xs font-bold text-tj-primary">开门大吉</div>
+            <div class="text-[9px] text-tj-primary mt-1">万事亨通</div>
+          </div>
+          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
+            <div class="text-[10px] text-tj-text-faint mb-1">八神奇仪</div>
+            <div class="text-xs font-bold text-tj-cyan">青龙转光</div>
+            <div class="text-[9px] text-tj-text-secondary mt-1">贵人相辅</div>
+          </div>
+          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
+            <div class="text-[10px] text-tj-text-faint mb-1">胜算概率</div>
+            <div class="text-sm font-bold text-tj-purple-light font-num">82%</div>
+            <div class="text-[9px] text-tj-purple mt-1">顺势大胜</div>
+          </div>
+        </div>
+      </template>
+
+      <!-- D. 双人合婚类：天合地合谱 -->
+      <template v-else-if="categoryType === 'love_match'">
+        <div class="grid grid-cols-3 gap-2 my-auto text-center py-2">
+          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
+            <div class="text-[10px] text-tj-text-faint mb-1">双方日柱</div>
+            <div class="text-xs font-bold text-tj-text-primary">天合地合</div>
+            <div class="text-[9px] text-tj-text-secondary mt-1">甲己中正之合</div>
+          </div>
+          <div class="p-2 rounded-xl bg-tj-purple/10 border border-tj-purple/40 shadow-sm">
+            <div class="text-[10px] text-tj-purple-light mb-1">纳音五行</div>
+            <div class="text-xs font-bold text-tj-purple">金水相生</div>
+            <div class="text-[9px] text-tj-purple mt-1">宿世因缘共鸣</div>
+          </div>
+          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
+            <div class="text-[10px] text-tj-text-faint mb-1">白头和顺指数</div>
+            <div class="text-sm font-bold text-tj-primary font-num">95分</div>
+            <div class="text-[9px] text-tj-primary mt-1">琴瑟和谐</div>
+          </div>
+        </div>
+      </template>
+
+      <!-- E. 手机车牌类：八星磁场分布 -->
       <template v-else-if="categoryType === 'phone_plate'">
         <div class="grid grid-cols-4 gap-2 my-auto text-center py-2">
           <div class="p-2 rounded-xl bg-tj-primary/10 border border-tj-primary/30">
@@ -76,7 +152,7 @@
         </div>
       </template>
 
-      <!-- C. 姓名类：三才五格 -->
+      <!-- F. 姓名类：三才五格 -->
       <template v-else-if="categoryType === 'name_test' || categoryType === 'personal_naming' || categoryType === 'company_naming'">
         <div class="grid grid-cols-5 gap-1.5 my-auto text-center py-2">
           <div class="p-1.5 rounded-xl bg-white/5 border border-white/5">
@@ -102,7 +178,7 @@
         </div>
       </template>
 
-      <!-- D. 八字/运程类：四柱干支与神煞 -->
+      <!-- G. 八字/运程类：四柱干支与神煞 -->
       <template v-else>
         <div class="grid grid-cols-4 gap-2 my-auto text-center py-2">
           <div class="p-2 rounded-xl bg-white/5 border border-white/5">
@@ -174,14 +250,36 @@
         <!-- 展开后正文 (15px/400 行高 1.8) -->
         <div
           v-show="openChapter === idx"
-          class="px-4 pb-4 pt-1 border-t border-white/5 space-y-2.5"
+          class="px-4 pb-4 pt-1 border-t border-white/5 space-y-1.5"
         >
           <div
-            v-for="(para, pIdx) in getParagraphs(chapter.content)"
-            :key="pIdx"
-            class="text-[14px] font-normal text-tj-text-primary/90 leading-[1.8] text-justify"
+            v-for="(block, bIdx) in parseContentBlocks(chapter.content)"
+            :key="bIdx"
           >
-            {{ para }}
+            <!-- 标题块 ### 或 ## -->
+            <div
+              v-if="block.type === 'heading'"
+              class="font-bold text-[13px] text-tj-primary flex items-center gap-1.5 pt-2.5 pb-1 border-b border-white/5"
+            >
+              <span class="w-1.5 h-3 bg-tj-primary rounded-full"></span>
+              <span v-html="formatInline(block.content)"></span>
+            </div>
+
+            <!-- 列表项 - 或 * 或 1. -->
+            <div
+              v-else-if="block.type === 'list-item'"
+              class="flex items-start gap-2 pl-1 py-0.5 text-[13px] text-tj-text-primary/90"
+            >
+              <span class="text-tj-primary text-xs mt-0.5">•</span>
+              <div class="flex-1" v-html="formatInline(block.content)"></div>
+            </div>
+
+            <!-- 普通段落 -->
+            <div
+              v-else
+              class="text-[13px] font-normal text-tj-text-primary/90 text-justify py-0.5 leading-[1.8]"
+              v-html="formatInline(block.content)"
+            ></div>
           </div>
         </div>
       </div>
@@ -328,12 +426,29 @@ function getChapterIcon(idx: number) {
   return chapterIcons[idx % chapterIcons.length];
 }
 
-function getParagraphs(content: string) {
+function parseContentBlocks(content: string) {
   if (!content) return [];
-  return content
-    .split(/\n\s*\n|\n/)
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0);
+  const lines = content.split("\n");
+  const blocks: { type: "heading" | "list-item" | "paragraph"; content: string }[] = [];
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) continue;
+    if (line.startsWith("### ") || line.startsWith("## ")) {
+      blocks.push({ type: "heading", content: line.replace(/^#{2,4}\s*/, "") });
+    } else if (line.startsWith("- ") || line.startsWith("* ") || /^\d+\.\s/.test(line)) {
+      blocks.push({ type: "list-item", content: line.replace(/^([-*]|\d+\.)\s*/, "") });
+    } else {
+      blocks.push({ type: "paragraph", content: line });
+    }
+  }
+  return blocks;
+}
+
+function formatInline(text: string): string {
+  if (!text) return "";
+  let out = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-tj-primary font-semibold">$1</strong>');
+  out = out.replace(/【(.*?)】/g, '<span class="inline-block px-1.5 py-0.2 rounded bg-tj-primary/15 border border-tj-primary/30 text-tj-primary-light text-[11px] font-bold mx-0.5">【$1】</span>');
+  return out;
 }
 
 function toggleChapter(idx: number) {

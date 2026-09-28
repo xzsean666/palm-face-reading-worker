@@ -36,6 +36,9 @@
 
       <!-- 全局居中 Toast -->
       <ToastNotification />
+
+      <!-- 测试网水龙头弹窗 -->
+      <FaucetModal />
     </div>
   </div>
 </template>
@@ -48,6 +51,7 @@ import SubNavBar from "./SubNavBar.vue";
 import LeftDrawer from "./LeftDrawer.vue";
 import ActionSheet from "./ActionSheet.vue";
 import ToastNotification from "../common/ToastNotification.vue";
+import FaucetModal from "../common/FaucetModal.vue";
 import { useUIStore } from "../../stores/ui";
 import { useUserStore } from "../../stores/user";
 
@@ -59,10 +63,7 @@ const hideNav = computed(() => Boolean(route.meta.hideNav));
 const isHomePage = computed(() => route.path === "/home");
 
 onMounted(async () => {
-  // 若未登录则自动以游客模式登录
-  if (!userStore.isLoggedIn) {
-    await userStore.loginAsGuest();
-  } else {
+  if (userStore.isLoggedIn) {
     await userStore.refreshProfile();
   }
 });

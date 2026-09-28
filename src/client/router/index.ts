@@ -1,18 +1,28 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
 import { useUIStore } from "../stores/ui";
+import { useUserStore } from "../stores/user";
 
 declare module "vue-router" {
   interface RouteMeta {
     title?: string;
     navMode?: "module" | "flow";
     hideNav?: boolean;
+    requiresAuth?: boolean;
   }
 }
 
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
-    redirect: "/home",
+    redirect: (to) => {
+      const userStore = useUserStore();
+      const isGuestSession =
+        typeof window !== "undefined" && sessionStorage.getItem("tj_guest_session") === "1";
+      if (!userStore.isWalletConnected && !isGuestSession) {
+        return { path: "/login", query: to.query };
+      }
+      return { path: "/home", query: to.query };
+    },
   },
   {
     path: "/splash",
@@ -24,7 +34,7 @@ const routes: RouteRecordRaw[] = [
     path: "/login",
     name: "Login",
     component: () => import("../views/LoginView.vue"),
-    meta: { title: "登录", navMode: "flow" },
+    meta: { title: "连接钱包", navMode: "flow", hideNav: true },
   },
   {
     path: "/home",
@@ -61,6 +71,12 @@ const routes: RouteRecordRaw[] = [
     name: "Pay",
     component: () => import("../views/PayView.vue"),
     meta: { title: "确认支付", navMode: "flow" },
+  },
+  {
+    path: "/recharge",
+    name: "Recharge",
+    component: () => import("../views/RechargeView.vue"),
+    meta: { title: "服务点数充值", navMode: "flow" },
   },
   {
     path: "/feature/:type/report",
@@ -134,6 +150,41 @@ const router = createRouter({
   scrollBehavior() {
     return { top: 0 };
   },
+});
+
+router.beforeEach((to) => {
+  // 1. 拦截并持久化 URL 中的推荐人/邀请码参数 (ref / invite / code)
+  const queryRef = (to.query.ref || to.query.invite || to.query.code) as string | undefined;
+  if (queryRef && typeof queryRef === "string" && queryRef.trim()) {
+    try {
+      localStorage.setItem("tj_pending_referrer_code", queryRef.trim().toUpperCase());
+    } catch {}
+  }
+
+  const userStore = useUserStore();
+  const isGuest =
+    typeof window !== "undefined" && sessionStorage.getItem("tj_guest_session") === "1";
+  const hasAccess = userStore.isWalletConnected || isGuest;
+
+  // 公开白名单页面
+  const publicPaths = ["/login", "/about", "/splash"];
+  const isPublic = publicPaths.includes(to.path) || to.path.startsWith("/invite/");
+
+  // 如果已经连接钱包，访问 /login 则自动跳转去首页或指定 redirect
+  if (to.path === "/login" && userStore.isWalletConnected && !to.query.switch) {
+    const redirect = (to.query.redirect as string) || "/home";
+    return redirect;
+  }
+
+  // 如果未连接钱包且未开启游客会话，访问非公开页面时强制跳转至 /login
+  if (!hasAccess && !isPublic) {
+    return {
+      path: "/login",
+      query: { ...to.query, redirect: to.fullPath },
+    };
+  }
+
+  return true;
 });
 
 router.afterEach((to) => {

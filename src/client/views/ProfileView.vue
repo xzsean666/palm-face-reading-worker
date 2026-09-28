@@ -54,18 +54,53 @@
         </router-link>
       </div>
 
-      <!-- 2. 资产行 (两列均分) -->
-      <div class="grid grid-cols-2 divide-x divide-white/10 bg-tj-bg-card border border-white/5 rounded-2xl p-3.5 mb-4 text-center">
+      <!-- 2. 资产行 (三列均分) -->
+      <div class="grid grid-cols-3 divide-x divide-white/10 bg-tj-bg-card border border-white/5 rounded-2xl p-3 mb-3.5 text-center">
         <div>
-          <div class="text-xs text-tj-text-secondary mb-0.5">剩余免费次数</div>
-          <div class="text-lg font-bold font-num text-tj-cyan">{{ userStore.freeQuota }} 次</div>
+          <div class="text-[11px] text-tj-text-secondary mb-0.5">剩余免费</div>
+          <div class="text-base font-bold font-num text-tj-cyan">{{ userStore.freeQuota }} 次</div>
         </div>
         <div>
-          <div class="text-xs text-tj-text-secondary mb-0.5">可提现余额</div>
-          <div class="text-lg font-bold font-num text-tj-primary">
-            {{ userStore.user?.earnings_balance?.toFixed(2) || "0.00" }} <span class="text-xs font-sans">U</span>
+          <div class="text-[11px] text-tj-text-secondary mb-0.5 flex items-center justify-center gap-1">
+            <span>服务点数</span>
+            <router-link to="/recharge" class="text-[10px] text-tj-primary hover:underline font-bold">充值</router-link>
+          </div>
+          <div class="text-base font-bold font-num text-tj-primary">
+            {{ userStore.onChainBalance?.toFixed(2) || "0.00" }} <span class="text-[10px] font-sans">点</span>
           </div>
         </div>
+        <div>
+          <div class="text-[11px] text-tj-text-secondary mb-0.5 flex items-center justify-center gap-1">
+            <span>可提现</span>
+            <router-link to="/promote/earnings" class="text-[10px] text-tj-primary hover:underline font-bold">提现</router-link>
+          </div>
+          <div class="text-base font-bold font-num text-tj-primary">
+            {{ userStore.user?.earnings_balance?.toFixed(2) || "0.00" }} <span class="text-[10px] font-sans">U</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 测试网水龙头快捷卡片 (仅测试网展示) -->
+      <div
+        v-if="isTestnet()"
+        @click="uiStore.openFaucetModal"
+        class="bg-gradient-to-r from-tj-cyan/15 via-tj-primary/10 to-transparent border border-tj-cyan/30 rounded-2xl p-3.5 mb-3.5 flex items-center justify-between cursor-pointer hover:border-tj-cyan/60 active:scale-98 transition-all shadow-sm"
+      >
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-tj-cyan/20 border border-tj-cyan/40 flex items-center justify-center text-xl">
+            🧪
+          </div>
+          <div>
+            <div class="text-sm font-semibold text-tj-text-primary flex items-center gap-1.5">
+              <span>测试币水龙头 (Faucet)</span>
+              <span class="text-[10px] px-1.5 py-0.2 rounded bg-tj-cyan text-[#0B0E1A] font-bold">测试网</span>
+            </div>
+            <div class="text-[11px] text-tj-cyan/90 mt-0.5">
+              一键领取 1,000 USDT 测试币及 Gas 体验全功能
+            </div>
+          </div>
+        </div>
+        <span class="text-sm text-tj-cyan font-bold">领取 ›</span>
       </div>
 
       <!-- 3. 功能列表组 (图标 20px + 文字 14px + 右 ›) -->
@@ -129,6 +164,7 @@ import { computed, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../stores/user";
 import { useUIStore } from "../stores/ui";
+import { isTestnet } from "../utils/web3";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -143,6 +179,7 @@ const displayAddress = computed(() => {
 const latestOrderId = ref("");
 
 onMounted(async () => {
+  await userStore.refreshOnChainBalance();
   const userId = userStore.user?.id || userStore.user?.wallet_address;
   if (userId) {
     try {
@@ -156,6 +193,7 @@ onMounted(async () => {
 });
 
 const functionList = computed(() => [
+  { icon: "💎", label: "点数充值", path: "/recharge" },
   { icon: "📜", label: "测算记录", path: "/me/records" },
   { icon: "📦", label: "我的订单", path: latestOrderId.value ? `/me/orders/${latestOrderId.value}` : "/me/records" },
   { icon: "👑", label: "会员中心", path: "/vip" },

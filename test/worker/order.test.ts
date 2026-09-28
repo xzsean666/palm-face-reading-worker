@@ -29,6 +29,17 @@ function createMockD1Database(): D1Database {
           if (query.includes("SELECT * FROM divination_orders WHERE id = ?")) {
             return (orders.get(params[0]) || null) as T | null;
           }
+          if (query.includes("WHERE tx_hash = ? AND id != ?")) {
+            for (const o of orders.values()) {
+              if (o.tx_hash === params[0] && o.id !== params[1]) {
+                return { id: o.id, user_id: o.user_id } as T;
+              }
+            }
+            return null as T | null;
+          }
+          if (query.includes("SELECT id FROM withdrawals WHERE tx_hash = ?")) {
+            return null as T | null;
+          }
           if (query.includes("SELECT id, is_unlocked, created_at FROM divination_reports WHERE order_id = ?")) {
             for (const r of reports.values()) {
               if (r.order_id === params[0]) return { id: r.id, is_unlocked: r.is_unlocked, created_at: r.created_at } as T;
@@ -212,5 +223,53 @@ describe("User & Order Service", () => {
     // 重复绑定
     const againRes = await bindReferrer(mockEnv, user.id, referrer.referral_code);
     expect(againRes.success).toBe(false);
+  });
+
+  it("推荐人奖励机制：仅在消费核销时结算，防重复提交校验", async () => {
+    // 邀请人
+    const inviter = await authenticateUser(mockEnv, {
+      walletAddress: "0xinviter_consumetest",
+    });
+
+    // 受邀用户
+    const invitee = await authenticateUser(mockEnv, {
+      walletAddress: "0xinvitee_consumetest",
+      referrerCode: inviter.referral_code,
+    });
+
+    // 初始状态下邀请人收益为 0
+    expect(inviter.earnings_balance).toBe(0);
+
+    // 用户创建订单（尚未支付核销，不应产生奖励）
+    const order = await createDivinationOrder(mockEnv, {
+      userId: invitee.id,
+      category: "bazi",
+      inputData: {},
+      payType: "USDT_ERC20",
+    });
+
+    const preInviter = await getUserProfile(mockEnv, inviter.id);
+    expect(preInviter?.earnings_balance).toBe(0);
+
+    // 模拟执行消费核销 (Consume) 支付订单
+    const consumeTxHash = "0xconsume_tx_hash_valid_666";
+    const payRes = await payOrder(mockEnv, order.id, invitee.id, "USDT_ERC20", consumeTxHash);
+    expect(payRes.isUnlocked).toBe(true);
+
+    // 消费后邀请人获得 15% 佣金
+    const postInviter = await getUserProfile(mockEnv, inviter.id);
+    expect(postInviter?.earnings_balance).toBeCloseTo(0.9);
+
+    // 防重放校验：再次提交相同 consumeTxHash 应被拦截
+    const order2 = await createDivinationOrder(mockEnv, {
+      userId: invitee.id,
+      category: "bazi",
+      inputData: {},
+      payType: "USDT_ERC20",
+    });
+
+    await expect(
+      payOrder(mockEnv, order2.id, invitee.id, "USDT_ERC20", consumeTxHash)
+    ).rejects.toThrow("严禁重复提交");
   });
 });

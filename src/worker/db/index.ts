@@ -63,20 +63,33 @@ export async function getOrCreateUser(
 ): Promise<UserRow> {
   const existing = await findUserById(db, userId);
   if (existing) {
+    let updated = false;
     if (walletAddress && !existing.wallet_address) {
-      await db
-        .prepare("UPDATE users SET wallet_address = ?, updated_at = ? WHERE id = ?")
-        .bind(walletAddress, Date.now(), userId)
-        .run();
       existing.wallet_address = walletAddress;
+      updated = true;
+    }
+    if (referrerCode && referrerCode.trim() && !existing.referrer_id) {
+      const cleanRefCode = referrerCode.trim().toUpperCase();
+      const referrer = await findUserByReferralCode(db, cleanRefCode);
+      if (referrer && referrer.id !== userId) {
+        existing.referrer_id = referrer.id;
+        updated = true;
+      }
+    }
+    if (updated) {
+      await db
+        .prepare("UPDATE users SET wallet_address = ?, referrer_id = ?, updated_at = ? WHERE id = ?")
+        .bind(existing.wallet_address || null, existing.referrer_id || null, Date.now(), userId)
+        .run();
     }
     return existing;
   }
 
   // 校验邀请人
   let referrerId: string | null = null;
-  if (referrerCode) {
-    const referrer = await findUserByReferralCode(db, referrerCode);
+  if (referrerCode && referrerCode.trim()) {
+    const cleanRefCode = referrerCode.trim().toUpperCase();
+    const referrer = await findUserByReferralCode(db, cleanRefCode);
     if (referrer && referrer.id !== userId) {
       referrerId = referrer.id;
     }

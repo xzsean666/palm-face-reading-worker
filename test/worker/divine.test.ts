@@ -115,15 +115,15 @@ describe("Divination Service & API", () => {
       payType: "FREE_QUOTA",
     });
 
-    // 第三次应报错
-    await expect(
-      submitDivinationOrder(mockEnv, {
-        userId: "user_bob",
-        category: "name_test",
-        inputData: { name: "李寻欢" },
-        payType: "FREE_QUOTA",
-      })
-    ).rejects.toThrow("免费测算额度已用尽");
+    // 第三次额度已用尽，应降级为待解锁单 (PENDING) 供试读预览
+    const thirdOrder = await submitDivinationOrder(mockEnv, {
+      userId: "user_bob",
+      category: "name_test",
+      inputData: { name: "李寻欢" },
+      payType: "FREE_QUOTA",
+    });
+    expect(thirdOrder.status).toBe("PENDING");
+    expect(thirdOrder.isCompleted).toBe(false);
   });
 
   it("执行流式推演应输出 SSE 事件并在 D1 中持久化报告", async () => {

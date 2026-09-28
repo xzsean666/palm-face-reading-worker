@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../stores/user";
 import { useUIStore } from "../stores/ui";
@@ -62,7 +62,7 @@ const router = useRouter();
 const userStore = useUserStore();
 const uiStore = useUIStore();
 
-const inviteCode = computed(() => (route.params.code as string) || "TJ8K2M9");
+const inviteCode = computed(() => ((route.params.code as string) || "TJ8K2M9").trim().toUpperCase());
 const inviterNickname = ref("天机贵客");
 
 const hotFeatures = [
@@ -72,20 +72,43 @@ const hotFeatures = [
   { name: "测姓名店名", icon: "✍️" },
 ];
 
+onMounted(async () => {
+  const code = inviteCode.value;
+  try {
+    localStorage.setItem("tj_pending_referrer_code", code);
+    const res = await fetch(`/api/user/referrer-info?code=${encodeURIComponent(code)}`);
+    const json = await res.json();
+    if (json.success && json.data?.referrerWalletAddress && !json.data.isPlatformDefault) {
+      const addr = json.data.referrerWalletAddress;
+      inviterNickname.value = `缘主 ${addr.slice(0, 6)}...${addr.slice(-4)}`;
+    }
+  } catch {}
+});
+
 async function handleExperience() {
-  if (!userStore.isLoggedIn) {
-    await userStore.loginAsGuest(inviteCode.value);
-  } else if (userStore.user?.id) {
+  const code = inviteCode.value;
+  try {
+    localStorage.setItem("tj_pending_referrer_code", code);
+  } catch {}
+
+  if (!userStore.isWalletConnected) {
+    // 引导至连接钱包登录页，并自动携带该邀请码
+    router.push({ path: "/login", query: { ref: code } });
+    return;
+  }
+
+  // 若钱包已连接且尚未绑定推荐人，尝试绑定
+  if (userStore.user?.id && !userStore.user?.referrer_id) {
     try {
       await fetch("/api/user/bind-referrer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: userStore.user.id, referrerCode: inviteCode.value }),
+        body: JSON.stringify({ userId: userStore.user.id, referrerCode: code }),
       });
       await userStore.refreshProfile();
     } catch {}
   }
-  uiStore.showToast("已获赠 2 次免费测算额度！");
+  uiStore.showToast("已建立结缘关系，开启推演之旅！");
   router.push("/home");
 }
 </script>

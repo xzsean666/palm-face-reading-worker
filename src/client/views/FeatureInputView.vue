@@ -250,6 +250,11 @@
           </select>
         </div>
 
+        <div class="p-3 rounded-xl bg-tj-primary/10 border border-tj-primary/25 text-[11px] text-tj-primary-light flex items-start gap-2">
+          <span>📅</span>
+          <span>钦天监正统择吉法：系统将在您指定的起止日期区间内，严选 3~5 个黄道吉日清单，并排定各日黄金时辰与避煞指引。</span>
+        </div>
+
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="block text-xs font-semibold text-tj-text-primary mb-1">
@@ -398,6 +403,11 @@
 
       <!-- 门类 10: 个人起名 -->
       <template v-else-if="categoryType === 'personal_naming'">
+        <div class="p-3 rounded-xl bg-tj-primary/10 border border-tj-primary/25 text-[11px] text-tj-primary-light flex items-start gap-2">
+          <span>👶</span>
+          <span>国学命名正宗：根据生辰八字喜用神扶抑，为您量身精选 5~6 套兼具《诗经》《楚辞》文雅出处的高分吉名。</span>
+        </div>
+
         <div>
           <label class="block text-xs font-semibold text-tj-text-primary mb-1">
             宝宝/求名姓氏 <span class="text-tj-danger">*</span>
@@ -477,6 +487,11 @@
 
       <!-- 门类 11: 公司取名 -->
       <template v-else-if="categoryType === 'company_naming'">
+        <div class="p-3 rounded-xl bg-tj-primary/10 border border-tj-primary/25 text-[11px] text-tj-primary-light flex items-start gap-2">
+          <span>🏢</span>
+          <span>商道风水取名：立足法人喜用神与行业五行，为您精选 5~6 套大吉商号方案（含八十一数理、商业心智与口号）。</span>
+        </div>
+
         <DateTimePicker
           v-model:dateValue="formData.birthDate"
           v-model:timeValue="formData.birthTime"
@@ -557,9 +572,13 @@
         <span class="text-xs text-tj-cyan">会员 4.8 USDT</span>
         <span class="text-xs line-through text-tj-text-faint">9.9 USDT</span>
       </div>
-      <!-- 5. 剩余免费次数行 (仅当有剩余) -->
+      <!-- 5. 剩余免费次数行 -->
       <div v-if="userStore.freeQuota > 0" class="text-xs text-tj-cyan">
-        剩余免费次数：{{ userStore.freeQuota }}
+        剩余免费次数：{{ userStore.freeQuota }} 次
+      </div>
+      <div v-else-if="!userStore.isVip" class="text-xs text-tj-text-faint flex items-center justify-between">
+        <span>当前免费额度已用完</span>
+        <span class="text-tj-primary">支持先生成预览，后解锁全篇</span>
       </div>
     </div>
 
@@ -577,8 +596,8 @@
       >
         <span v-if="submitting" class="w-5 h-5 rounded-full border-2 border-[#1A1405] border-t-transparent animate-spin"></span>
         <span v-if="submitting">创建推演任务中...</span>
-        <span v-else-if="userStore.freeQuota > 0 || userStore.isVip">开始推演（免费）</span>
-        <span v-else>开始推演</span>
+        <span v-else-if="userStore.freeQuota > 0 || userStore.isVip">开始推演（消耗免费额度）</span>
+        <span v-else>开始推演（体验预览）</span>
       </button>
     </div>
   </div>
@@ -682,8 +701,11 @@ function toggleWish(wish: string) {
 // 必填字段缺失校验返回缺失字段名称
 const missingField = computed(() => {
   const t = categoryType.value;
-  if (t === "palm_reading" || t === "face_reading") {
-    if (!formData.imageBase64) return t === "palm_reading" ? "手掌照片" : "面部照片";
+  if (t === "palm_reading") {
+    if (!formData.imageBase64 && !formData.palmImage) return "手掌照片";
+    if (!formData.gender) return "缘主性别";
+  } else if (t === "face_reading") {
+    if (!formData.imageBase64 && !formData.faceImage) return "面部照片";
     if (!formData.gender) return "缘主性别";
   } else if (t === "palm_face") {
     if (!formData.faceImage && !formData.imageBase64) return "面部照片";
@@ -722,14 +744,18 @@ async function handleFormSubmit() {
   submitting.value = true;
   try {
     const payloadImage = formData.imageBase64 || formData.faceImage || formData.palmImage;
-    sessionStorage.setItem(
-      "tj_current_form",
-      JSON.stringify({
-        category: categoryType.value,
-        ...formData,
-        imageBase64: payloadImage,
-      })
-    );
+    const formToStore = {
+      category: categoryType.value,
+      ...formData,
+      imageBase64: payloadImage,
+    };
+    try {
+      sessionStorage.setItem("tj_current_form", JSON.stringify(formToStore));
+    } catch (storageErr) {
+      console.warn("sessionStorage 空间不足，清理历史记录后重试:", storageErr);
+      sessionStorage.removeItem("tj_last_result");
+      sessionStorage.setItem("tj_current_form", JSON.stringify(formToStore));
+    }
     router.push(`/feature/${categoryType.value}/analyzing`);
   } catch (err: any) {
     uiStore.showToast("订单创建失败，请重试");

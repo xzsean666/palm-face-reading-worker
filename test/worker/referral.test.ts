@@ -100,6 +100,17 @@ function createMockD1Database(): D1Database {
             withdrawals.set(id, { id, user_id, amount, fee, actual_amount, payout_address, status, tx_hash, created_at, reviewed_at });
             return { meta: { changes: 1 } };
           }
+          if (query.includes("UPDATE users SET wallet_address = ?, referrer_id = ?")) {
+            const [wallet, refId, ut, uid] = params;
+            const u = users.get(uid);
+            if (u) {
+              if (wallet) u.wallet_address = wallet;
+              if (refId) u.referrer_id = refId;
+              u.updated_at = ut;
+              return { meta: { changes: 1 } };
+            }
+            return { meta: { changes: 0 } };
+          }
           return { meta: { changes: 0 } };
         },
       };
@@ -195,5 +206,34 @@ describe("VIP & Referral System", () => {
     const list = await listUserWithdrawals(mockEnv, user.id);
     expect(list).toHaveLength(1);
     expect(list[0].id).toBe(withdrawal.id);
+  });
+
+  it("首次连接钱包支持可选邀请码（选填），且支持小写推荐码自动规范化绑定", async () => {
+    // 1. 创建上级推荐人
+    const inviter = await authenticateUser(mockEnv, { walletAddress: "0xinviter_wallet" });
+    expect(inviter.referral_code).toBeDefined();
+
+    // 2. 新用户 A：不填邀请码连接钱包（可选特性验证）
+    const userWithoutCode = await authenticateUser(mockEnv, { walletAddress: "0xuser_no_code" });
+    expect(userWithoutCode.wallet_address).toBe("0xuser_no_code");
+    expect(userWithoutCode.free_quota).toBe(2);
+    expect(userWithoutCode.referrer_id).toBeNull();
+
+    // 3. 新用户 B：填写小写邀请码连接钱包（规范化与结缘验证）
+    const lowerCode = inviter.referral_code.toLowerCase();
+    const userWithCode = await authenticateUser(mockEnv, {
+      walletAddress: "0xuser_with_code",
+      referrerCode: lowerCode,
+    });
+    expect(userWithCode.wallet_address).toBe("0xuser_with_code");
+    expect(userWithCode.free_quota).toBe(2);
+    expect(userWithCode.referrer_id).toBe(inviter.id);
+
+    // 4. 用户 A 后续补绑邀请码（二次登录/补填绑定）
+    const userAUpdated = await authenticateUser(mockEnv, {
+      walletAddress: "0xuser_no_code",
+      referrerCode: inviter.referral_code,
+    });
+    expect(userAUpdated.referrer_id).toBe(inviter.id);
   });
 });

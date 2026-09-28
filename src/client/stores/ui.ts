@@ -9,6 +9,8 @@ export const useUIStore = defineStore("ui", () => {
   const unreadCount = ref(1);
   const toastMessage = ref<string | null>(null);
 
+  const faucetModalOpen = ref(false);
+
   let toastTimer: any = null;
 
   function openDrawer() {
@@ -31,6 +33,18 @@ export const useUIStore = defineStore("ui", () => {
     actionSheetOpen.value = false;
   }
 
+  function openFaucetModal() {
+    faucetModalOpen.value = true;
+  }
+
+  function closeFaucetModal() {
+    faucetModalOpen.value = false;
+  }
+
+  function toggleFaucetModal() {
+    faucetModalOpen.value = !faucetModalOpen.value;
+  }
+
   function setNav(title: string, mode: "module" | "flow" = "module") {
     navTitle.value = title;
     navMode.value = mode;
@@ -47,6 +61,7 @@ export const useUIStore = defineStore("ui", () => {
   return {
     drawerOpen,
     actionSheetOpen,
+    faucetModalOpen,
     navTitle,
     navMode,
     unreadCount,
@@ -56,6 +71,9 @@ export const useUIStore = defineStore("ui", () => {
     toggleDrawer,
     openActionSheet,
     closeActionSheet,
+    openFaucetModal,
+    closeFaucetModal,
+    toggleFaucetModal,
     setNav,
     showToast,
   };
