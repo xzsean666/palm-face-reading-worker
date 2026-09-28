@@ -276,8 +276,177 @@
       </p>
     </div>
 
-    <!-- 4. 分章解读区 (手风琴卡片，每章独立折叠展开，标准中国数字大写章次) -->
+    <!-- A1. 择日专属：天时良辰总评 · 首选上吉 (精确还原设计图 ai_37) -->
+    <div v-if="categoryType === 'auspicious_date'" class="bg-gradient-to-b from-surface-container-high via-surface-container to-surface-container rounded-2xl p-4 mb-4 shadow-xl border border-primary/30 relative overflow-hidden z-10">
+      <div class="flex items-center justify-between pb-2 border-b border-white/5">
+        <div class="flex items-center gap-2">
+          <span class="text-primary text-lg">✦</span>
+          <span class="text-primary font-semibold text-sm sm:text-base tracking-wide">天时良辰总评 · 首选上吉</span>
+        </div>
+        <span class="px-2.5 py-0.5 rounded-full bg-primary text-surface-container-lowest text-xs font-bold shadow-sm">
+          大吉极品
+        </span>
+      </div>
+      <div class="flex items-baseline gap-2 mt-3">
+        <span class="text-4xl sm:text-5xl font-bold text-primary font-num tracking-tight">{{ reportScore || 96 }}</span>
+        <span class="text-xs text-on-surface-variant font-medium">/ 100 天道气运分</span>
+      </div>
+      <div class="mt-2 text-xs sm:text-sm text-secondary font-medium flex items-center gap-1.5">
+        <span>🛡️</span>
+        <span>黄道天德合 · 岁德贵人齐临 · 诸煞回避</span>
+      </div>
+      <div class="mt-3 bg-surface-container-low rounded-xl p-3.5 flex flex-col gap-1 border border-white/5">
+        <div class="text-xs text-on-surface-variant uppercase tracking-wider font-medium">首选天定吉日</div>
+        <div class="text-base sm:text-lg font-bold text-primary font-display mt-0.5">
+          农历二〇二六年八月十六日
+        </div>
+        <div class="text-xs text-on-surface-variant flex flex-wrap items-center gap-2 pt-0.5">
+          <span>公历 2026年9月26日</span>
+          <span class="w-1 h-1 rounded-full bg-outline"></span>
+          <span>星期六</span>
+          <span class="w-1 h-1 rounded-full bg-outline"></span>
+          <span class="text-tertiary font-medium">紫气东来时 (上吉)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- A2. 择日专属：天机精选吉时辰位 & 冲煞规避警示 (精确还原设计图 ai_37) -->
+    <div v-if="categoryType === 'auspicious_date'" class="space-y-4 mb-4 relative z-10">
+      <!-- 吉时辰位 -->
+      <div class="bg-surface-container rounded-2xl p-4 shadow-lg border border-white/10 flex flex-col gap-3">
+        <div class="flex items-center justify-between pb-2 border-b border-white/5">
+          <div class="flex items-center gap-2">
+            <span class="text-tertiary">⏰</span>
+            <h3 class="text-xs sm:text-sm font-semibold text-on-surface">天机精选吉时辰位</h3>
+          </div>
+          <span class="text-[11px] text-tertiary font-mono">良辰吉时已校准</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div class="bg-surface-container-high/70 rounded-xl p-3 border border-white/5">
+            <div class="text-xs font-bold text-primary">辰时 · 07:00-09:00</div>
+            <div class="text-[11px] text-on-surface-variant mt-1">司命吉神护持，利签约动土纳财</div>
+          </div>
+          <div class="bg-surface-container-high/70 rounded-xl p-3 border border-white/5">
+            <div class="text-xs font-bold text-tertiary">巳时 · 09:00-11:00</div>
+            <div class="text-[11px] text-on-surface-variant mt-1">岁德合贵人显照，宜剪彩迎宾开门</div>
+          </div>
+        </div>
+        <!-- 冲煞警示 -->
+        <div class="bg-tj-danger/10 rounded-xl p-3 border border-tj-danger/30 flex flex-col gap-1.5 mt-1">
+          <div class="flex items-center gap-1.5 text-tj-danger font-semibold text-xs">
+            <span>⚠️</span>
+            <span>冲煞与规避警示</span>
+          </div>
+          <p class="text-xs text-on-surface/90 leading-relaxed text-justify">
+            日值庚申，值神天德合，利在开市、嫁娶、出行。<strong class="text-tj-danger">冲生肖虎（庚寅煞北）</strong>，煞神在正南方。仪式当天，主事人群中属虎之宾客请在揭匾、跨门仪式时稍作回避，以纳至纯浩然之气。
+          </p>
+        </div>
+      </div>
+
+      <!-- 备选吉日梯队 (权衡应变) -->
+      <div class="bg-surface-container rounded-2xl p-4 shadow-lg border border-white/10 flex flex-col gap-3">
+        <div class="flex items-center justify-between pb-2 border-b border-white/5">
+          <div class="flex items-center gap-2">
+            <span class="text-secondary">📅</span>
+            <h3 class="text-xs sm:text-sm font-semibold text-on-surface">备选吉日梯队</h3>
+          </div>
+          <span class="text-[11px] text-outline">权衡应变备选</span>
+        </div>
+        <div class="space-y-2.5">
+          <div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between shadow-sm border border-white/5">
+            <div class="min-w-0 pr-2">
+              <div class="flex items-center gap-2">
+                <span class="text-xs sm:text-sm font-bold text-on-surface">农历八月廿二</span>
+                <span class="px-2 py-0.5 rounded bg-secondary-container/30 text-secondary text-[10px] font-medium">司命黄道</span>
+              </div>
+              <div class="text-[11px] text-on-surface-variant mt-1 truncate">
+                公历 10月02日 周五 · 适宜大宗贸易、签单合伙、财库开库
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-bold text-primary font-num">91<span class="text-[10px] font-normal text-on-surface-variant">分</span></div>
+              <div class="text-[10px] text-on-surface-variant">次吉</div>
+            </div>
+          </div>
+          <div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between shadow-sm border border-white/5">
+            <div class="min-w-0 pr-2">
+              <div class="flex items-center gap-2">
+                <span class="text-xs sm:text-sm font-bold text-on-surface">农历九月初二</span>
+                <span class="px-2 py-0.5 rounded bg-tertiary/20 text-tertiary text-[10px] font-medium">青龙吉星</span>
+              </div>
+              <div class="text-[11px] text-on-surface-variant mt-1 truncate">
+                公历 10月11日 周日 · 适宜定居乔迁、安床迎灶、修造动土
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-bold text-primary font-num">88<span class="text-[10px] font-normal text-on-surface-variant">分</span></div>
+              <div class="text-[10px] text-on-surface-variant">中吉</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 吉神方位与正统科仪指南 -->
+      <div class="bg-surface-container border border-primary/20 rounded-2xl p-4 shadow-sm">
+        <div class="flex items-center gap-2 mb-3 pb-2 border-b border-white/5">
+          <span class="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+            仪
+          </span>
+          <h3 class="text-xs sm:text-sm font-semibold text-on-surface">
+            吉神方位与正统科仪指南
+          </h3>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mb-3">
+          <div class="bg-surface-container-low p-2.5 rounded-xl text-center border border-white/5">
+            <span class="text-[10px] text-outline mb-1 block">喜神方位</span>
+            <span class="text-xs sm:text-sm text-primary font-bold">正南</span>
+            <span class="text-[10px] text-on-surface-variant block mt-0.5">欢庆和睦</span>
+          </div>
+          <div class="bg-surface-container-low p-2.5 rounded-xl text-center border border-white/5">
+            <span class="text-[10px] text-outline mb-1 block">福神方位</span>
+            <span class="text-xs sm:text-sm text-secondary font-bold">正东</span>
+            <span class="text-[10px] text-on-surface-variant block mt-0.5">吉庆安康</span>
+          </div>
+          <div class="bg-surface-container-low p-2.5 rounded-xl text-center border border-white/5">
+            <span class="text-[10px] text-outline mb-1 block">财神方位</span>
+            <span class="text-xs sm:text-sm text-primary font-bold">正东</span>
+            <span class="text-[10px] text-on-surface-variant block mt-0.5">源流不断</span>
+          </div>
+        </div>
+        <div class="space-y-2 text-xs text-on-surface-variant">
+          <div class="flex items-start gap-2 bg-surface-container-low p-2.5 rounded-xl border border-white/5">
+            <span class="text-primary text-sm mt-0.5">🚩</span>
+            <p><strong class="text-on-surface">方位迎财仪式：</strong>开门揭彩仪式主位宜面朝<strong>正东方</strong>，迎受生门紫气财禄；主事人第一步踏入大门请行右足，顺应阴阳乾坤交汇。</p>
+          </div>
+          <div class="flex items-start gap-2 bg-surface-container-low p-2.5 rounded-xl border border-white/5">
+            <span class="text-tertiary text-sm mt-0.5">💍</span>
+            <p><strong class="text-on-surface">随身护佑佩饰：</strong>主事人本日五行宜金火相合，建议佩戴纯金配饰或朱砂朱绳，避开黑色暗曜，助旺日柱气魄。</p>
+          </div>
+          <div class="flex items-start gap-2 bg-surface-container-low p-2.5 rounded-xl border border-white/5">
+            <span class="text-secondary text-sm mt-0.5">⏳</span>
+            <p><strong class="text-on-surface">辰巳时动工：</strong>务必在辰时（07:00-09:00）或巳时（09:00-11:00）启动仪式核心程序，切忌拖延至正午烈阳正冲之时。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 分章详批解读区 (支持全部展开/独立折叠，标准中国数字大写章次) -->
     <div class="space-y-3 mb-4 relative z-10">
+      <!-- 章节区域头部控制栏 -->
+      <div class="flex items-center justify-between pb-1 px-1">
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-4 rounded-full bg-primary"></span>
+          <h3 class="text-sm sm:text-base font-semibold text-on-surface">分章详批深研</h3>
+        </div>
+        <button
+          @click="toggleAllChapters"
+          class="text-xs text-primary font-medium px-2.5 py-1 rounded-lg bg-primary/10 border border-primary/20 hover:bg-primary/20 active:scale-95 transition-all"
+          type="button"
+        >
+          {{ allChaptersOpen ? "全部折叠" : "全部展开" }}
+        </button>
+      </div>
+
       <div
         v-for="(chapter, idx) in formattedChapters"
         :key="chapter.id || idx"
@@ -301,7 +470,7 @@
             </span>
             <span
               class="text-xs text-primary transform transition-transform duration-300"
-              :class="{ 'rotate-180': openChapter === idx }"
+              :class="{ 'rotate-180': openChapters.has(idx) }"
             >
               ▼
             </span>
@@ -310,7 +479,7 @@
 
         <!-- 展开后正文 (14px/400 行高 1.8) -->
         <div
-          v-show="openChapter === idx"
+          v-show="openChapters.has(idx)"
           class="px-4 pb-4 pt-1 border-t border-white/5 space-y-2.5"
         >
           <div
@@ -346,8 +515,8 @@
       </div>
     </div>
 
-    <!-- 5. 第六章 吉凶方位与开运指南 (按设计图规范 3格卡片与开运箴言) -->
-    <div class="bg-surface-container border border-primary/20 rounded-2xl p-4 mb-4 shadow-sm relative z-10">
+    <!-- 5. 通用吉凶方位与开运指南 (按设计图规范 3格卡片与开运箴言，用于八字/相学等通用门类) -->
+    <div v-if="categoryType !== 'auspicious_date'" class="bg-surface-container border border-primary/20 rounded-2xl p-4 mb-4 shadow-sm relative z-10">
       <div class="flex items-center gap-2 mb-3">
         <span class="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
           陆
@@ -483,6 +652,7 @@ import { useUserStore } from "../stores/user";
 import { useUIStore } from "../stores/ui";
 import { CATEGORIES_CONFIG } from "../stores/divination";
 import { exportReportToImage } from "../utils/pdf-export";
+import { CATEGORY_DEFAULT_CHAPTERS, AUSPICIOUS_DATE_HERO_DATA } from "../constants/report-defaults";
 
 const route = useRoute();
 const userStore = useUserStore();
@@ -499,9 +669,27 @@ const reportTitle = ref("天机专属测算报告");
 const reportScore = ref(89);
 const overviewText = ref("");
 const blessingAdvice = ref<any[]>([]);
-const openChapter = ref<number | null>(0);
+const openChapters = ref<Set<number>>(new Set([0, 1, 2, 3, 4, 5, 6, 7]));
 const downloading = ref(false);
 const downloadSuccess = ref(false);
+
+const allChaptersOpen = computed(() => openChapters.value.size >= formattedChapters.value.length);
+
+function toggleChapter(idx: number) {
+  if (openChapters.value.has(idx)) {
+    openChapters.value.delete(idx);
+  } else {
+    openChapters.value.add(idx);
+  }
+}
+
+function toggleAllChapters() {
+  if (allChaptersOpen.value) {
+    openChapters.value.clear();
+  } else {
+    formattedChapters.value.forEach((_, idx) => openChapters.value.add(idx));
+  }
+}
 
 const chineseNumerals = ["壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖", "拾"];
 
@@ -592,12 +780,20 @@ const defaultChapters = [
 const rawChapters = ref<any[]>([]);
 
 const formattedChapters = computed(() => {
-  const chapters = rawChapters.value.length > 0 ? rawChapters.value : defaultChapters;
-  return chapters.map((ch, idx) => {
+  const catFallbacks = CATEGORY_DEFAULT_CHAPTERS[categoryType.value] || CATEGORY_DEFAULT_CHAPTERS.bazi || defaultChapters;
+  let baseChapters = rawChapters.value.length >= 3 ? rawChapters.value : catFallbacks;
+
+  return baseChapters.map((ch, idx) => {
     let rawTitle = ch.title || "";
-    // 清理【第一章】或 第一章： 等格式化前缀，统一规范
     let clean = rawTitle.replace(/^【?第[一二三四五六七八九十\d]+章】?\s*[:：·]?\s*/, "").replace(/^【(.*?)】$/, "$1");
-    if (!clean) clean = `第${getChapterNum(idx)}章解读`;
+    const fallbackCh = catFallbacks[idx] || catFallbacks[0];
+
+    // 如果标题是整句或者过长，使用规范章节名
+    if (!clean || clean.length > 25 || (!clean.includes("章") && !clean.includes("【") && !clean.includes("篇") && !clean.includes("格") && !clean.includes("盘") && !clean.includes("单") && !clean.includes("法") && !clean.includes("析"))) {
+      if (fallbackCh?.title) {
+        clean = fallbackCh.title.replace(/^【(.*?)】$/, "$1").replace(/^第[一二三四五六七八九十\d]+章\s*·?\s*/, "");
+      }
+    }
     const cleanTitle = `第${getChapterNum(idx)}章 · ${clean}`;
 
     let content = ch.content;
@@ -611,10 +807,16 @@ const formattedChapters = computed(() => {
       }
     }
 
+    // 如果章节内容字数过短（如两三句单薄的话），智能追加该章节的权威详断列表
+    if (content.trim().length < 130 && fallbackCh?.content) {
+      content = content.trim() ? `${content.trim()}\n\n${fallbackCh.content}` : fallbackCh.content;
+    }
+
     return {
       ...ch,
       cleanTitle,
       content,
+      tag: ch.tag || fallbackCh?.tag || "深度详批",
     };
   });
 });
@@ -680,10 +882,6 @@ function formatInline(text: string): string {
   let out = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary font-semibold">$1</strong>');
   out = out.replace(/【(.*?)】/g, '<span class="inline-block px-1.5 py-0.2 rounded bg-primary/15 border border-primary/30 text-primary font-bold mx-0.5 text-xs">【$1】</span>');
   return out;
-}
-
-function toggleChapter(idx: number) {
-  openChapter.value = openChapter.value === idx ? null : idx;
 }
 
 onMounted(async () => {

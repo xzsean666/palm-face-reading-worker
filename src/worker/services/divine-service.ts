@@ -12,9 +12,13 @@ import {
   getSystemPrompt,
   buildUserDivinationPrompt,
 } from "../ai/prompts";
-import { createAIClient } from "../ai/client";
-import { parseAIOutput, generateFallbackReport } from "../utils/report-parser";
-import { formatSSE } from "../utils/sse";
+import {
+  parseAIOutput,
+  generateFallbackReport,
+  createDefaultChapters,
+  normalizeChapters,
+  normalizeBlessingAdvice,
+} from "../utils/report-parser";
 import knowledgeBundle from "../ai/knowledge-bundle.json";
 import { verifyPaymentReceipt } from "./order-service";
 
@@ -387,6 +391,9 @@ export async function getReportDetails(env: Env, reportId: string) {
   if (report.full_report) {
     const rawFull = JSON.parse(report.full_report);
     if (report.is_unlocked === 1) {
+      const defaultChapters = createDefaultChapters(report.category);
+      rawFull.chapters = normalizeChapters(rawFull.chapters, defaultChapters);
+      rawFull.blessingAdvice = normalizeBlessingAdvice(rawFull.blessingAdvice, report.category);
       fullReport = rawFull;
     } else {
       // 未解锁时进行脱敏遮罩处理

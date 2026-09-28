@@ -66,7 +66,7 @@ export function parseAIOutput(rawText: string, category: DivinationCategory): Ge
   return generateFallbackReport(category);
 }
 
-function normalizeBlessingAdvice(items: any[] | undefined, category: DivinationCategory): any[] {
+export function normalizeBlessingAdvice(items: any[] | undefined, category: DivinationCategory): any[] {
   if (!Array.isArray(items) || items.length === 0) {
     return getDefaultBlessingAdvice(category);
   }
@@ -94,10 +94,19 @@ function normalizeBlessingAdvice(items: any[] | undefined, category: DivinationC
   });
 }
 
-function normalizeChapters(chapters: any[] | undefined, defaultChapters: any[]): any[] {
+export function normalizeChapters(chapters: any[] | undefined, defaultChapters: any[]): any[] {
   if (!Array.isArray(chapters) || chapters.length < 3) {
     return defaultChapters;
   }
+
+  // 计算章节平均字数，如果大模型输出的篇幅严重不足（如单句敷衍），则融合知识库大纲深度扩充
+  const totalLength = chapters.reduce((sum, ch) => {
+    const text = typeof ch.content === "string" ? ch.content : JSON.stringify(ch.content || "");
+    return sum + text.length;
+  }, 0);
+
+  const isTooShort = totalLength < 500 || (totalLength / chapters.length) < 130;
+
   return chapters.map((ch, idx) => {
     let content = ch.content;
     if (typeof content !== "string") {
@@ -109,10 +118,27 @@ function normalizeChapters(chapters: any[] | undefined, defaultChapters: any[]):
         content = String(content || "");
       }
     }
+
+    const fallbackCh = defaultChapters[idx] || defaultChapters[0];
+
+    // 如果章节字数过短（如只有两三句话），将大模型个性化输出置顶，随后追加知识库详批规范，确保内容充实详实
+    if (isTooShort || content.trim().length < 130) {
+      if (fallbackCh && fallbackCh.content) {
+        content = content.trim() ? `${content.trim()}\n\n${fallbackCh.content}` : fallbackCh.content;
+      }
+    }
+
+    // 纠正大模型使用整句话作为章节标题的不规范情况
+    let title = ch.title || "";
+    const isInvalidTitle = !title || title.length > 25 || (!title.includes("章") && !title.includes("【") && !title.includes("节"));
+    if (isInvalidTitle && fallbackCh?.title) {
+      title = fallbackCh.title;
+    }
+
     return {
-      id: ch.id || `chapter_${idx + 1}`,
-      title: ch.title || `第${idx + 1}章`,
-      tag: ch.tag || undefined,
+      id: ch.id || fallbackCh?.id || `chapter_${idx + 1}`,
+      title: title || `第${idx + 1}章`,
+      tag: ch.tag || fallbackCh?.tag || undefined,
       content,
     };
   });

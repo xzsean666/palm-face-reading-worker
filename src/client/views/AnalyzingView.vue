@@ -25,44 +25,49 @@
 
     <!-- 正常推演状态 -->
     <template v-else>
-      <div class="h-1"></div>
+      <div class="h-1 shrink-0"></div>
 
-      <!-- 220px 核心算法星盘组件 (垂直居中) -->
-      <div class="relative flex flex-col items-center justify-center w-full max-w-sm z-10">
-        <!-- 罗盘与八卦动效组件 -->
+      <!-- 220px 核心算法星盘组件 (垂直居中，尺寸恒定) -->
+      <div class="relative flex flex-col items-center justify-center w-full max-w-sm z-10 shrink-0">
+        <!-- 罗盘与八卦动效组件 (220px 严格固定尺寸) -->
         <AstroCompass :progress="progress" />
 
-        <!-- 当前阶段文案指示 -->
-        <div class="flex flex-col items-center text-center mt-3 w-full">
-          <div class="flex items-center gap-2 mb-1">
-            <span class="inline-block w-2 h-2 rounded-full bg-tertiary animate-ping"></span>
-            <p class="text-base sm:text-lg text-on-surface font-semibold tracking-wide">
+        <!-- 当前阶段文案指示 (高度锁定 56px，杜绝文字增减导致的垂直抖动) -->
+        <div class="flex flex-col items-center text-center mt-3 w-full h-14 justify-center">
+          <div class="flex items-center gap-2 h-7 justify-center">
+            <span class="inline-block w-2 h-2 rounded-full bg-tertiary animate-ping shrink-0"></span>
+            <p class="text-base sm:text-lg text-on-surface font-semibold tracking-wide truncate max-w-[280px]">
               {{ currentStageTitle }}
             </p>
           </div>
-          <p class="text-xs text-on-surface-variant/80">
-            基于东方星象与 Web3 零知识证明算法协同推演
-          </p>
-
-          <div
-            v-if="streamingSnippet"
-            class="mt-2 px-3 py-0.5 rounded-full bg-tertiary/10 border border-tertiary/30 text-[11px] text-tertiary font-mono truncate max-w-[280px] animate-pulse"
-          >
-            ⚡ {{ streamingSnippet }}
+          <div class="h-6 flex items-center justify-center w-full px-2">
+            <p
+              v-if="streamingSnippet"
+              class="text-xs text-tertiary font-mono truncate max-w-[300px] flex items-center gap-1 animate-pulse"
+            >
+              <span class="text-[10px]">⚡</span>
+              <span class="truncate">{{ streamingSnippet }}</span>
+            </p>
+            <p
+              v-else
+              class="text-xs text-on-surface-variant/80 truncate max-w-[300px]"
+            >
+              基于东方星象与 Web3 零知识证明算法协同推演
+            </p>
           </div>
         </div>
 
-        <!-- 四步流程阶段卡片 (Stage Flow Stepper Indicator) -->
+        <!-- 四步流程阶段卡片 (Stage Flow Stepper Indicator: 每行 h-7 锁定高度) -->
         <div class="w-full mt-4 px-1">
           <div class="bg-surface-container-low/90 backdrop-blur-md rounded-xl p-4 shadow-sm border border-white/5">
             <div class="flex flex-col gap-3">
               <!-- Step 1: 连接AI智库 -->
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 h-7">
                 <div
                   class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors"
                   :class="getStepStatus(1).bgClass"
                 >
-                  <span v-if="getStepStatus(1).isDone" class="text-primary text-xs font-bold">✓</span>
+                  <span v-if="getStepStatus(1).isDone" class="text-primary text-xs font-bold leading-none">✓</span>
                   <div v-else-if="getStepStatus(1).isCurrent" class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
                   <span v-else class="w-1.5 h-1.5 rounded-full bg-outline"></span>
                 </div>
@@ -73,12 +78,12 @@
               </div>
 
               <!-- Step 2: 排布命盘象数 -->
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 h-7">
                 <div
                   class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors"
                   :class="getStepStatus(2).bgClass"
                 >
-                  <span v-if="getStepStatus(2).isDone" class="text-primary text-xs font-bold">✓</span>
+                  <span v-if="getStepStatus(2).isDone" class="text-primary text-xs font-bold leading-none">✓</span>
                   <div v-else-if="getStepStatus(2).isCurrent" class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
                   <span v-else class="w-1.5 h-1.5 rounded-full bg-outline"></span>
                 </div>
@@ -89,12 +94,12 @@
               </div>
 
               <!-- Step 3: 推演五行格局 -->
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 h-7">
                 <div
                   class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors"
                   :class="getStepStatus(3).bgClass"
                 >
-                  <span v-if="getStepStatus(3).isDone" class="text-primary text-xs font-bold">✓</span>
+                  <span v-if="getStepStatus(3).isDone" class="text-primary text-xs font-bold leading-none">✓</span>
                   <div v-else-if="getStepStatus(3).isCurrent" class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
                   <span v-else class="w-1.5 h-1.5 rounded-full bg-outline"></span>
                 </div>
@@ -105,12 +110,12 @@
               </div>
 
               <!-- Step 4: 专属报告生成 -->
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 h-7">
                 <div
                   class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors"
                   :class="getStepStatus(4).bgClass"
                 >
-                  <span v-if="getStepStatus(4).isDone" class="text-primary text-xs font-bold">✓</span>
+                  <span v-if="getStepStatus(4).isDone" class="text-primary text-xs font-bold leading-none">✓</span>
                   <div v-else-if="getStepStatus(4).isCurrent" class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
                   <span v-else class="w-1.5 h-1.5 rounded-full bg-outline"></span>
                 </div>
@@ -124,12 +129,12 @@
         </div>
       </div>
 
-      <!-- 底部区域 (诗句轮播与后台推演) -->
-      <div class="w-full flex flex-col items-center text-center pb-3 z-10">
-        <!-- 距底 96px 诗句轮播 (12px --tj-text-faint) -->
-        <div class="h-6 flex items-center justify-center text-center mb-3 px-4 opacity-80">
+      <!-- 底部区域 (诗句轮播与后台推演，严格固定高度) -->
+      <div class="w-full flex flex-col items-center text-center pb-3 z-10 shrink-0">
+        <!-- 距底 96px 诗句轮播 (锁定 h-8 且 whitespace-nowrap 避免折行抖动) -->
+        <div class="h-8 flex items-center justify-center text-center mb-3 px-4 opacity-80 overflow-hidden">
           <transition name="fade-poem" mode="out-in">
-            <p :key="currentPoemIndex" class="text-xs text-on-surface-variant font-display tracking-widest leading-relaxed">
+            <p :key="currentPoemIndex" class="text-xs text-on-surface-variant font-display tracking-widest leading-relaxed whitespace-nowrap">
               「{{ poems[currentPoemIndex] }}」
             </p>
           </transition>
@@ -185,7 +190,8 @@ const currentStageTitle = computed(() => {
 });
 
 const poems = [
-  "天行健，君子以自强不息；地势坤，君子以厚德载物",
+  "天行健，君子以自强不息",
+  "地势坤，君子以厚德载物",
   "一命二运三风水，四积阴德五读书",
   "顺天应时，动静咸宜，善易者不卜",
   "祸兮福之所倚，福兮祸之所伏",
@@ -418,7 +424,10 @@ onMounted(async () => {
             if (payload?.step === 3) progress.value = Math.max(progress.value, 82);
           } else if (eventType === "chunk") {
             if (payload?.text) {
-              streamingSnippet.value = payload.text.trim().slice(-30);
+              const textChunk = typeof payload.text === "string" ? payload.text.trim() : "";
+              if (textChunk) {
+                streamingSnippet.value = textChunk.slice(-28);
+              }
               if (progress.value < 96) {
                 progress.value = Math.min(96, progress.value + 1);
               }
@@ -427,6 +436,7 @@ onMounted(async () => {
             reportData = payload;
             progress.value = 100;
             liveStageMessage.value = "推演圆满完成，正在呈现报告…";
+            streamingSnippet.value = "专属命盘与玄机解析已就绪";
           } else if (eventType === "error") {
             console.warn("推演流收到异常通知:", payload);
           }
@@ -499,15 +509,11 @@ function pushToBackground() {
 <style scoped>
 .fade-poem-enter-active,
 .fade-poem-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
-.fade-poem-enter-from {
-  opacity: 0;
-  transform: translateY(3px);
-}
+.fade-poem-enter-from,
 .fade-poem-leave-to {
   opacity: 0;
-  transform: translateY(-3px);
 }
 </style>
