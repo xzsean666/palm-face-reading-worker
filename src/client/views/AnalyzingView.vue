@@ -1,19 +1,23 @@
 <template>
-  <div class="flex-1 flex flex-col justify-between items-center px-6 pt-8 pb-6 select-none relative overflow-hidden">
+  <div class="flex-1 flex flex-col justify-between items-center px-4 pt-3 pb-6 select-none relative overflow-hidden min-h-[calc(100vh-3.5rem)]">
+    <!-- Dynamic Ambient Cosmic Glow -->
+    <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-secondary-container/20 blur-[100px] pointer-events-none"></div>
+    <div class="absolute top-48 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full bg-primary/10 blur-[80px] pointer-events-none"></div>
+
     <!-- 失败状态展示 -->
-    <div v-if="hasError" class="flex-1 flex flex-col items-center justify-center text-center my-auto">
+    <div v-if="hasError" class="flex-1 flex flex-col items-center justify-center text-center my-auto relative z-10">
       <div class="w-16 h-16 rounded-full bg-tj-danger/10 border border-tj-danger/30 flex items-center justify-center text-3xl mb-4">
         ⚠️
       </div>
-      <h3 class="text-base font-semibold text-tj-text-primary mb-2">
+      <h3 class="text-base font-semibold text-on-surface mb-2">
         推演未成功，已为您自动退款
       </h3>
-      <p class="text-xs text-tj-text-secondary mb-6 max-w-xs">
+      <p class="text-xs text-on-surface-variant mb-6 max-w-xs">
         当前边缘 AI 节点网络波动或参数不合规，未扣减您的任何费用或免费额度。
       </p>
       <button
         @click="router.replace('/home')"
-        class="px-6 py-2.5 rounded-full bg-tj-grad-gold text-[#1A1405] text-xs font-bold shadow-gold-glow"
+        class="px-6 py-2.5 rounded-full bg-tj-grad-gold text-[#1A1405] text-xs font-bold shadow-gold-glow active:scale-95 transition-transform"
       >
         返回首页
       </button>
@@ -21,84 +25,127 @@
 
     <!-- 正常推演状态 -->
     <template v-else>
-      <div class="text-center pt-2">
-        <h2 class="text-lg font-bold font-display text-transparent bg-clip-text bg-tj-grad-gold mb-1">
-          天机星盘推演中
-        </h2>
-        <p class="text-xs text-tj-text-secondary">
-          正在调用边缘大模型与古籍虚拟知识库
-        </p>
-      </div>
+      <div class="h-1"></div>
 
-      <!-- 220px 星盘组件与环形进度条 (垂直居中) -->
-      <div class="relative flex flex-col items-center justify-center my-auto">
+      <!-- 220px 核心算法星盘组件 (垂直居中) -->
+      <div class="relative flex flex-col items-center justify-center w-full max-w-sm z-10">
         <!-- 罗盘与八卦动效组件 -->
-        <AstroCompass />
+        <AstroCompass :progress="progress" />
 
-        <!-- 环形进度条围绕罗盘或下方数字展示 -->
-        <div class="mt-6 flex flex-col items-center">
-          <div class="relative w-20 h-20 flex items-center justify-center">
-            <!-- SVG 环形进度条 (线宽 4px, --tj-cyan) -->
-            <svg class="w-20 h-20 transform -rotate-90" viewBox="0 0 80 80">
-              <circle
-                cx="40"
-                cy="40"
-                r="34"
-                stroke="currentColor"
-                stroke-width="4"
-                class="text-white/10"
-                fill="none"
-              />
-              <circle
-                cx="40"
-                cy="40"
-                r="34"
-                stroke="currentColor"
-                stroke-width="4"
-                class="text-tj-cyan transition-all duration-300"
-                fill="none"
-                stroke-dasharray="213.6"
-                :stroke-dashoffset="213.6 * (1 - progress / 100)"
-                stroke-linecap="round"
-              />
-            </svg>
-            <span class="absolute text-lg font-bold font-num text-white">
-              {{ progress }}%
-            </span>
+        <!-- 当前阶段文案指示 -->
+        <div class="flex flex-col items-center text-center mt-3 w-full">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="inline-block w-2 h-2 rounded-full bg-tertiary animate-ping"></span>
+            <p class="text-base sm:text-lg text-on-surface font-semibold tracking-wide">
+              {{ currentStageTitle }}
+            </p>
           </div>
+          <p class="text-xs text-on-surface-variant/80">
+            基于东方星象与 Web3 零知识证明算法协同推演
+          </p>
 
-          <!-- 阶段文案轮播与实时推演提示 (14px --tj-text-primary) -->
-          <div class="h-6 mt-3 flex items-center justify-center text-center">
-            <transition name="fade-step" mode="out-in">
-              <span :key="currentStageText" class="text-sm font-medium text-tj-text-primary tracking-wide">
-                {{ currentStageText }}
-              </span>
-            </transition>
-          </div>
-
-          <div v-if="streamingSnippet" class="mt-2 px-3 py-0.5 rounded-full bg-tj-cyan/10 border border-tj-cyan/30 text-[10px] text-tj-cyan font-mono truncate max-w-[260px] animate-pulse">
+          <div
+            v-if="streamingSnippet"
+            class="mt-2 px-3 py-0.5 rounded-full bg-tertiary/10 border border-tertiary/30 text-[11px] text-tertiary font-mono truncate max-w-[280px] animate-pulse"
+          >
             ⚡ {{ streamingSnippet }}
+          </div>
+        </div>
+
+        <!-- 四步流程阶段卡片 (Stage Flow Stepper Indicator) -->
+        <div class="w-full mt-4 px-1">
+          <div class="bg-surface-container-low/90 backdrop-blur-md rounded-xl p-4 shadow-sm border border-white/5">
+            <div class="flex flex-col gap-3">
+              <!-- Step 1: 连接AI智库 -->
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors"
+                  :class="getStepStatus(1).bgClass"
+                >
+                  <span v-if="getStepStatus(1).isDone" class="text-primary text-xs font-bold">✓</span>
+                  <div v-else-if="getStepStatus(1).isCurrent" class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
+                  <span v-else class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                </div>
+                <div class="flex-1 flex items-center justify-between min-w-0">
+                  <span :class="getStepStatus(1).textClass">连接AI智库</span>
+                  <span :class="getStepStatus(1).badgeClass">{{ getStepStatus(1).label }}</span>
+                </div>
+              </div>
+
+              <!-- Step 2: 排布命盘象数 -->
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors"
+                  :class="getStepStatus(2).bgClass"
+                >
+                  <span v-if="getStepStatus(2).isDone" class="text-primary text-xs font-bold">✓</span>
+                  <div v-else-if="getStepStatus(2).isCurrent" class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
+                  <span v-else class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                </div>
+                <div class="flex-1 flex items-center justify-between min-w-0">
+                  <span :class="getStepStatus(2).textClass">排布命盘象数</span>
+                  <span :class="getStepStatus(2).badgeClass">{{ getStepStatus(2).label }}</span>
+                </div>
+              </div>
+
+              <!-- Step 3: 推演五行格局 -->
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors"
+                  :class="getStepStatus(3).bgClass"
+                >
+                  <span v-if="getStepStatus(3).isDone" class="text-primary text-xs font-bold">✓</span>
+                  <div v-else-if="getStepStatus(3).isCurrent" class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
+                  <span v-else class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                </div>
+                <div class="flex-1 flex items-center justify-between min-w-0">
+                  <span :class="getStepStatus(3).textClass">推演五行格局</span>
+                  <span :class="getStepStatus(3).badgeClass">{{ getStepStatus(3).label }}</span>
+                </div>
+              </div>
+
+              <!-- Step 4: 专属报告生成 -->
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors"
+                  :class="getStepStatus(4).bgClass"
+                >
+                  <span v-if="getStepStatus(4).isDone" class="text-primary text-xs font-bold">✓</span>
+                  <div v-else-if="getStepStatus(4).isCurrent" class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
+                  <span v-else class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                </div>
+                <div class="flex-1 flex items-center justify-between min-w-0">
+                  <span :class="getStepStatus(4).textClass">专属报告生成</span>
+                  <span :class="getStepStatus(4).badgeClass">{{ getStepStatus(4).label }}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- 底部区域 -->
-      <div class="w-full flex flex-col items-center space-y-4">
+      <!-- 底部区域 (诗句轮播与后台推演) -->
+      <div class="w-full flex flex-col items-center text-center pb-3 z-10">
         <!-- 距底 96px 诗句轮播 (12px --tj-text-faint) -->
-        <div class="h-5 flex items-center justify-center text-center">
+        <div class="h-6 flex items-center justify-center text-center mb-3 px-4 opacity-80">
           <transition name="fade-poem" mode="out-in">
-            <p :key="currentPoemIndex" class="text-xs text-tj-text-faint tracking-wider font-display">
+            <p :key="currentPoemIndex" class="text-xs text-on-surface-variant font-display tracking-widest leading-relaxed">
               「{{ poems[currentPoemIndex] }}」
             </p>
           </transition>
         </div>
 
-        <!-- 最底部文字按钮：「后台推演」 -->
+        <!-- 次级幽灵动作按钮：「后台推演」 -->
         <button
           @click="pushToBackground"
-          class="text-sm text-tj-text-secondary hover:text-tj-primary transition-colors py-1"
+          class="h-11 px-6 rounded-full bg-surface-container-high/80 text-secondary border border-secondary/20 font-label-md text-xs sm:text-sm tracking-wider flex items-center justify-center gap-2 hover:bg-surface-container-high active:scale-95 transition-all shadow-sm"
+          type="button"
         >
-          后台推演
+          <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="6" y="4" width="4" height="16" rx="1" stroke-width="2" stroke-linecap="round" />
+            <rect x="14" y="4" width="4" height="16" rx="1" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <span>后台推演</span>
         </button>
       </div>
     </template>
@@ -118,7 +165,7 @@ const userStore = useUserStore();
 const uiStore = useUIStore();
 
 const categoryType = computed(() => (route.params.type as string) || "bazi");
-const progress = ref(10);
+const progress = ref(15);
 const currentStageIndex = ref(0);
 const currentPoemIndex = ref(0);
 const hasError = ref(false);
@@ -133,31 +180,153 @@ const defaultStages = [
   "正在生成您的专属报告…",
 ];
 
-const currentStageText = computed(() => {
+const currentStageTitle = computed(() => {
   return liveStageMessage.value || defaultStages[currentStageIndex.value];
 });
 
 const poems = [
-  "天行健，君子以自强不息",
+  "天行健，君子以自强不息；地势坤，君子以厚德载物",
   "一命二运三风水，四积阴德五读书",
-  "地势坤，君子以厚德载物",
   "顺天应时，动静咸宜，善易者不卜",
+  "祸兮福之所倚，福兮祸之所伏",
 ];
 
 let stageTimer: any = null;
 let poemTimer: any = null;
+let progressSimTimer: any = null;
 let abortController: AbortController | null = null;
 
+function getStepStatus(stepIndex: number) {
+  const p = progress.value;
+  if (stepIndex === 1) {
+    if (p < 25) {
+      return {
+        isDone: false,
+        isCurrent: true,
+        label: "连接中",
+        bgClass: "bg-tertiary/20",
+        textClass: "text-xs font-medium text-tertiary",
+        badgeClass: "text-[11px] text-tertiary animate-pulse font-medium",
+      };
+    }
+    return {
+      isDone: true,
+      isCurrent: false,
+      label: "已就绪",
+      bgClass: "bg-primary/20",
+      textClass: "text-xs text-on-surface font-normal",
+      badgeClass: "text-[11px] text-primary font-medium",
+    };
+  }
+  if (stepIndex === 2) {
+    if (p < 25) {
+      return {
+        isDone: false,
+        isCurrent: false,
+        label: "等待中",
+        bgClass: "bg-surface-container-highest",
+        textClass: "text-xs text-on-surface/50 font-normal",
+        badgeClass: "text-[11px] text-outline",
+      };
+    }
+    if (p < 55) {
+      return {
+        isDone: false,
+        isCurrent: true,
+        label: "推演中",
+        bgClass: "bg-tertiary/20",
+        textClass: "text-xs font-medium text-tertiary",
+        badgeClass: "text-[11px] text-tertiary animate-pulse font-medium",
+      };
+    }
+    return {
+      isDone: true,
+      isCurrent: false,
+      label: "已完成",
+      bgClass: "bg-primary/20",
+      textClass: "text-xs text-on-surface font-normal",
+      badgeClass: "text-[11px] text-primary font-medium",
+    };
+  }
+  if (stepIndex === 3) {
+    if (p < 55) {
+      return {
+        isDone: false,
+        isCurrent: false,
+        label: "等待中",
+        bgClass: "bg-surface-container-highest",
+        textClass: "text-xs text-on-surface/50 font-normal",
+        badgeClass: "text-[11px] text-outline",
+      };
+    }
+    if (p < 85) {
+      return {
+        isDone: false,
+        isCurrent: true,
+        label: "推演中",
+        bgClass: "bg-tertiary/20",
+        textClass: "text-xs font-medium text-tertiary",
+        badgeClass: "text-[11px] text-tertiary animate-pulse font-medium",
+      };
+    }
+    return {
+      isDone: true,
+      isCurrent: false,
+      label: "已完成",
+      bgClass: "bg-primary/20",
+      textClass: "text-xs text-on-surface font-normal",
+      badgeClass: "text-[11px] text-primary font-medium",
+    };
+  }
+  // Step 4
+  if (p < 85) {
+    return {
+      isDone: false,
+      isCurrent: false,
+      label: "等待中",
+      bgClass: "bg-surface-container-highest",
+      textClass: "text-xs text-on-surface/50 font-normal",
+      badgeClass: "text-[11px] text-outline",
+    };
+  }
+  if (p < 100) {
+    return {
+      isDone: false,
+      isCurrent: true,
+      label: "生成中",
+      bgClass: "bg-tertiary/20",
+      textClass: "text-xs font-medium text-tertiary",
+      badgeClass: "text-[11px] text-tertiary animate-pulse font-medium",
+    };
+  }
+  return {
+    isDone: true,
+    isCurrent: false,
+    label: "已完成",
+    bgClass: "bg-primary/20",
+    textClass: "text-xs text-on-surface font-normal",
+    badgeClass: "text-[11px] text-primary font-medium",
+  };
+}
+
 onMounted(async () => {
-  // 阶段轮播计时器（作为无 liveStage 时的备用轮播）
+  // 阶段轮播
   stageTimer = setInterval(() => {
     currentStageIndex.value = (currentStageIndex.value + 1) % defaultStages.length;
-  }, 2500);
+  }, 2400);
 
-  // 诗句 3s 轮播
+  // 诗句 3.5s 轮播
   poemTimer = setInterval(() => {
     currentPoemIndex.value = (currentPoemIndex.value + 1) % poems.length;
-  }, 3000);
+  }, 3500);
+
+  // 平滑进度仿真
+  progressSimTimer = setInterval(() => {
+    if (progress.value < 94) {
+      const increment = Math.floor(Math.random() * 3) + 1;
+      progress.value = Math.min(94, progress.value + increment);
+    }
+  }, 1200);
 
   try {
     const rawForm = sessionStorage.getItem("tj_current_form");
@@ -201,7 +370,7 @@ onMounted(async () => {
     }
 
     const orderId = submitJson.data.orderId;
-    progress.value = 20;
+    progress.value = Math.max(progress.value, 30);
 
     // 2. 建立真实 SSE 流式推演连接
     abortController = new AbortController();
@@ -244,14 +413,14 @@ onMounted(async () => {
             if (payload?.title) {
               liveStageMessage.value = `${payload.title}…`;
             }
-            if (payload?.step === 1) progress.value = Math.max(progress.value, 30);
-            if (payload?.step === 2) progress.value = Math.max(progress.value, 55);
-            if (payload?.step === 3) progress.value = Math.max(progress.value, 75);
+            if (payload?.step === 1) progress.value = Math.max(progress.value, 35);
+            if (payload?.step === 2) progress.value = Math.max(progress.value, 60);
+            if (payload?.step === 3) progress.value = Math.max(progress.value, 82);
           } else if (eventType === "chunk") {
             if (payload?.text) {
               streamingSnippet.value = payload.text.trim().slice(-30);
-              if (progress.value < 94) {
-                progress.value = Math.min(94, progress.value + 1);
+              if (progress.value < 96) {
+                progress.value = Math.min(96, progress.value + 1);
               }
             }
           } else if (eventType === "complete") {
@@ -285,18 +454,36 @@ onMounted(async () => {
       }
     }, 600);
   } catch (err: any) {
-    console.error("推演过程异常:", err);
-    // 容错平滑降级：确保用户不卡死在加载态
-    progress.value = 100;
-    setTimeout(() => {
-      router.replace(`/feature/${categoryType.value}/preview`);
-    }, 500);
+    console.warn("推演连接进入离线仿真模式:", err);
+    // 平滑仿真推演全流程，确保动效与阶段切换丝滑呈现
+    let simStep = 1;
+    const simInterval = setInterval(() => {
+      progress.value = Math.min(100, progress.value + 18);
+      if (progress.value >= 35 && simStep < 2) {
+        simStep = 2;
+        liveStageMessage.value = "正在排布您的专属命盘…";
+      } else if (progress.value >= 60 && simStep < 3) {
+        simStep = 3;
+        liveStageMessage.value = "正在推演五行格局…";
+      } else if (progress.value >= 85 && simStep < 4) {
+        simStep = 4;
+        liveStageMessage.value = "正在生成您的专属报告…";
+      }
+
+      if (progress.value >= 100) {
+        clearInterval(simInterval);
+        setTimeout(() => {
+          router.replace(`/feature/${categoryType.value}/preview`);
+        }, 1000);
+      }
+    }, 800);
   }
 });
 
 onUnmounted(() => {
   if (stageTimer) clearInterval(stageTimer);
   if (poemTimer) clearInterval(poemTimer);
+  if (progressSimTimer) clearInterval(progressSimTimer);
   if (abortController && !isPushingToBackground.value) {
     abortController.abort();
   }
@@ -304,26 +491,15 @@ onUnmounted(() => {
 
 function pushToBackground() {
   isPushingToBackground.value = true;
-  uiStore.showToast("推演已转入后台，完成后将在测算记录中呈现");
+  uiStore.showToast("已转至后台计算，推演完成后将推送通知");
   router.push("/me/records");
 }
 </script>
 
 <style scoped>
-.fade-step-enter-active,
-.fade-step-leave-active,
 .fade-poem-enter-active,
 .fade-poem-leave-active {
   transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.fade-step-enter-from {
-  opacity: 0;
-  transform: translateY(4px);
-}
-.fade-step-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
 }
 
 .fade-poem-enter-from {

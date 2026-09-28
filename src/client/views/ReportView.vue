@@ -1,256 +1,317 @@
 <template>
-  <div class="flex-1 pb-24 px-4 pt-3 select-none">
-    <!-- 1. 报告封面头卡 (右上胶囊标签「专属完整版」紫金渐变) -->
-    <div class="bg-gradient-to-b from-[#26203D] via-tj-bg-card to-[#121626] border border-tj-primary/40 rounded-2xl p-5 mb-4 shadow-gold-glow relative overflow-hidden">
-      <!-- 胶囊标签 -->
-      <div class="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-tj-grad-vip text-white text-[10px] font-bold shadow-md">
-        专属完整版
-      </div>
+  <div class="flex-1 pb-32 px-4 pt-3 select-none relative overflow-hidden">
+    <!-- Atmospheric Aura Highlights -->
+    <div class="absolute -top-10 -right-16 w-72 h-72 rounded-full bg-primary/5 blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/3 -left-20 w-80 h-80 rounded-full bg-secondary-container/10 blur-3xl pointer-events-none"></div>
 
-      <div class="relative z-10">
-        <h2 class="text-base font-semibold text-tj-primary font-display mb-1 tracking-wide">
-          {{ reportTitle }}
-        </h2>
-        <div class="text-xs text-tj-text-secondary font-mono mb-1">
-          NO.{{ reportNo }}
+    <!-- 1. 报告封面头卡 (右上胶囊标签「专属完整版」紫金渐变) -->
+    <div class="relative w-full rounded-2xl bg-surface-container overflow-hidden p-5 mb-4 shadow-xl border border-primary/30">
+      <!-- Auspicious Cloud Texture Overlay -->
+      <div class="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/30 via-secondary/10 to-transparent"></div>
+      <div class="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-primary/10 blur-xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col gap-1.5">
+        <div class="flex items-center justify-between">
+          <span class="font-label-sm text-xs text-outline tracking-wider font-mono">NO.{{ reportNo }}</span>
+          <div class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-secondary-container via-primary-container to-primary text-surface-container-lowest text-[11px] font-bold tracking-wide shadow-sm">
+            专属完整版
+          </div>
         </div>
-        <div class="text-xs text-tj-text-secondary">
-          {{ todayStr }} · {{ userStore.user?.nickname || "天机缘主" }} · {{ categoryName }} · 综合评分 {{ reportScore }}分
+
+        <div class="mt-1">
+          <h2 class="text-base sm:text-lg font-bold text-primary tracking-wide flex items-center gap-1.5">
+            <span class="text-primary text-lg">✦</span>
+            {{ reportTitle }}
+          </h2>
+          <p class="text-xs text-on-surface-variant mt-1">
+            {{ todayStr }} · {{ userStore.user?.nickname || "天机缘主" }} · {{ categoryName }} · 综合评分 {{ reportScore }}分
+          </p>
+        </div>
+
+        <!-- 算法与防伪存证状态行 -->
+        <div class="mt-2 pt-2 flex items-center justify-between bg-surface-container-low/70 px-3 py-1.5 rounded-lg border border-white/5">
+          <div class="flex items-center gap-1.5 text-primary text-xs">
+            <span>🛡️</span>
+            <span class="font-medium">天机算法已认证 · 乾坤法印固化</span>
+          </div>
+          <span class="text-[11px] text-tertiary font-mono">ZK-Proof 链上可溯</span>
         </div>
       </div>
     </div>
 
     <!-- 2. 命盘可视化卡 (高 240px，按门类动态全息渲染) -->
-    <div class="h-[240px] bg-tj-bg-card border border-tj-primary/20 rounded-2xl p-4 mb-4 relative overflow-hidden flex flex-col justify-between shadow-sm">
-      <div class="flex items-center justify-between border-b border-white/5 pb-2">
-        <span class="text-xs font-semibold text-tj-primary-light flex items-center gap-1.5">
-          <span>🌌</span> {{ chartTitle }}
+    <div class="w-full min-h-[240px] rounded-2xl bg-surface-container-low p-4 mb-4 relative overflow-hidden shadow-lg border border-primary/20 flex flex-col justify-between">
+      <!-- Occult Compass / LuoPan Visual Background SVG -->
+      <svg class="absolute -right-12 -top-12 w-64 h-64 opacity-10 text-primary pointer-events-none animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="95" stroke-dasharray="3 3" stroke-width="0.8"></circle>
+        <circle cx="100" cy="100" r="75" stroke-width="0.5"></circle>
+        <circle cx="100" cy="100" r="50" stroke-width="0.8"></circle>
+        <circle cx="100" cy="100" r="28" stroke-dasharray="2 2" stroke-width="0.5"></circle>
+        <line stroke-width="0.5" x1="100" x2="100" y1="5" y2="195"></line>
+        <line stroke-width="0.5" x1="5" x2="195" y1="100" y2="100"></line>
+        <line stroke-width="0.5" x1="33" x2="167" y1="33" y2="167"></line>
+        <line stroke-width="0.5" x1="33" x2="167" y1="167" y2="33"></line>
+        <polygon fill="none" points="100,60 135,120 65,120" stroke-width="0.6"></polygon>
+        <polygon fill="none" points="100,140 135,80 65,80" stroke-width="0.6"></polygon>
+      </svg>
+
+      <!-- 卡片头部标题 -->
+      <div class="flex items-center justify-between border-b border-white/5 pb-2 relative z-10">
+        <div class="flex items-center gap-1.5">
+          <span class="w-1.5 h-3.5 rounded-full bg-primary"></span>
+          <span class="text-xs sm:text-sm font-semibold text-on-surface">{{ chartTitle }}</span>
+        </div>
+        <span class="text-[11px] text-tertiary font-mono px-2 py-0.5 rounded bg-surface-container-high border border-white/5">
+          天机共振指数: {{ reportScore }}%
         </span>
-        <span class="text-[10px] text-tj-cyan font-mono">天机共振指数: {{ reportScore }}%</span>
       </div>
 
-      <!-- A. 看相类：三停五岳与掌纹走势 -->
-      <template v-if="categoryType === 'palm_face' || categoryType === 'palm_reading' || categoryType === 'face_reading'">
-        <div class="grid grid-cols-3 gap-2 my-auto text-center py-2">
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-1">上停 / 离卦天庭</div>
-            <div class="text-sm font-bold text-tj-primary font-display">日月角明</div>
-            <div class="text-[10px] text-tj-text-secondary mt-1">少年颖悟早成</div>
-          </div>
-          <div class="p-2 rounded-xl bg-tj-primary/10 border border-tj-primary/40 shadow-gold-glow">
-            <div class="text-[10px] text-tj-primary-light mb-1">中停 / 鼻准田宅</div>
-            <div class="text-sm font-bold text-tj-primary font-display">岳耸仓丰</div>
-            <div class="text-[10px] text-tj-primary mt-1">中年家财丰实</div>
-          </div>
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-1">下停 / 地阁颐骨</div>
-            <div class="text-sm font-bold text-tj-primary font-display">方圆得配</div>
-            <div class="text-[10px] text-tj-text-secondary mt-1">晚福深厚安宁</div>
-          </div>
-        </div>
-      </template>
-
-      <!-- B. 择日吉日类：首选上上吉日全息卡 -->
-      <template v-else-if="categoryType === 'auspicious_date'">
-        <div class="space-y-2 my-auto py-1">
-          <div class="flex items-center justify-between p-2.5 rounded-xl bg-tj-primary/10 border border-tj-primary/40 shadow-gold-glow">
+      <!-- A. 择日吉日类：首选上上吉日全息卡 (根据设计图 ai_37 精确呈现) -->
+      <template v-if="categoryType === 'auspicious_date'">
+        <div class="space-y-2.5 my-auto py-2 relative z-10">
+          <div class="flex items-center justify-between p-3 rounded-xl bg-primary/10 border border-primary/30 shadow-gold-glow">
             <div>
-              <div class="text-[10px] text-tj-primary-light">首选良辰吉日</div>
-              <div class="text-xs font-bold text-tj-primary font-display mt-0.5">2026年10月18日 · 丙午年 乙未日</div>
+              <div class="text-[10px] text-primary font-medium tracking-wide">首选天定吉日</div>
+              <div class="text-sm font-bold text-primary font-display mt-0.5">
+                2026年10月18日 · 丙午年 乙未日
+              </div>
+              <div class="text-[11px] text-on-surface-variant mt-0.5">
+                农历九月初九 · 重阳天赦 · 诸事大吉
+              </div>
             </div>
-            <div class="px-2 py-0.5 rounded-md bg-tj-primary text-[#1A1405] text-[10px] font-bold">
+            <div class="px-2.5 py-1 rounded-full bg-primary text-surface-container-lowest text-xs font-bold shadow-sm">
               上上元吉
             </div>
           </div>
           <div class="grid grid-cols-3 gap-2 text-center">
-            <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-              <div class="text-[10px] text-tj-text-faint">建除十二神</div>
-              <div class="text-xs font-bold text-tj-text-primary mt-1">成日 (万事大吉)</div>
+            <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+              <div class="text-[10px] text-outline">建除十二神</div>
+              <div class="text-xs font-bold text-on-surface mt-1">成日 (万事大成)</div>
             </div>
-            <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-              <div class="text-[10px] text-tj-text-faint">当值黄道神</div>
-              <div class="text-xs font-bold text-tj-cyan mt-1">青龙 (天乙贵人)</div>
+            <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+              <div class="text-[10px] text-outline">当值黄道神</div>
+              <div class="text-xs font-bold text-tertiary mt-1">青龙 (天乙贵人)</div>
             </div>
-            <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-              <div class="text-[10px] text-tj-text-faint">黄金启动时辰</div>
-              <div class="text-xs font-bold text-tj-purple-light mt-1">巳时 09:18-10:58</div>
+            <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+              <div class="text-[10px] text-outline">黄金启动时辰</div>
+              <div class="text-xs font-bold text-primary mt-1">巳时 09:18-10:58</div>
             </div>
           </div>
         </div>
       </template>
 
-      <!-- C. 奇门决疑类：时空奇门胜算盘 -->
+      <!-- B. 看相类：三停五岳与掌纹走势 (根据设计图 ai_ai_4 精确呈现) -->
+      <template v-else-if="categoryType === 'palm_face' || categoryType === 'palm_reading' || categoryType === 'face_reading'">
+        <div class="grid grid-cols-3 gap-2 my-auto text-center py-2 relative z-10">
+          <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[10px] text-outline mb-1">上停 / 离卦天庭</div>
+            <div class="text-sm font-bold text-on-surface font-display">日月角明</div>
+            <div class="text-[10px] text-on-surface-variant mt-1">少年颖悟早成</div>
+          </div>
+          <div class="p-2 rounded-xl bg-primary/10 border border-primary/40 shadow-gold-glow">
+            <div class="text-[10px] text-primary mb-1">中停 / 鼻准田宅</div>
+            <div class="text-sm font-bold text-primary font-display">岳耸仓丰</div>
+            <div class="text-[10px] text-primary mt-1">中年家财丰实</div>
+          </div>
+          <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[10px] text-outline mb-1">下停 / 地阁颐骨</div>
+            <div class="text-sm font-bold text-on-surface font-display">方圆得配</div>
+            <div class="text-[10px] text-on-surface-variant mt-1">晚福深厚安宁</div>
+          </div>
+        </div>
+      </template>
+
+      <!-- C. 奇门决疑类：时空奇门胜算盘 (根据设计图 ai_22 精确呈现) -->
       <template v-else-if="categoryType === 'qimen_decision'">
-        <div class="grid grid-cols-4 gap-2 my-auto text-center py-2">
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-1">值符九星</div>
-            <div class="text-xs font-bold text-tj-text-primary">天心吉星</div>
-            <div class="text-[9px] text-tj-text-secondary mt-1">乾六宫生助</div>
+        <div class="grid grid-cols-4 gap-2 my-auto text-center py-2 relative z-10">
+          <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[10px] text-outline mb-1">值符九星</div>
+            <div class="text-xs font-bold text-on-surface">天心吉星</div>
+            <div class="text-[9px] text-on-surface-variant mt-1">乾六宫生助</div>
           </div>
-          <div class="p-2 rounded-xl bg-tj-primary/10 border border-tj-primary/40 shadow-gold-glow">
-            <div class="text-[10px] text-tj-primary-light mb-1">值使八门</div>
-            <div class="text-xs font-bold text-tj-primary">开门大吉</div>
-            <div class="text-[9px] text-tj-primary mt-1">万事亨通</div>
+          <div class="p-2 rounded-xl bg-primary/10 border border-primary/40 shadow-gold-glow">
+            <div class="text-[10px] text-primary mb-1">值使八门</div>
+            <div class="text-xs font-bold text-primary">开门大吉</div>
+            <div class="text-[9px] text-primary mt-1">万事亨通</div>
           </div>
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-1">八神奇仪</div>
-            <div class="text-xs font-bold text-tj-cyan">青龙转光</div>
-            <div class="text-[9px] text-tj-text-secondary mt-1">贵人相辅</div>
+          <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[10px] text-outline mb-1">八神奇仪</div>
+            <div class="text-xs font-bold text-tertiary">青龙转光</div>
+            <div class="text-[9px] text-on-surface-variant mt-1">贵人相辅</div>
           </div>
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-1">胜算概率</div>
-            <div class="text-sm font-bold text-tj-purple-light font-num">82%</div>
-            <div class="text-[9px] text-tj-purple mt-1">顺势大胜</div>
+          <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[10px] text-outline mb-1">胜算概率</div>
+            <div class="text-sm font-bold text-secondary font-num">82%</div>
+            <div class="text-[9px] text-secondary mt-1">顺势大胜</div>
           </div>
         </div>
       </template>
 
-      <!-- D. 双人合婚类：天合地合谱 -->
+      <!-- D. 双人合婚类：天合地合谱 (根据设计图 ai_14 精确呈现) -->
       <template v-else-if="categoryType === 'love_match'">
-        <div class="grid grid-cols-3 gap-2 my-auto text-center py-2">
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-1">双方日柱</div>
-            <div class="text-xs font-bold text-tj-text-primary">天合地合</div>
-            <div class="text-[9px] text-tj-text-secondary mt-1">甲己中正之合</div>
+        <div class="grid grid-cols-3 gap-2 my-auto text-center py-2 relative z-10">
+          <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[10px] text-outline mb-1">双方日柱</div>
+            <div class="text-xs font-bold text-on-surface">天合地合</div>
+            <div class="text-[9px] text-on-surface-variant mt-1">甲己中正之合</div>
           </div>
-          <div class="p-2 rounded-xl bg-tj-purple/10 border border-tj-purple/40 shadow-sm">
-            <div class="text-[10px] text-tj-purple-light mb-1">纳音五行</div>
-            <div class="text-xs font-bold text-tj-purple">金水相生</div>
-            <div class="text-[9px] text-tj-purple mt-1">宿世因缘共鸣</div>
+          <div class="p-2 rounded-xl bg-secondary-container/20 border border-secondary/30 shadow-sm">
+            <div class="text-[10px] text-secondary mb-1">纳音五行</div>
+            <div class="text-xs font-bold text-secondary">金水相生</div>
+            <div class="text-[9px] text-secondary mt-1">宿世因缘共鸣</div>
           </div>
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-1">白头和顺指数</div>
-            <div class="text-sm font-bold text-tj-primary font-num">95分</div>
-            <div class="text-[9px] text-tj-primary mt-1">琴瑟和谐</div>
+          <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[10px] text-outline mb-1">白头和顺指数</div>
+            <div class="text-sm font-bold text-primary font-num">95分</div>
+            <div class="text-[9px] text-primary mt-1">琴瑟和谐</div>
           </div>
         </div>
       </template>
 
-      <!-- E. 手机车牌类：八星磁场分布 -->
+      <!-- E. 手机车牌类：八星磁场分布 (根据设计图 ai_10 精确呈现) -->
       <template v-else-if="categoryType === 'phone_plate'">
-        <div class="grid grid-cols-4 gap-2 my-auto text-center py-2">
-          <div class="p-2 rounded-xl bg-tj-primary/10 border border-tj-primary/30">
-            <div class="text-[10px] text-tj-primary-light mb-0.5">核心吉星</div>
-            <div class="text-sm font-bold text-tj-primary font-display">天医延年</div>
-            <div class="text-[10px] text-tj-text-secondary mt-0.5">财智亨通</div>
+        <div class="grid grid-cols-4 gap-2 my-auto text-center py-2 relative z-10">
+          <div class="p-2 rounded-xl bg-primary/10 border border-primary/30">
+            <div class="text-[10px] text-primary mb-0.5">核心吉星</div>
+            <div class="text-sm font-bold text-primary font-display">天医延年</div>
+            <div class="text-[9px] text-on-surface-variant mt-0.5">财智亨通</div>
           </div>
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-0.5">生助吉星</div>
-            <div class="text-sm font-bold text-tj-cyan font-display">生气伏位</div>
-            <div class="text-[10px] text-tj-text-secondary mt-0.5">贵人蓄势</div>
+          <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[10px] text-outline mb-0.5">生助吉星</div>
+            <div class="text-sm font-bold text-tertiary font-display">生气伏位</div>
+            <div class="text-[9px] text-on-surface-variant mt-0.5">贵人蓄势</div>
           </div>
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-0.5">制化凶星</div>
-            <div class="text-sm font-bold text-tj-text-primary font-display">绝命有制</div>
-            <div class="text-[10px] text-tj-text-secondary mt-0.5">破局新生</div>
+          <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[10px] text-outline mb-0.5">制化凶星</div>
+            <div class="text-sm font-bold text-on-surface font-display">绝命有制</div>
+            <div class="text-[9px] text-on-surface-variant mt-0.5">破局新生</div>
           </div>
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-0.5">综合数理</div>
-            <div class="text-sm font-bold text-tj-purple-light font-display">81上吉</div>
-            <div class="text-[10px] text-tj-text-secondary mt-0.5">乾象得位</div>
+          <div class="p-2 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[10px] text-outline mb-0.5">综合数理</div>
+            <div class="text-sm font-bold text-secondary font-display">81上吉</div>
+            <div class="text-[9px] text-on-surface-variant mt-0.5">乾象得位</div>
           </div>
         </div>
       </template>
 
-      <!-- F. 姓名类：三才五格 -->
+      <!-- F. 姓名类：三才五格 (根据设计图 ai_8 / ai_17 精确呈现) -->
       <template v-else-if="categoryType === 'name_test' || categoryType === 'personal_naming' || categoryType === 'company_naming'">
-        <div class="grid grid-cols-5 gap-1.5 my-auto text-center py-2">
-          <div class="p-1.5 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[9px] text-tj-text-faint">天格 (根)</div>
-            <div class="text-xs font-bold text-tj-text-primary mt-1">大吉</div>
+        <div class="grid grid-cols-5 gap-1.5 my-auto text-center py-2 relative z-10">
+          <div class="p-1.5 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[9px] text-outline">天格 (根)</div>
+            <div class="text-xs font-bold text-on-surface mt-1">大吉</div>
           </div>
-          <div class="p-1.5 rounded-xl bg-tj-primary/10 border border-tj-primary/40 shadow-gold-glow">
-            <div class="text-[9px] text-tj-primary-light">人格 (主)</div>
-            <div class="text-xs font-bold text-tj-primary mt-1">兴隆</div>
+          <div class="p-1.5 rounded-xl bg-primary/10 border border-primary/40 shadow-gold-glow">
+            <div class="text-[9px] text-primary">人格 (主)</div>
+            <div class="text-xs font-bold text-primary mt-1">兴隆</div>
           </div>
-          <div class="p-1.5 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[9px] text-tj-text-faint">地格 (前)</div>
-            <div class="text-xs font-bold text-tj-text-primary mt-1">福寿</div>
+          <div class="p-1.5 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[9px] text-outline">地格 (前)</div>
+            <div class="text-xs font-bold text-on-surface mt-1">福寿</div>
           </div>
-          <div class="p-1.5 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[9px] text-tj-text-faint">外格 (副)</div>
-            <div class="text-xs font-bold text-tj-cyan mt-1">逢贵</div>
+          <div class="p-1.5 rounded-xl bg-surface-container border border-white/5">
+            <div class="text-[9px] text-outline">外格 (副)</div>
+            <div class="text-xs font-bold text-tertiary mt-1">逢贵</div>
           </div>
-          <div class="p-1.5 rounded-xl bg-tj-purple/10 border border-tj-purple/30">
-            <div class="text-[9px] text-tj-purple-light">总格 (后)</div>
-            <div class="text-xs font-bold text-tj-purple mt-1">大成</div>
+          <div class="p-1.5 rounded-xl bg-secondary-container/20 border border-secondary/30">
+            <div class="text-[9px] text-secondary">总格 (后)</div>
+            <div class="text-xs font-bold text-secondary mt-1">大成</div>
           </div>
         </div>
       </template>
 
-      <!-- G. 八字/运程类：四柱干支与神煞 -->
+      <!-- G. 八字/运程类：四柱干支与神煞 (根据设计图 ai_35 精确呈现) -->
       <template v-else>
-        <div class="grid grid-cols-4 gap-2 my-auto text-center py-2">
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-1">年柱 (祖上)</div>
-            <div class="text-sm font-bold text-tj-primary font-display">甲子</div>
-            <div class="text-[10px] text-tj-text-secondary mt-1">海中金</div>
+        <div class="grid grid-cols-4 gap-2 my-auto z-10 py-1">
+          <!-- Year -->
+          <div class="flex flex-col items-center bg-surface-container rounded-lg py-2 px-1 text-center border border-white/5">
+            <span class="text-[11px] text-tertiary">偏印</span>
+            <div class="text-sm font-bold text-primary my-0.5 tracking-widest font-display">甲子</div>
+            <span class="text-[10px] text-on-surface-variant">海中金</span>
           </div>
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-1">月柱 (父母)</div>
-            <div class="text-sm font-bold text-tj-primary font-display">丙寅</div>
-            <div class="text-[10px] text-tj-text-secondary mt-1">炉中火</div>
+          <!-- Month -->
+          <div class="flex flex-col items-center bg-surface-container rounded-lg py-2 px-1 text-center border border-white/5">
+            <span class="text-[11px] text-secondary">正官</span>
+            <div class="text-sm font-bold text-primary my-0.5 tracking-widest font-display">癸酉</div>
+            <span class="text-[10px] text-on-surface-variant">剑锋金</span>
           </div>
-          <div class="p-2 rounded-xl bg-tj-primary/10 border border-tj-primary/40 shadow-gold-glow">
-            <div class="text-[10px] text-tj-primary-light mb-1">日柱 (元神)</div>
-            <div class="text-sm font-bold text-tj-primary font-display">戊辰</div>
-            <div class="text-[10px] text-tj-primary mt-1">大林木</div>
+          <!-- Day (Primary / Day Master) -->
+          <div class="flex flex-col items-center bg-surface-container-high rounded-lg py-2 px-1 text-center ring-1 ring-primary/40 shadow-[0_0_12px_rgba(242,202,80,0.2)]">
+            <span class="text-[11px] text-primary font-semibold">日主</span>
+            <div class="text-sm font-bold text-primary my-0.5 tracking-widest font-display">丙寅</div>
+            <span class="text-[10px] text-primary">炉中火</span>
           </div>
-          <div class="p-2 rounded-xl bg-white/5 border border-white/5">
-            <div class="text-[10px] text-tj-text-faint mb-1">时柱 (子嗣)</div>
-            <div class="text-sm font-bold text-tj-primary font-display">丁巳</div>
-            <div class="text-[10px] text-tj-text-secondary mt-1">沙中土</div>
+          <!-- Hour -->
+          <div class="flex flex-col items-center bg-surface-container rounded-lg py-2 px-1 text-center border border-white/5">
+            <span class="text-[11px] text-tj-danger">七杀</span>
+            <div class="text-sm font-bold text-primary my-0.5 tracking-widest font-display">壬辰</div>
+            <span class="text-[10px] text-on-surface-variant">长流水</span>
           </div>
         </div>
       </template>
 
-      <div class="flex items-center justify-between text-[11px] text-tj-text-faint border-t border-white/5 pt-2">
-        <span>天乙贵人 · 禄马交驰</span>
-        <span class="text-tj-primary">气韵纯粹 · 生化有情</span>
+      <!-- 命盘底部生克推演栏 -->
+      <div class="z-10 flex items-center justify-between bg-surface-container-highest/60 rounded-lg px-3 py-1.5 text-xs text-on-surface border border-white/5 mt-1">
+        <div class="flex items-center gap-2">
+          <span class="text-outline">生克推演:</span>
+          <div class="flex items-center gap-1.5 text-[11px]">
+            <span class="text-tertiary">木生火旺</span>
+            <span class="text-outline">›</span>
+            <span class="text-primary">财官相生</span>
+            <span class="text-outline">›</span>
+            <span class="text-secondary">印绶护身</span>
+          </div>
+        </div>
+        <span class="text-primary font-medium text-[11px]">身旺喜用</span>
       </div>
     </div>
 
-    <!-- 3. 命盘总览综述 (Overview 卡片) -->
-    <div v-if="overviewText" class="bg-tj-bg-card border border-tj-primary/25 rounded-2xl p-4 mb-4 shadow-sm">
-      <h3 class="text-[14px] font-semibold text-tj-primary mb-2 flex items-center gap-2">
+    <!-- 3. 局象全息总括 (Overview 卡片) -->
+    <div v-if="overviewText" class="bg-surface-container border border-primary/20 rounded-2xl p-4 mb-4 shadow-sm relative z-10">
+      <h3 class="text-sm font-semibold text-primary mb-2 flex items-center gap-2">
         <span>📜</span> 局象全息总括
       </h3>
-      <p class="text-[14px] text-tj-text-primary/95 leading-[1.8] text-justify">
+      <p class="text-xs sm:text-sm text-on-surface/95 leading-[1.8] text-justify">
         {{ overviewText }}
       </p>
     </div>
 
-    <!-- 4. 分章解读区 (手风琴卡片，每章独立折叠展开) -->
-    <div class="space-y-3 mb-4">
+    <!-- 4. 分章解读区 (手风琴卡片，每章独立折叠展开，标准中国数字大写章次) -->
+    <div class="space-y-3 mb-4 relative z-10">
       <div
-        v-for="(chapter, idx) in displayChapters"
+        v-for="(chapter, idx) in formattedChapters"
         :key="chapter.id || idx"
-        class="bg-tj-bg-card border border-white/10 rounded-2xl overflow-hidden transition-all"
+        class="bg-surface-container border border-white/10 rounded-2xl overflow-hidden shadow-md transition-all duration-300"
       >
         <!-- 章节标题行 -->
         <button
           @click="toggleChapter(idx)"
           class="w-full px-4 py-3.5 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
+          type="button"
         >
-          <div class="flex items-center gap-2.5">
-            <span class="text-base">{{ getChapterIcon(idx) }}</span>
-            <span class="text-[15px] font-semibold text-tj-text-primary">{{ chapter.title }}</span>
-            <span v-if="chapter.tag" class="ml-1 px-2 py-0.2 rounded-md bg-white/5 border border-white/10 text-[10px] text-tj-cyan">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs shrink-0">
+              {{ getChapterNum(idx) }}
+            </span>
+            <span class="text-sm sm:text-base font-semibold text-on-surface truncate">{{ chapter.cleanTitle }}</span>
+          </div>
+          <div class="flex items-center gap-2 shrink-0 ml-2">
+            <span v-if="chapter.tag" class="px-2 py-0.5 rounded-md bg-white/5 text-[10px] text-tertiary border border-white/10">
               {{ chapter.tag }}
             </span>
+            <span
+              class="text-xs text-primary transform transition-transform duration-300"
+              :class="{ 'rotate-180': openChapter === idx }"
+            >
+              ▼
+            </span>
           </div>
-          <span
-            class="text-xs text-tj-text-secondary transform transition-transform"
-            :class="{ 'rotate-90': openChapter === idx }"
-          >
-            ›
-          </span>
         </button>
 
-        <!-- 展开后正文 (15px/400 行高 1.8) -->
+        <!-- 展开后正文 (14px/400 行高 1.8) -->
         <div
           v-show="openChapter === idx"
-          class="px-4 pb-4 pt-1 border-t border-white/5 space-y-1.5"
+          class="px-4 pb-4 pt-1 border-t border-white/5 space-y-2.5"
         >
           <div
             v-for="(block, bIdx) in parseContentBlocks(chapter.content)"
@@ -259,25 +320,25 @@
             <!-- 标题块 ### 或 ## -->
             <div
               v-if="block.type === 'heading'"
-              class="font-bold text-[13px] text-tj-primary flex items-center gap-1.5 pt-2.5 pb-1 border-b border-white/5"
+              class="font-semibold text-xs sm:text-sm text-primary flex items-center gap-1.5 pt-2 pb-1 border-b border-white/5"
             >
-              <span class="w-1.5 h-3 bg-tj-primary rounded-full"></span>
+              <span class="w-1.5 h-3 bg-primary rounded-full"></span>
               <span v-html="formatInline(block.content)"></span>
             </div>
 
             <!-- 列表项 - 或 * 或 1. -->
             <div
               v-else-if="block.type === 'list-item'"
-              class="flex items-start gap-2 pl-1 py-0.5 text-[13px] text-tj-text-primary/90"
+              class="flex items-start gap-2 pl-1 py-0.5 text-xs sm:text-sm text-on-surface/90"
             >
-              <span class="text-tj-primary text-xs mt-0.5">•</span>
+              <span class="text-primary text-xs mt-0.5">•</span>
               <div class="flex-1" v-html="formatInline(block.content)"></div>
             </div>
 
             <!-- 普通段落 -->
             <div
               v-else
-              class="text-[13px] font-normal text-tj-text-primary/90 text-justify py-0.5 leading-[1.8]"
+              class="text-xs sm:text-sm font-normal text-on-surface/90 text-justify py-0.5 leading-[1.8]"
               v-html="formatInline(block.content)"
             ></div>
           </div>
@@ -285,60 +346,131 @@
       </div>
     </div>
 
-    <!-- 5. 宗师改运锦囊 (Blessing Advice) -->
-    <div v-if="blessingAdvice.length > 0" class="bg-gradient-to-br from-[#1C1828] to-[#121626] border border-tj-purple/30 rounded-2xl p-4 mb-5 space-y-2.5 shadow-sm">
-      <h3 class="text-sm font-semibold text-tj-purple-light flex items-center gap-2">
-        <span>✨</span> 宗师修心改运锦囊
-      </h3>
-      <div class="space-y-1.5">
+    <!-- 5. 第六章 吉凶方位与开运指南 (按设计图规范 3格卡片与开运箴言) -->
+    <div class="bg-surface-container border border-primary/20 rounded-2xl p-4 mb-4 shadow-sm relative z-10">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+          陆
+        </span>
+        <h3 class="text-sm sm:text-base font-semibold text-on-surface">
+          吉凶方位与开运指南
+        </h3>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2 mb-3">
+        <!-- Item 1: 吉利方位 -->
+        <div class="flex flex-col items-center justify-center bg-surface-container-low p-2.5 rounded-xl text-center border border-white/5">
+          <span class="text-[10px] text-outline mb-1">吉利方位</span>
+          <span class="text-xs sm:text-sm text-primary font-bold">{{ orientationGuide.direction }}</span>
+          <span class="text-[10px] text-on-surface-variant scale-95 mt-0.5">生旺禄位</span>
+        </div>
+        <!-- Item 2: 喜用颜色 -->
+        <div class="flex flex-col items-center justify-center bg-surface-container-low p-2.5 rounded-xl text-center border border-white/5">
+          <span class="text-[10px] text-outline mb-1">喜用颜色</span>
+          <span class="text-xs sm:text-sm text-tertiary font-bold">{{ orientationGuide.color }}</span>
+          <span class="text-[10px] text-on-surface-variant scale-95 mt-0.5">通灵护气</span>
+        </div>
+        <!-- Item 3: 幸运数字 -->
+        <div class="flex flex-col items-center justify-center bg-surface-container-low p-2.5 rounded-xl text-center border border-white/5">
+          <span class="text-[10px] text-outline mb-1">幸运数字</span>
+          <span class="text-xs sm:text-sm text-secondary font-bold">{{ orientationGuide.number }}</span>
+          <span class="text-[10px] text-on-surface-variant scale-95 mt-0.5">太极生化</span>
+        </div>
+      </div>
+
+      <div class="bg-surface-container-high/40 p-3 rounded-xl flex items-start gap-2 border border-white/5">
+        <span class="text-primary text-base shrink-0 mt-0.5">💡</span>
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          <strong>开运箴言：</strong>{{ orientationGuide.motto }}
+        </p>
+      </div>
+    </div>
+
+    <!-- 6. 宗师修心改运锦囊 (Blessing Advice - 彻底解决对象/JSON泄露Bug) -->
+    <div v-if="formattedBlessingAdvice.length > 0" class="bg-gradient-to-br from-[#1C1828] to-[#121626] border border-secondary/30 rounded-2xl p-4 mb-4 space-y-3 shadow-md relative z-10">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-semibold text-secondary flex items-center gap-2">
+          <span>✨</span> 宗师修心改运锦囊
+        </h3>
+        <span class="text-[10px] text-outline">修德聚运</span>
+      </div>
+
+      <div class="space-y-2">
         <div
-          v-for="(tip, tIdx) in blessingAdvice"
+          v-for="(tip, tIdx) in formattedBlessingAdvice"
           :key="tIdx"
-          class="text-xs text-tj-text-primary/90 leading-relaxed flex items-start gap-2"
+          class="bg-surface-container-low/70 border border-primary/20 rounded-xl p-3 flex flex-col gap-1 shadow-sm"
         >
-          <span class="text-tj-primary mt-0.5">•</span>
-          <span>{{ tip }}</span>
+          <div class="flex items-center gap-1.5 text-primary font-semibold text-xs">
+            <span class="text-primary text-xs">✦</span>
+            <span>{{ tip.title }}</span>
+          </div>
+          <div class="text-xs text-on-surface/90 leading-relaxed pl-3.5">
+            {{ tip.content }}
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- 6. 下载说明行 -->
-    <div class="text-xs text-tj-text-faint text-center mb-6">
-      非会员每月可下载 3 次，会员不限次
+    <!-- 7. 溯源正本存证卡 (Archival Stamp & Algorithmic Provenance) -->
+    <div class="bg-surface-container-lowest/80 border border-white/5 rounded-2xl p-4 mb-4 shadow-sm flex flex-col items-center text-center gap-2 relative z-10">
+      <div class="w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary text-lg mb-0.5">
+        🛡️
+      </div>
+      <div class="text-sm font-bold text-primary tracking-wider font-display">
+        天机钦定 · 溯源正本
+      </div>
+      <p class="text-xs text-on-surface-variant max-w-[300px] leading-relaxed">
+        本批录融合周易干支万年古籍秘本与天机 AI 深度时空多维拓扑算法演算生成
+      </p>
+      <div class="mt-1 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+        <span class="text-[11px] text-outline font-mono">ZKP 哈希防伪验证通过</span>
+      </div>
     </div>
 
-    <!-- 7. 吸底双按钮 -->
-    <div class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-4 bg-tj-bg/95 backdrop-blur-md border-t border-white/10 z-20 flex gap-3">
-      <!-- 主按钮：下载报告 -->
-      <button
-        @click="handleDownload"
-        :disabled="downloading"
-        class="flex-1 h-12 rounded-full font-bold text-sm transition-all flex items-center justify-center gap-2 bg-tj-grad-gold text-[#1A1405] shadow-gold-glow hover:brightness-110 active:scale-98"
-      >
-        <span>📥</span> 下载报告
-      </button>
+    <!-- 8. 下载说明行 -->
+    <div class="w-full text-center py-1 mb-2 z-10 relative">
+      <p class="text-xs text-outline">非会员每月可下载 3 次，会员不限次</p>
+    </div>
 
+    <!-- 9. 吸底双操作按钮 -->
+    <div class="fixed bottom-0 inset-x-0 max-w-[430px] mx-auto p-3.5 bg-surface-container-lowest/90 backdrop-blur-xl border-t border-white/10 z-30 shadow-[0_-8px_24px_rgba(0,0,0,0.6)] flex gap-3">
       <!-- 次按钮：分享报告 (描边) -->
       <button
         @click="handleShare"
-        class="flex-1 h-12 rounded-full font-bold text-sm transition-all flex items-center justify-center gap-2 bg-transparent border border-tj-primary text-tj-primary hover:bg-tj-primary/10 active:scale-98"
+        class="flex-1 h-12 rounded-full font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 bg-surface-container-low border border-primary text-primary hover:bg-surface-container active:scale-[0.98]"
+        type="button"
       >
-        <span>↗</span> 分享报告
+        <span>↗</span>
+        <span>分享报告</span>
+      </button>
+
+      <!-- 主按钮：下载报告 (金色渐变) -->
+      <button
+        @click="handleDownload"
+        :disabled="downloading"
+        class="flex-1 h-12 rounded-full font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 bg-gradient-to-r from-primary-fixed via-primary to-primary-container text-surface-container-lowest shadow-[0_4px_16px_rgba(212,175,55,0.35)] active:scale-[0.98]"
+        type="button"
+      >
+        <span v-if="downloading" class="w-4 h-4 rounded-full border-2 border-surface-container-lowest border-t-transparent animate-spin"></span>
+        <span v-else>📥</span>
+        <span>{{ downloading ? "正在生成..." : "下载报告" }}</span>
       </button>
     </div>
 
-    <!-- 8. 下载中 / 完成弹层 -->
-    <div v-if="downloading" class="fixed inset-0 z-50 bg-[#0B0E1A]/85 backdrop-blur-md flex flex-col items-center justify-center text-center p-6 select-none animate-fade-in">
+    <!-- 10. 下载中 / 完成全屏弹层 -->
+    <div v-if="downloading" class="fixed inset-0 z-50 bg-surface-container-lowest/85 backdrop-blur-md flex flex-col items-center justify-center text-center p-6 select-none">
       <div v-if="!downloadSuccess" class="flex flex-col items-center">
-        <div class="w-16 h-16 rounded-full border-4 border-tj-primary border-t-transparent animate-spin mb-4 shadow-gold-glow"></div>
-        <p class="text-sm font-semibold text-tj-text-primary">正在生成专属命盘报告…</p>
-        <p class="text-xs text-tj-text-secondary mt-1">使用 Canvas 进行高清像素渲染</p>
+        <div class="w-16 h-16 rounded-full border-4 border-primary border-t-transparent animate-spin mb-4 shadow-gold-glow"></div>
+        <p class="text-sm font-semibold text-on-surface">正在生成专属命盘报告…</p>
+        <p class="text-xs text-on-surface-variant mt-1">使用高清 Canvas 进行像素级排版</p>
       </div>
       <div v-else class="flex flex-col items-center">
         <div class="w-16 h-16 rounded-full bg-tj-success/20 text-tj-success flex items-center justify-center text-3xl mb-4">
           ✓
         </div>
-        <p class="text-sm font-semibold text-tj-text-primary">已保存到本地</p>
+        <p class="text-sm font-semibold text-on-surface">已保存到本地</p>
       </div>
     </div>
   </div>
@@ -366,10 +498,16 @@ const todayStr = ref(new Date().toISOString().slice(0, 10));
 const reportTitle = ref("天机专属测算报告");
 const reportScore = ref(89);
 const overviewText = ref("");
-const blessingAdvice = ref<string[]>([]);
+const blessingAdvice = ref<any[]>([]);
 const openChapter = ref<number | null>(0);
 const downloading = ref(false);
 const downloadSuccess = ref(false);
+
+const chineseNumerals = ["壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖", "拾"];
+
+function getChapterNum(idx: number) {
+  return chineseNumerals[idx] || `${idx + 1}`;
+}
 
 const chartTitle = computed(() => {
   const t = categoryType.value;
@@ -384,47 +522,140 @@ const chartTitle = computed(() => {
   } else if (t === "qimen_decision") {
     return "奇门遁甲九星八门九宫胜算阵盘";
   } else if (t === "auspicious_date") {
-    return "钦天监二十八宿与黄道吉星谱";
+    return "首选吉日四柱排盘 · 钦天监星曜";
   }
-  return "四柱八字与十神全息推演图谱";
+  return "四柱八字排盘 · 象数星纬";
+});
+
+// 吉凶方位与开运点拨自适应指南
+const orientationGuide = computed(() => {
+  const t = categoryType.value;
+  if (t === "auspicious_date") {
+    return {
+      direction: "正南 · 正东",
+      color: "朱红 · 纯金",
+      number: "8, 9",
+      motto: "开门揭彩仪式主位宜面朝正东或正南，迎受生门紫气财禄；主事人第一步踏入大门请行右足，顺应阴阳乾坤交汇。",
+    };
+  }
+  if (t === "phone_plate") {
+    return {
+      direction: "东南 · 正西",
+      color: "明黄 · 藏蓝",
+      number: "1, 3",
+      motto: "手机屏幕壁纸宜选用山水聚财或纯金太极图，车内饰物可悬挂朱砂或黑曜石挂件以制化暗煞。",
+    };
+  }
+  if (t === "love_match") {
+    return {
+      direction: "西南 · 正东",
+      color: "桃粉 · 浅金",
+      number: "2, 7",
+      motto: "双方居所卧房宜置于清和之地，窗前置粉晶或双鸳鸯陈列，日常遇事以包容为舟，同心同德自能家宅丰隆。",
+    };
+  }
+  return {
+    direction: "正东 · 东南",
+    color: "玄黑 · 青碧",
+    number: "1, 6",
+    motto: "居家或办公坐东朝西，置青翠阔叶绿植于震宫，配戴黑曜石或金质饰件，可最大化接引天乙贵人之气。",
+  };
 });
 
 const defaultChapters = [
   {
     id: "ch_1",
-    title: "第一章：命局总论与五行格局",
+    title: "第一章 · 命局总论与五行格局",
     tag: "天命底色",
     content: "日主元神秉天地中和之气，气象纯粹。主为人仁厚宽和，有容乃大，处事进退有度，深谙韬光养晦之智。五行生化各司其职，虽有微冲，亦得吉神暗合通关。",
   },
   {
     id: "ch_2",
-    title: "第二章：事业官禄与行商赛道",
+    title: "第二章 · 事业官禄与行商赛道",
     tag: "仕途财运",
     content: "官星化印，多得长者贵人引荐提拔。逢关键转折年份必有权柄升级或开拓领衔大宗项目之契机。利于深耕科技、文化创意与专业技术赛道，厚积薄发。",
   },
   {
     id: "ch_3",
-    title: "第三章：感情姻缘与家庭福泽",
+    title: "第三章 · 感情姻缘与家庭福泽",
     tag: "良缘和合",
     content: "妻妾/夫星坐禄旺之地，另一半性情温润娴静，持家有方且具极高审美与共创财智。彼此相待多一份尊重与知己之契，凡事同舟共济自能福祚绵长。",
   },
   {
     id: "ch_4",
-    title: "第四章：未来流年转折与开运锦囊",
+    title: "第四章 · 未来流年转折与开运锦囊",
     tag: "大运拐点",
     content: "未来三年为伏脉起运期，凡事宜稳步积累打磨内核；逢岁运天乙贵人，将迎十年一遇之重大跃升机遇。以厚德载物，积善之家必有余庆。",
   },
 ];
 
 const rawChapters = ref<any[]>([]);
-const displayChapters = computed(() => {
-  return rawChapters.value.length > 0 ? rawChapters.value : defaultChapters;
+
+const formattedChapters = computed(() => {
+  const chapters = rawChapters.value.length > 0 ? rawChapters.value : defaultChapters;
+  return chapters.map((ch, idx) => {
+    let rawTitle = ch.title || "";
+    // 清理【第一章】或 第一章： 等格式化前缀，统一规范
+    let clean = rawTitle.replace(/^【?第[一二三四五六七八九十\d]+章】?\s*[:：·]?\s*/, "").replace(/^【(.*?)】$/, "$1");
+    if (!clean) clean = `第${getChapterNum(idx)}章解读`;
+    const cleanTitle = `第${getChapterNum(idx)}章 · ${clean}`;
+
+    let content = ch.content;
+    if (typeof content !== "string") {
+      if (typeof content === "object" && content !== null) {
+        content = Object.entries(content)
+          .map(([k, v]) => `**${k}**：${typeof v === "object" ? JSON.stringify(v) : v}`)
+          .join("\n\n");
+      } else {
+        content = String(content || "");
+      }
+    }
+
+    return {
+      ...ch,
+      cleanTitle,
+      content,
+    };
+  });
 });
 
-const chapterIcons = ["📜", "🏢", "💞", "🌿", "🔮", "🧭"];
-function getChapterIcon(idx: number) {
-  return chapterIcons[idx % chapterIcons.length];
-}
+// 格式化宗师修心改运锦囊 (兼容对象、字符串与JSON字符串，杜绝泄漏)
+const formattedBlessingAdvice = computed(() => {
+  const list = blessingAdvice.value.length > 0 ? blessingAdvice.value : [
+    "保持平和喜悦之心态，口出吉利之言，常感召天地祥瑞之气。",
+    "核心仪式与用事依吉时推进，生肖冲煞者暂避三步观礼即可化解。",
+    "常行善举，广结善缘，善调身心阴阳平衡，福泽绵长。",
+  ];
+
+  return list.map((item: any, idx: number) => {
+    if (typeof item === "string") {
+      const trimmed = item.trim();
+      if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          return {
+            title: parsed.title || parsed.name || `宗师指引 ${idx + 1}`,
+            content: parsed.content || parsed.desc || parsed.text || trimmed,
+          };
+        } catch {}
+      }
+      return {
+        title: `开运指引 ${idx + 1}`,
+        content: item,
+      };
+    }
+    if (typeof item === "object" && item !== null) {
+      return {
+        title: item.title || item.name || `开运指引 ${idx + 1}`,
+        content: item.content || item.text || item.advice || item.desc || Object.values(item).join("，"),
+      };
+    }
+    return {
+      title: `开运指引 ${idx + 1}`,
+      content: String(item),
+    };
+  });
+});
 
 function parseContentBlocks(content: string) {
   if (!content) return [];
@@ -446,8 +677,8 @@ function parseContentBlocks(content: string) {
 
 function formatInline(text: string): string {
   if (!text) return "";
-  let out = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-tj-primary font-semibold">$1</strong>');
-  out = out.replace(/【(.*?)】/g, '<span class="inline-block px-1.5 py-0.2 rounded bg-tj-primary/15 border border-tj-primary/30 text-tj-primary-light text-[11px] font-bold mx-0.5">【$1】</span>');
+  let out = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary font-semibold">$1</strong>');
+  out = out.replace(/【(.*?)】/g, '<span class="inline-block px-1.5 py-0.2 rounded bg-primary/15 border border-primary/30 text-primary font-bold mx-0.5 text-xs">【$1】</span>');
   return out;
 }
 

@@ -1,49 +1,63 @@
 <template>
-  <div class="flex-1 pb-24 px-4 pt-3 select-none">
-    <!-- 1. 报告头卡 (深金底纹卡片，金云纹理 8%) -->
-    <div class="bg-gradient-to-b from-[#26203D] via-tj-bg-card to-[#121626] border border-tj-primary/30 rounded-2xl p-5 mb-4 shadow-gold-glow text-center relative overflow-hidden">
-      <!-- 金云微光晕 -->
-      <div class="absolute inset-0 bg-tj-primary/5 pointer-events-none"></div>
+  <div class="flex-1 pb-28 px-4 pt-3 select-none relative overflow-hidden">
+    <!-- Atmospheric Aura Highlights -->
+    <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-80 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute top-96 right-0 w-60 h-60 bg-secondary-container/20 rounded-full blur-[90px] pointer-events-none"></div>
 
-      <div class="relative z-10">
-        <h2 class="text-base font-semibold text-tj-primary font-display mb-1 tracking-wide">
+    <!-- 1. 报告头卡 (深金底纹卡片，金云纹理与神圣几何水印) -->
+    <div class="relative overflow-hidden rounded-2xl bg-surface-container-low shadow-xl p-5 mb-4 border border-tj-primary/25 text-center flex flex-col items-center">
+      <!-- Golden Cloud / Nebular Sacred Texture Overlay -->
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/15 via-transparent to-transparent pointer-events-none"></div>
+
+      <!-- Sacred Geometry Watermark SVG -->
+      <svg class="absolute -right-8 -top-8 w-44 h-44 text-primary/10 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="46" stroke-dasharray="2 3" stroke-width="0.75"></circle>
+        <circle cx="50" cy="50" r="34" stroke-width="0.5"></circle>
+        <polygon points="50,6 88,28 88,72 50,94 12,72 12,28" stroke-width="0.5"></polygon>
+        <polygon points="50,94 12,28 88,28" stroke-width="0.3"></polygon>
+        <polygon points="50,6 88,72 12,72" stroke-width="0.3"></polygon>
+      </svg>
+
+      <div class="relative z-10 flex flex-col items-center">
+        <!-- Occult Monogram Halo Badge -->
+        <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center mb-2 shadow-inner ring-1 ring-primary/30">
+          <span class="text-primary text-xl">✦</span>
+        </div>
+
+        <h2 class="font-headline-sm text-base sm:text-lg font-semibold text-primary tracking-wide">
           您的专属测算报告
         </h2>
-        <div class="text-xs text-tj-text-secondary font-mono mb-1">
+        <div class="mt-1 font-label-sm text-xs text-outline tracking-widest font-mono">
           NO.{{ reportNo }}
         </div>
-        <div class="text-xs text-tj-text-secondary">
+        <p class="mt-1 font-body-sm text-xs text-on-surface-variant">
           {{ todayStr }} · {{ userStore.user?.nickname || "天机缘主" }} · {{ categoryName }}
-        </div>
+        </p>
       </div>
     </div>
 
     <!-- 2. 综合结论区 (免费部分) -->
-    <div class="bg-tj-bg-card border border-white/10 rounded-2xl p-4 mb-4 space-y-4">
+    <div class="bg-surface-container-low border border-white/10 rounded-2xl p-4 mb-4 space-y-4 shadow-lg relative z-10">
+      <!-- Card Section Title -->
       <div class="flex items-center justify-between pb-2 border-b border-white/5">
-        <h3 class="text-[15px] font-semibold text-tj-text-primary flex items-center gap-2">
-          <span class="w-1.5 h-3.5 bg-tj-primary rounded-full"></span>
-          综合结论
-        </h3>
-        <span class="text-xs font-semibold text-tj-primary">
-          {{ previewTitle }} · 评分 {{ scores.total }}
-        </span>
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-4 rounded-full bg-primary"></span>
+          <h3 class="font-headline-sm text-[15px] font-semibold text-on-surface tracking-wide">综合结论</h3>
+        </div>
+        <span class="px-2 py-0.5 rounded text-xs font-semibold bg-primary/10 text-primary">已解天机</span>
       </div>
 
       <!-- 摘要正文 (14px/400，行高 1.8) -->
-      <div class="text-sm font-normal text-tj-text-primary/90 leading-[1.8] space-y-2 text-justify">
+      <div class="text-sm font-normal text-on-surface/90 leading-[1.8] space-y-2.5 text-justify">
         <p v-if="previewSummary">
           {{ previewSummary }}
         </p>
         <template v-else>
           <p>
-            先天命盘气象清华，乾坤相生，主聪敏灵慧，具宏阔抱负。五行中和，木火之气相涵，能得贵人提携，行事沉稳而决断果敢。
+            乾造生于甲子年秋月，日元旺相，五行金水相涵，气象峥嵘。一生格局以印绶生身为本，财官互济为用，天干透乙木伤官生财，地支见申辰拱水，格局清贵，中年以后宏图大展，必成大器之象。
           </p>
           <p>
-            中年前后必见气运蜕变，吉星入命宫与官禄宫，适合开拓创新赛道、聚合团队资材。
-          </p>
-          <p>
-            情感层面水润木荣，夫妻宫清和有度，善解人意，相处多有知己之契，凡事同舟共济自能家宅丰隆。
+            早年行南方火运，火土相杂，稍有波折奔波，青年逢磨砺生光芒。自三十五岁起转入西方金水清纯之境，贵人相辅，运势如日中天。
           </p>
         </template>
       </div>
@@ -53,19 +67,19 @@
         <span
           v-for="(hl, hIdx) in previewHighlights"
           :key="hIdx"
-          class="px-2.5 py-1 rounded-lg bg-tj-primary/10 border border-tj-primary/30 text-xs font-medium text-tj-primary-light"
+          class="px-2.5 py-1 rounded-lg bg-primary/10 border border-primary/30 text-xs font-medium text-primary-fixed"
         >
           ✦ {{ hl }}
         </span>
       </div>
 
       <!-- 综合评分指数条 3 条 (动态自适应门类) -->
-      <div class="space-y-2.5 pt-2 border-t border-white/5">
+      <div class="space-y-3 pt-2 border-t border-white/5">
         <!-- 第 1 指数 -->
         <div>
-          <div class="flex justify-between text-xs mb-1">
-            <span class="text-tj-text-secondary">{{ scoreLabels.first }}</span>
-            <span class="text-tj-primary font-bold font-num">{{ scores.wealth }} 分</span>
+          <div class="flex justify-between text-xs mb-1.5">
+            <span class="text-on-surface-variant">{{ scoreLabels.first }}</span>
+            <span class="text-primary font-bold font-num">{{ scores.wealth }} 分</span>
           </div>
           <div class="w-full h-2 rounded-full bg-white/5 overflow-hidden">
             <div
@@ -77,13 +91,13 @@
 
         <!-- 第 2 指数 -->
         <div>
-          <div class="flex justify-between text-xs mb-1">
-            <span class="text-tj-text-secondary">{{ scoreLabels.second }}</span>
-            <span class="text-tj-cyan font-bold font-num">{{ scores.career }} 分</span>
+          <div class="flex justify-between text-xs mb-1.5">
+            <span class="text-on-surface-variant">{{ scoreLabels.second }}</span>
+            <span class="text-tertiary font-bold font-num">{{ scores.career }} 分</span>
           </div>
           <div class="w-full h-2 rounded-full bg-white/5 overflow-hidden">
             <div
-              class="h-full bg-tj-cyan rounded-full transition-all duration-700 shadow-cyan-glow"
+              class="h-full bg-tertiary rounded-full transition-all duration-700 shadow-cyan-glow"
               :style="{ width: `${scores.career}%` }"
             ></div>
           </div>
@@ -91,13 +105,13 @@
 
         <!-- 第 3 指数 -->
         <div>
-          <div class="flex justify-between text-xs mb-1">
-            <span class="text-tj-text-secondary">{{ scoreLabels.third }}</span>
-            <span class="text-tj-purple font-bold font-num">{{ scores.love }} 分</span>
+          <div class="flex justify-between text-xs mb-1.5">
+            <span class="text-on-surface-variant">{{ scoreLabels.third }}</span>
+            <span class="text-secondary font-bold font-num">{{ scores.love }} 分</span>
           </div>
           <div class="w-full h-2 rounded-full bg-white/5 overflow-hidden">
             <div
-              class="h-full bg-tj-purple rounded-full transition-all duration-700 shadow-purple-glow"
+              class="h-full bg-secondary rounded-full transition-all duration-700 shadow-purple-glow"
               :style="{ width: `${scores.love}%` }"
             ></div>
           </div>
@@ -105,69 +119,71 @@
       </div>
     </div>
 
-    <!-- 3. 付费墙 (未解锁时呈现 200px 模糊遮罩与权益列表) -->
-    <div v-if="!isUnlocked" class="relative bg-tj-bg-card border border-tj-primary/30 rounded-2xl p-5 mb-4 overflow-hidden">
-      <!-- 模糊底文 -->
-      <div class="filter blur-md select-none opacity-30 space-y-3 pointer-events-none">
-        <div class="h-4 bg-white/20 rounded w-3/4"></div>
-        <div class="h-3 bg-white/10 rounded w-full"></div>
-        <div class="h-3 bg-white/10 rounded w-5/6"></div>
-        <div class="h-4 bg-white/20 rounded w-2/3"></div>
-        <div class="h-3 bg-white/10 rounded w-full"></div>
+    <!-- 3. 付费墙 (未解锁时呈现半透模糊遮罩与权益列表) -->
+    <div v-if="!isUnlocked" class="relative bg-surface-container-low border border-primary/25 rounded-2xl p-5 mb-4 overflow-hidden shadow-2xl z-10">
+      <!-- 真实命理底文模糊遮罩 -->
+      <div class="filter blur-md select-none opacity-40 space-y-2 pointer-events-none text-xs text-on-surface leading-relaxed">
+        <p>【命盘天干地支全息流布】日主元神丙火生于酉月，财星深藏不露，中年之后宏图大展，天乙贵人与禄马齐临，命中暗藏大富之机...</p>
+        <p>【流年吉凶关键拐点】逢丙午、丁未流年，岁运并临引发大变动，东南方为大吉发财方位，若把握关键契机可达成数倍飞跃...</p>
+        <p>【宗师密授避煞开运】居家办公宜坐东朝西，案头置阔叶绿植生旺震宫，随身佩戴黑曜石或金质饰物以通关护元神...</p>
       </div>
 
-      <!-- 遮罩中央 -->
-      <div class="absolute inset-0 bg-[#0B0E1A]/85 backdrop-blur-md flex flex-col items-center justify-center p-5 text-center">
-        <div class="text-[40px] text-tj-primary mb-2 leading-none">
+      <!-- 遮罩中央锁头与特权清单 -->
+      <div class="absolute inset-0 bg-surface-container-lowest/85 backdrop-blur-md flex flex-col items-center justify-center p-5 text-center">
+        <!-- 40px 金色锁头徽标 -->
+        <div class="w-12 h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary text-2xl mb-2 shadow-gold-glow">
           🔒
         </div>
-        <h4 class="text-sm font-bold text-tj-text-primary mb-3">
+        <h4 class="text-sm font-bold text-on-surface mb-3 tracking-wide">
           解锁获取 5 大深度专属命盘特权
         </h4>
 
         <!-- 5 大专属权益清单 (逐条 ✓ 金) -->
-        <div class="space-y-1.5 text-xs text-left max-w-[240px] mb-2">
-          <div v-for="item in benefits" :key="item" class="flex items-center gap-2 text-tj-text-primary">
-            <span class="text-tj-primary font-bold">✓</span>
-            <span>{{ item }}</span>
+        <div class="space-y-1.5 text-xs text-left max-w-[260px] mb-1">
+          <div v-for="item in benefits" :key="item" class="flex items-center gap-2 text-on-surface">
+            <span class="text-primary font-bold">✓</span>
+            <span class="truncate">{{ item }}</span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- 4. 价格卡 (居中) -->
-    <div v-if="!isUnlocked" class="text-center space-y-1 mb-4">
+    <div v-if="!isUnlocked" class="text-center space-y-1.5 mb-4 z-10 relative">
       <div class="flex items-baseline justify-center gap-2">
-        <span class="text-xs line-through text-tj-text-faint">9.9 USDT</span>
-        <span class="text-[26px] font-bold font-num text-tj-primary">
-          6 <span class="text-sm font-sans">USDT</span>
+        <span class="text-xs line-through text-outline">9.9 USDT</span>
+        <span class="text-3xl font-bold font-num text-primary tracking-tight">
+          6 <span class="text-sm font-sans font-medium">USDT</span>
         </span>
       </div>
-      <div class="text-xs text-tj-cyan font-medium">
-        会员 4.8 USDT (VIP 长期无限畅享)
+      <div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container/20 text-xs text-tertiary font-medium">
+        <span>💎</span> 会员 4.8 USDT (VIP 尊享 8 折特权)
       </div>
-      <div v-if="userStore.freeQuota > 0" class="text-xs text-tj-primary-light font-semibold">
+      <div v-if="userStore.freeQuota > 0" class="text-xs text-primary-fixed font-semibold pt-1">
         ✨ 您当前有 {{ userStore.freeQuota }} 次免费额度可直接抵扣！
       </div>
     </div>
 
     <!-- 5. 社会证明行 -->
-    <div class="text-xs text-tj-text-faint text-center mb-6">
-      128,376 位缘主已解锁本报告
+    <div class="text-xs text-outline text-center mb-6 z-10 relative flex items-center justify-center gap-1">
+      <span class="text-primary">✦</span>
+      <span>128,376 位缘主已解锁本报告</span>
     </div>
 
     <!-- 6. 吸底主按钮 -->
-    <div class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-4 bg-tj-bg/95 backdrop-blur-md border-t border-white/10 z-20">
+    <div class="fixed bottom-0 inset-x-0 max-w-[430px] mx-auto p-3.5 bg-surface-container-lowest/90 backdrop-blur-xl border-t border-white/10 z-30 shadow-[0_-8px_24px_rgba(0,0,0,0.6)]">
       <button
         @click="handleUnlock"
         :disabled="loading"
-        class="w-full h-12 rounded-full font-bold text-base transition-all flex items-center justify-center gap-2 bg-tj-grad-gold text-[#1A1405] shadow-gold-glow hover:brightness-110 active:scale-98"
+        class="w-full h-12 rounded-full font-bold text-base transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-primary-fixed via-primary to-primary-container text-surface-container-lowest shadow-[0_4px_16px_rgba(212,175,55,0.35)] active:scale-[0.98]"
       >
-        <span v-if="loading" class="w-5 h-5 rounded-full border-2 border-[#1A1405] border-t-transparent animate-spin"></span>
+        <span v-if="loading" class="w-5 h-5 rounded-full border-2 border-surface-container-lowest border-t-transparent animate-spin"></span>
         <span v-if="loading">正在解锁中...</span>
         <span v-else-if="isUnlocked">查看完整报告</span>
         <span v-else-if="userStore.freeQuota > 0">消耗免费次数解锁完整报告</span>
-        <span v-else>解锁完整报告 6 USDT</span>
+        <span v-else class="flex items-center gap-1.5">
+          <span>🔒</span> 解锁完整报告 6 USDT
+        </span>
       </button>
     </div>
   </div>

@@ -38,9 +38,8 @@ export function parseAIOutput(rawText: string, category: DivinationCategory): Ge
       }
 
       const defaultChapters = createDefaultChapters(category);
-      let chapters = Array.isArray(parsed.full_report.chapters) && parsed.full_report.chapters.length >= 3
-        ? parsed.full_report.chapters
-        : defaultChapters;
+      const chapters = normalizeChapters(parsed.full_report.chapters, defaultChapters);
+      const blessingAdvice = normalizeBlessingAdvice(parsed.full_report.blessingAdvice, category);
 
       return {
         preview: {
@@ -56,9 +55,7 @@ export function parseAIOutput(rawText: string, category: DivinationCategory): Ge
         full_report: {
           overview: parsed.full_report.overview || getDefaultOverview(category),
           chapters,
-          blessingAdvice: Array.isArray(parsed.full_report.blessingAdvice) && parsed.full_report.blessingAdvice.length > 0
-            ? parsed.full_report.blessingAdvice
-            : getDefaultBlessingAdvice(category),
+          blessingAdvice,
         },
       };
     }
@@ -67,6 +64,58 @@ export function parseAIOutput(rawText: string, category: DivinationCategory): Ge
   }
 
   return generateFallbackReport(category);
+}
+
+function normalizeBlessingAdvice(items: any[] | undefined, category: DivinationCategory): any[] {
+  if (!Array.isArray(items) || items.length === 0) {
+    return getDefaultBlessingAdvice(category);
+  }
+  return items.map((item) => {
+    if (typeof item === "string") {
+      const trimmed = item.trim();
+      if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          return {
+            title: parsed.title || parsed.name || "开运指引",
+            content: parsed.content || parsed.desc || parsed.text || trimmed,
+          };
+        } catch {}
+      }
+      return item;
+    }
+    if (typeof item === "object" && item !== null) {
+      return {
+        title: item.title || item.name || "开运指引",
+        content: item.content || item.text || item.advice || item.desc || Object.values(item).join("，"),
+      };
+    }
+    return String(item);
+  });
+}
+
+function normalizeChapters(chapters: any[] | undefined, defaultChapters: any[]): any[] {
+  if (!Array.isArray(chapters) || chapters.length < 3) {
+    return defaultChapters;
+  }
+  return chapters.map((ch, idx) => {
+    let content = ch.content;
+    if (typeof content !== "string") {
+      if (typeof content === "object" && content !== null) {
+        content = Object.entries(content)
+          .map(([k, v]) => `**${k}**：${typeof v === "object" ? JSON.stringify(v) : v}`)
+          .join("\n\n");
+      } else {
+        content = String(content || "");
+      }
+    }
+    return {
+      id: ch.id || `chapter_${idx + 1}`,
+      title: ch.title || `第${idx + 1}章`,
+      tag: ch.tag || undefined,
+      content,
+    };
+  });
 }
 
 function getDefaultRadar(category: DivinationCategory) {
