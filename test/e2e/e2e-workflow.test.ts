@@ -343,15 +343,15 @@ describe("E2E 全链路集成测试 (Tianji Divination Full Lifecycle)", () => {
     });
     expect(ziweiResult.userFreeQuota).toBe(0);
 
-    // 免费额度耗尽后，若继续尝试 FREE_QUOTA 支付应被拒绝
-    await expect(
-      submitDivinationOrder(mockEnv, {
-        userId: seeker.id,
-        category: "tarot",
-        inputData: { question: "年内事业财运走势" },
-        payType: "FREE_QUOTA",
-      })
-    ).rejects.toThrow("免费测算额度已用尽");
+    // 免费额度耗尽后，若继续尝试 FREE_QUOTA 支付应降级为待解锁单 (PENDING)
+    const exhaustedResult = await submitDivinationOrder(mockEnv, {
+      userId: seeker.id,
+      category: "tarot",
+      inputData: { question: "年内事业财运走势" },
+      payType: "FREE_QUOTA",
+    });
+    expect(exhaustedResult.status).toBe("PENDING");
+    expect(exhaustedResult.isCompleted).toBe(false);
   });
 
   it("4. USDT 订单支付状态机流转与两级分润结算 (直推 15% / 间推 5%)", async () => {

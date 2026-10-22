@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250214.0",
-    "@types/node": "^22.13.4",
+    "@types/node": "^26.6.5",
     "@vitejs/plugin-vue": "^5.2.1",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.3",

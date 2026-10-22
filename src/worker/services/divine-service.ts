@@ -21,6 +21,8 @@ import {
 } from "../utils/report-parser";
 import knowledgeBundle from "../ai/knowledge-bundle.json";
 import { verifyPaymentReceipt } from "./order-service";
+import { formatSSE } from "../utils/sse";
+import { createAIClient } from "../ai/client";
 
 export interface SubmitDivinationParams {
   userId: string;
